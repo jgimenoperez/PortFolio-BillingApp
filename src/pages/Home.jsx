@@ -1,6 +1,11 @@
+import {Nav} from '../components/navbar/navbar';
+
+
 
 export const Home = () => {
   return (
-    <div>Home</div>
+    <div>
+      <Nav />
+    </div>
   )
 }
