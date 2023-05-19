@@ -9,6 +9,8 @@ import {
 } from "@nextui-org/react";
 import React from "react";
 import { firebaseLoginWithGoogle } from "../../firebase/firebase";
+import { Troll } from "../navbar/icons";
+import { GooleIcon } from "../icons/GithubIcon";
 
 export const ModalLogin = () => {
   const [visible, setVisible] = React.useState(false);
@@ -62,6 +64,7 @@ export const ModalLogin = () => {
           />
           <Text
             b
+            className="lineWrapper"
             css={{
               textAlign:"center"
             }}
@@ -71,8 +74,8 @@ export const ModalLogin = () => {
             or
           </Text>
 
-          <Button auto flat href="#">
-            Start free trial
+          <Button auto flat onClick={handleGoogleLogin}>
+           <GooleIcon/>
           </Button>
       
 
