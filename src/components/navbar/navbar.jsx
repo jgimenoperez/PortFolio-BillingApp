@@ -4,17 +4,19 @@ import {
   Link,
   Navbar,
   Switch,
+  Image,
   Text,
 } from "@nextui-org/react";
+
 import { ModalLogin } from "../modal";
-import { icons } from "./icons";
+import { Troll, icons } from "./icons";
 // import {useTheme as useNextTheme} from 'next-themes';
 import { useTheme } from "@nextui-org/react";
 import { GithubIcon } from "../icons/GithubIcon";
 
 export const Nav = () => {
   //    const {setTheme} = useNextTheme();
-  const { isDark, type } = useTheme();
+  const { isDark, type, theme } = useTheme();
   const collapseItems = [
     "Features",
     "Customers",
@@ -22,27 +24,42 @@ export const Nav = () => {
     "Company",
     "Legal",
   ];
+
+  console.log(theme.colors);
   return (
     <Navbar
+      className="navbar"
       isBordered
       css={{
         overflow: "hidden",
         "& .nextui-navbar-container": {
-          background: "$background",
+          background: "$navbarcolor",
           borderBottom: "none",
         },
       }}
     >
       <Navbar.Brand>
         <Navbar.Toggle aria-label="toggle navigation" showIn="sm" />
-        <img
+        {/* <img
           src="https://res.cloudinary.com/dxnwtmj3l/image/upload/v1684404965/PortFolioBillingApp/troll_vg4rbf.png"
           alt="icono de la app"
           width={60}
           className="logo"
-        />{" "}
-        <Text b color="inherit" hideIn="xs">
-          {'Manos {DEV} troll'}
+        />{" "} */}
+
+        {/* {icons.troll} */}
+        <Troll fill={theme.colors.green800.value}/>
+
+        <Text
+          b
+          color="inherit"
+          hideIn="xs"
+          size={40}
+          css={{
+            textGradient: "45deg, $green800 -100%, $text 90%",
+          }}
+        >
+          {"Manos {DEV} troll"}
         </Text>
         <Navbar.Content
           hideIn="sm"
@@ -67,7 +84,7 @@ export const Nav = () => {
               </Dropdown.Button>
             </Navbar.Item>
             <Dropdown.Menu
-              aria-label="ACME features"
+              aria-label="aaa"
               css={{
                 $$dropdownMenuWidth: "340px",
                 $$dropdownItemHeight: "70px",
@@ -98,17 +115,14 @@ export const Nav = () => {
                 description="Mantenimiento de artículos"
                 icon={icons.article}
               >
-               
                 Artículos
               </Dropdown.Item>
-
             </Dropdown.Menu>
           </Dropdown>
-          
-          <Navbar.Link isActive href="#">
-            Customers
-          </Navbar.Link>
 
+          <Navbar.Link isActive color="inherit" href="#">
+            Facturación
+          </Navbar.Link>
         </Navbar.Content>
       </Navbar.Brand>
 

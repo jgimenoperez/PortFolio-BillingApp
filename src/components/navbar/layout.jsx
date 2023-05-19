@@ -6,7 +6,7 @@ export const Layout = ({children}) => (
    <Box
       css={{
          maxW: '100%',
-         background: '$background',
+         background: '$navbarcolor',
       }}
    >
       {children}

@@ -4,9 +4,9 @@ export const darkTheme = createTheme({
   type: 'dark',
   theme: {
     colors: {
-      navbarcolor: '#0e131f',
-      background : '#38405F',
-
+      navbarcolor: '#38405F',
+      background : '#0e131f',
+      trollcolor: '#2BD0AC'
     },
     typography: {
       fontFamily: 'Arial, sans-serif',
@@ -21,7 +21,10 @@ export const darkTheme = createTheme({
 export const ligthTheme = createTheme({
   type: 'light',
   theme: {
-    colors: {}, // override dark theme colors
+      colors: {
+        navbarcolor: '#FFFFFF',
+        background : '#B9CFD4',
+      },
   }
 });
 // https://coolors.co/0e131f-38405f-59546c-8b939c-ff0035

@@ -5,9 +5,10 @@ import { NextUIProvider } from '@nextui-org/react';
 import { darkTheme,ligthTheme } from "./themes/darktheme";
 import "./index.css";
 
+
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <NextUIProvider theme={darkTheme}>
+    <NextUIProvider theme={ligthTheme}>
       <App />
     </NextUIProvider>
   </React.StrictMode>
