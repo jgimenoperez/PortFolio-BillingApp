@@ -1,16 +1,14 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import App from "./App.jsx";
-import { NextUIProvider } from '@nextui-org/react';
-import { darkTheme,ligthTheme } from "./themes/darktheme";
 import "./index.css";
-
+import { Provider } from "react-redux";
+import App from "./App.jsx";
+import ReactDOM from "react-dom/client";
+import store from "./store/store.js";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <NextUIProvider theme={ligthTheme}>
+  // <React.StrictMode>
+  <Provider store={store}>
       <App />
-    </NextUIProvider>
-  </React.StrictMode>
-);
+  </Provider>
 
+  // </React.StrictMode>
+);

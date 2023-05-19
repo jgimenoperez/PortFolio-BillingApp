@@ -25,7 +25,6 @@ export const Nav = () => {
     "Legal",
   ];
 
-  console.log(theme.colors);
   return (
     <Navbar
       className="navbar"

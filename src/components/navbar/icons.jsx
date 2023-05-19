@@ -170,7 +170,6 @@ const Article = ({ fill, size, width = 24, height = 24, ...props }) => {
 };
 
 export const Troll = ({ fill, size, width = 60, height = 60, ...props }) => {
-  console.log('fill',fill)
   return (
     <svg
       version="1.0"
