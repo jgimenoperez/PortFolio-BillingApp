@@ -8,15 +8,18 @@ import {
   Text,
 } from "@nextui-org/react";
 
-import { ModalLogin } from "../modal";
-import { Troll, icons } from "./icons";
-// import {useTheme as useNextTheme} from 'next-themes';
-import { useTheme } from "@nextui-org/react";
+import {  useDispatch } from "react-redux";
 import { GithubIcon } from "../icons/GithubIcon";
+import { ModalLogin } from "../auth/authLogin";
+import { setTheme } from "../../reducers/themeReducer";
+import { Troll, icons } from "./icons";
+import { useTheme } from "@nextui-org/react";
 
 export const Nav = () => {
-  //    const {setTheme} = useNextTheme();
+  const dispatch = useDispatch();
   const { isDark, type, theme } = useTheme();
+
+
   const collapseItems = [
     "Features",
     "Customers",
@@ -60,6 +63,7 @@ export const Nav = () => {
         >
           {"Manos {DEV} troll"}
         </Text>
+
         <Navbar.Content
           hideIn="sm"
           css={{
@@ -146,29 +150,31 @@ export const Nav = () => {
               minWidth: "100%",
             }}
             target="_blank"
-            href="https://github.com/Siumauricio/landing-template-nextui"
+            href="https://github.com/jgimenoperez"
           >
             <GithubIcon />
           </Link>
         </Navbar.CollapseItem>
+      
         <Navbar.CollapseItem>
-          {/* <Switch
+          <Switch
                   checked={isDark}
                   onChange={(e) =>
-                     setTheme(e.target.checked ? 'dark' : 'light')
+                    dispatch(setTheme(e.target.checked ? 'dark' : 'light'))
                   }
-               /> */}
+               />
         </Navbar.CollapseItem>
       </Navbar.Collapse>
 
       <Navbar.Content>
         <ModalLogin />
 
-        <Navbar.Item>
+        {/* <Navbar.Item>
           <Button auto flat href="#">
             Start free trial
           </Button>
-        </Navbar.Item>
+        </Navbar.Item> */}
+
         <Navbar.Item hideIn={"xs"}>
           <Link
             color="inherit"
@@ -176,19 +182,21 @@ export const Nav = () => {
               minWidth: "100%",
             }}
             target="_blank"
-            href="https://github.com/Siumauricio/landing-template-nextui"
+            href="https://github.com/jgimenoperez"
           >
             <GithubIcon />
           </Link>
         </Navbar.Item>
+
         <Navbar.Item hideIn={"xs"}>
           <Switch
             checked={isDark}
-            //   onChange={(e) =>
-            //      setTheme(e.target.checked ? 'dark' : 'light')
-            //   }
+              onChange={(e) =>
+                dispatch(setTheme(e.target.checked ? 'dark' : 'light'))
+              }
           />
         </Navbar.Item>
+
       </Navbar.Content>
     </Navbar>
   );

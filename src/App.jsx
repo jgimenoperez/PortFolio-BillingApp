@@ -8,12 +8,13 @@ import "./App.css";
 import { darkTheme, ligthTheme } from "./themes/darktheme";
 import { Home } from "./pages/Home";
 import { NextUIProvider } from "@nextui-org/react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+
+
 
 function App() {
   const { theme } = useSelector((state) => state.theme);
-  console.log(theme);
-
+ 
   return (
     <NextUIProvider theme={theme === "light" ? ligthTheme : darkTheme}>
       <Router>
