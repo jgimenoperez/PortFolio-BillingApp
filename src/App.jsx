@@ -6,15 +6,29 @@ import {
 } from "react-router-dom";
 import "./App.css";
 import { darkTheme, ligthTheme } from "./themes/darktheme";
+import { firebasebd } from "./firebase/firebase";
 import { Home } from "./pages/Home";
 import { NextUIProvider } from "@nextui-org/react";
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
-
 
 
 function App() {
   const { theme } = useSelector((state) => state.theme);
  
+  useEffect(() => {
+    firebasebd.auth().onAuthStateChanged(async(user)=> {
+      if(user){
+        console.log(1111,user)
+      }
+      else{
+        console.log('no hay usuario')
+      }
+    })
+
+  }, [])
+  
+
   return (
     <NextUIProvider theme={theme === "light" ? ligthTheme : darkTheme}>
       <Router>

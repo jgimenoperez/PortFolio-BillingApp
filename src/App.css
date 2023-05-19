@@ -1,4 +1,6 @@
 
+
+
 .lineWrapper{
     display: flex;
     align-items: center;
@@ -15,6 +17,4 @@
     background: currentColor;
     margin: 2%;
 }
-
-
 

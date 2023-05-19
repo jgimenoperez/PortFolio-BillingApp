@@ -7,22 +7,39 @@ import {
   Text,
   Navbar,
 } from "@nextui-org/react";
-import React from "react";
-import { firebaseLoginWithGoogle } from "../../firebase/firebase";
+import { useState } from "react";
+import {
+  firebaseLoginWithGoogle,
+  firebaseLoginWithEmailNotPersistence,
+  firebaseLoginWithGoogleNoPersistence,
+  firebaseLoginWithEmail,
+  firebaseLogout,
+} from "../../firebase/firebase";
 import { Troll } from "../navbar/icons";
 import { GooleIcon } from "../icons/GithubIcon";
 
 export const ModalLogin = () => {
-  const [visible, setVisible] = React.useState(false);
+  const [visible, setVisible] = useState(false);
+  const [remenberSession, setRemenberSession] = useState(false);
+ 
   const handler = () => setVisible(true);
 
   const closeHandler = () => {
     setVisible(false);
-    console.log("closed");
+    // firebaseLogout()
   };
 
-  const handleGoogleLogin = () => {
-    firebaseLoginWithGoogle();
+  const handleRememberSessionChange = (e) => {
+    setRemenberSession(e)
+  };
+
+  const handleGoogleLoginWithGoogle = () => {
+    console.log(111)
+    // remenberSession ?  firebaseLoginWithGoogle() : firebaseLoginWithGoogleNoPersistence();
+  };
+
+  const handlFirebaseLoginWithEmail = () => {
+     remenberSession ?  firebaseLoginWithEmail() : firebaseLoginWithEmailNotPersistence();
   };
 
   return (
@@ -37,9 +54,9 @@ export const ModalLogin = () => {
       >
         <Modal.Header>
           <Text id="modal-title" size={18}>
-            Welcome to
+            Inice seión en su cuenta <br />
             <Text b size={18}>
-              NextUI
+              {"Manos {DEV} troll"}
             </Text>
           </Text>
         </Modal.Header>
@@ -66,32 +83,34 @@ export const ModalLogin = () => {
             b
             className="lineWrapper"
             css={{
-              textAlign:"center"
+              textAlign: "center",
             }}
             TextTransforms="fullWidth"
-            size='$2x'
+            size="$2x"
           >
-            or
+            o
           </Text>
 
-          <Button auto flat onClick={handleGoogleLogin}>
-           <GooleIcon/>
+          <Button auto flat onClick={handleGoogleLoginWithGoogle}>
+            <GooleIcon />
           </Button>
-      
 
           <Row justify="space-between">
-            <Checkbox>
-              <Text size={14}>Remember me</Text>
+            <Checkbox
+              checked={handleRememberSessionChange}
+              onChange={(e)=>{handleRememberSessionChange(e)}}
+            >
+              <Text size={14}>Recordar sesión</Text>
             </Checkbox>
-            <Text size={14}>Forgot password?</Text>
+            <Text size={14}>¿Olvidó la contraseña?</Text>
           </Row>
         </Modal.Body>
         <Modal.Footer>
           <Button auto flat color="error" onClick={closeHandler}>
-            Close
+            Cerrar
           </Button>
-          <Button auto onClick={handleGoogleLogin}>
-            Sign in
+          <Button auto onClick={handlFirebaseLoginWithEmail()}>
+            Iniciar Sesión
           </Button>
         </Modal.Footer>
       </Modal>
