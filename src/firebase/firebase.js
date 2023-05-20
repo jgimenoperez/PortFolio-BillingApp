@@ -15,7 +15,6 @@ const firebaseConfig = {
 export const firebasebd = firebase.initializeApp(firebaseConfig);
 
 export const firebaseLoginWithEmail = () => {
-  console.log(2333)
     return firebase
       .auth()
       .signInWithEmailAndPassword('jgimenoperez@gmail.com', '961421180')
@@ -31,8 +30,6 @@ export const firebaseLoginWithEmail = () => {
   };
 
   export const firebaseLoginWithEmailNotPersistence = () => {
-    console.log(4444)
-
     return firebase
       .auth()
       .setPersistence(firebase.auth.Auth.Persistence.NONE) // Configurar la persistencia de sesión en "NONE"
@@ -62,7 +59,6 @@ export const firebaseLoginWithGoogle = () =>{
     .auth()
     .signInWithPopup(new firebase.auth.GoogleAuthProvider())
     .then((userCredential) => {
-        console.log(222)
         // El inicio de sesión fue exitoso
         const user = userCredential.user;
         console.log('Usuario autenticado:', user);
@@ -87,7 +83,6 @@ export const firebaseLoginWithGoogleNoPersistence = () => {
         .auth()
         .signInWithPopup(new firebase.auth.GoogleAuthProvider())
         .then((userCredential) => {
-          console.log(222);
           // El inicio de sesión fue exitoso
           const user = userCredential.user;
           console.log('Usuario autenticado:', user);

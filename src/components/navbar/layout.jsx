@@ -1,7 +1,9 @@
 import {Box} from '../styles/box';
+import { Nav } from './navbar';
 
 
 
+// eslint-disable-next-line react/prop-types
 export const Layout = ({children}) => (
    <Box
       css={{
@@ -9,6 +11,8 @@ export const Layout = ({children}) => (
          background: '$navbarcolor',
       }}
    >
+      <Nav/>
       {children}
    </Box>
 );
+

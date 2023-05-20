@@ -1,19 +1,19 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    theme: 'light',
+    logged: false,
   };
 
-  export const ThemeSlice = createSlice({
+  export const AuthSlice = createSlice({
 
-    name: "theme",
+    name: "auth",
     initialState,
     reducers: {
-        setTheme: (state, action) => {
-            state.theme = action.payload;
+        setAuth: (state, action) => {
+            state.logged = action.payload;
         }
     }
   })
 
-    export const { setTheme } = ThemeSlice.actions;
-    export default ThemeSlice.reducer;
+    export const { setAuth } = AuthSlice.actions;
+    export default AuthSlice.reducer;

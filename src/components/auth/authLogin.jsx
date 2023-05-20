@@ -7,15 +7,13 @@ import {
   Text,
   Navbar,
 } from "@nextui-org/react";
-import { useState } from "react";
+import { useState, } from "react";
 import {
   firebaseLoginWithGoogle,
   firebaseLoginWithEmailNotPersistence,
   firebaseLoginWithGoogleNoPersistence,
   firebaseLoginWithEmail,
-  firebaseLogout,
 } from "../../firebase/firebase";
-import { Troll } from "../navbar/icons";
 import { GooleIcon } from "../icons/GithubIcon";
 
 export const ModalLogin = () => {
@@ -34,11 +32,12 @@ export const ModalLogin = () => {
   };
 
   const handleGoogleLoginWithGoogle = () => {
-    console.log(111)
-    // remenberSession ?  firebaseLoginWithGoogle() : firebaseLoginWithGoogleNoPersistence();
+    console.log(4444444)
+    remenberSession ?  firebaseLoginWithGoogle() : firebaseLoginWithGoogleNoPersistence();
   };
 
   const handlFirebaseLoginWithEmail = () => {
+    console.log(333333333)
      remenberSession ?  firebaseLoginWithEmail() : firebaseLoginWithEmailNotPersistence();
   };
 
@@ -91,7 +90,7 @@ export const ModalLogin = () => {
             o
           </Text>
 
-          <Button auto flat onClick={handleGoogleLoginWithGoogle}>
+          <Button auto flat onClick={()=>{handleGoogleLoginWithGoogle()}}>
             <GooleIcon />
           </Button>
 
@@ -109,7 +108,7 @@ export const ModalLogin = () => {
           <Button auto flat color="error" onClick={closeHandler}>
             Cerrar
           </Button>
-          <Button auto onClick={handlFirebaseLoginWithEmail()}>
+          <Button auto onClick={()=>{handlFirebaseLoginWithEmail()}}>
             Iniciar Sesión
           </Button>
         </Modal.Footer>

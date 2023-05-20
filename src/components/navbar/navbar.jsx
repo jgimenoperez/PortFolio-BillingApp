@@ -1,24 +1,25 @@
 import {
-  Button,
   Dropdown,
   Link,
   Navbar,
   Switch,
-  Image,
   Text,
+  Button,
 } from "@nextui-org/react";
 
-import {  useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { GithubIcon } from "../icons/GithubIcon";
 import { ModalLogin } from "../auth/authLogin";
 import { setTheme } from "../../reducers/themeReducer";
 import { Troll, icons } from "./icons";
+import { useSelector } from "react-redux";
 import { useTheme } from "@nextui-org/react";
+import { firebaseLogout } from "../../firebase/firebase";
 
 export const Nav = () => {
   const dispatch = useDispatch();
-  const { isDark, type, theme } = useTheme();
-
+  const { isDark, theme } = useTheme();
+  const { logged } = useSelector((state) => state.auth);
 
   const collapseItems = [
     "Features",
@@ -42,16 +43,7 @@ export const Nav = () => {
     >
       <Navbar.Brand>
         <Navbar.Toggle aria-label="toggle navigation" showIn="sm" />
-        {/* <img
-          src="https://res.cloudinary.com/dxnwtmj3l/image/upload/v1684404965/PortFolioBillingApp/troll_vg4rbf.png"
-          alt="icono de la app"
-          width={60}
-          className="logo"
-        />{" "} */}
-
-        {/* {icons.troll} */}
-        <Troll fill={theme.colors.green800.value}/>
-
+        <Troll fill={theme.colors.green800.value} />
         <Text
           b
           color="inherit"
@@ -70,62 +62,68 @@ export const Nav = () => {
             pl: "6rem",
           }}
         >
-          <Dropdown isBordered>
-            <Navbar.Item>
-              <Dropdown.Button
-                auto
-                light
-                css={{
-                  px: 0,
-                  dflex: "center",
-                  svg: { pe: "none" },
-                }}
-                iconRight={icons.chevron}
-                ripple={false}
-              >
-                Mantenimientos
-              </Dropdown.Button>
-            </Navbar.Item>
-            <Dropdown.Menu
-              aria-label="aaa"
-              css={{
-                $$dropdownMenuWidth: "340px",
-                $$dropdownItemHeight: "70px",
-                "& .nextui-dropdown-item": {
-                  py: "$4",
-                  svg: {
-                    color: "$secondary",
-                    mr: "$4",
-                  },
-                  "& .nextui-dropdown-item-content": {
-                    w: "100%",
-                    fontWeight: "$semibold",
-                  },
-                },
-              }}
-            >
-              <Dropdown.Item
-                key="autoscaling"
-                showFullDescription
-                description="Mantenimiento de clientes"
-                icon={icons.user}
-              >
-                Clientes
-              </Dropdown.Item>
-              <Dropdown.Item
-                key="Articulos"
-                showFullDescription
-                description="Mantenimiento de artículos"
-                icon={icons.article}
-              >
-                Artículos
-              </Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
+          {logged ? (
+            <Dropdown isBordered>
+              <Navbar.Item>
+                <Dropdown.Button
+                  auto
+                  light
+                  css={{
+                    px: 0,
+                    dflex: "center",
+                    svg: { pe: "none" },
+                  }}
+                  iconRight={icons.chevron}
+                  ripple={false}
+                >
+                  Mantenimientos
+                </Dropdown.Button>
+              </Navbar.Item>
 
-          <Navbar.Link isActive color="inherit" href="#">
-            Facturación
-          </Navbar.Link>
+              <Dropdown.Menu
+                aria-label="aaa"
+                css={{
+                  $$dropdownMenuWidth: "340px",
+                  $$dropdownItemHeight: "70px",
+                  "& .nextui-dropdown-item": {
+                    py: "$4",
+                    svg: {
+                      color: "$secondary",
+                      mr: "$4",
+                    },
+                    "& .nextui-dropdown-item-content": {
+                      w: "100%",
+                      fontWeight: "$semibold",
+                    },
+                  },
+                }}
+              >
+                <Dropdown.Item
+                  key="autoscaling"
+                  showFullDescription
+                  description="Mantenimiento de clientes"
+                  icon={icons.user}
+                >
+                  Clientes
+                </Dropdown.Item>
+
+                <Dropdown.Item
+                  key="Articulos"
+                  showFullDescription
+                  description="Mantenimiento de artículos"
+                  icon={icons.article}
+                >
+                  Artículos
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          ) : null}
+
+          {logged ? (
+            <Navbar.Link isActive color="inherit" href="#">
+              Facturación
+            </Navbar.Link>
+          ) : null}
         </Navbar.Content>
       </Navbar.Brand>
 
@@ -155,19 +153,33 @@ export const Nav = () => {
             <GithubIcon />
           </Link>
         </Navbar.CollapseItem>
-      
+
         <Navbar.CollapseItem>
           <Switch
-                  checked={isDark}
-                  onChange={(e) =>
-                    dispatch(setTheme(e.target.checked ? 'dark' : 'light'))
-                  }
-               />
+            checked={isDark}
+            onChange={(e) =>
+              dispatch(setTheme(e.target.checked ? "dark" : "light"))
+            }
+          />
         </Navbar.CollapseItem>
       </Navbar.Collapse>
 
       <Navbar.Content>
-        <ModalLogin />
+        {logged ? (
+          <Navbar.Link
+            color="inherit"
+            onClick={() => {
+              firebaseLogout();
+            }}
+          >
+            Logout
+          </Navbar.Link>
+        ) : (
+          // <Button auto flat onClick={()=>{alert(1)}}>
+          //   Start free trial
+          // </Button>
+          <ModalLogin />
+        )}
 
         {/* <Navbar.Item>
           <Button auto flat href="#">
@@ -187,16 +199,14 @@ export const Nav = () => {
             <GithubIcon />
           </Link>
         </Navbar.Item>
-
         <Navbar.Item hideIn={"xs"}>
           <Switch
             checked={isDark}
-              onChange={(e) =>
-                dispatch(setTheme(e.target.checked ? 'dark' : 'light'))
-              }
+            onChange={(e) =>
+              dispatch(setTheme(e.target.checked ? "dark" : "light"))
+            }
           />
         </Navbar.Item>
-
       </Navbar.Content>
     </Navbar>
   );
