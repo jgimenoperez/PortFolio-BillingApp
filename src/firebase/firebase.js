@@ -2,7 +2,6 @@ import firebase from "firebase/compat/app";
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
 
-
 const firebaseConfig = {
   apiKey: "AIzaSyA4ynNnLA92FIOQyJvGTAZ8ODEqgdzA1qo",
   authDomain: "billingapp-f1027.firebaseapp.com",
@@ -14,13 +13,14 @@ const firebaseConfig = {
 
 export const firebasebd = firebase.initializeApp(firebaseConfig);
 
-export const firebaseLoginWithEmail = () => {
+export const firebaseLoginWithEmail = (navigate) => {
     return firebase
       .auth()
       .signInWithEmailAndPassword('jgimenoperez@gmail.com', '961421180')
       .then((userCredential) => {
         const user = userCredential.user;
         console.log('Usuario autenticado:', user);
+        navigate('/'); 
         return user;
       })
       .catch((error) => {
@@ -29,7 +29,7 @@ export const firebaseLoginWithEmail = () => {
       });
   };
 
-  export const firebaseLoginWithEmailNotPersistence = () => {
+  export const firebaseLoginWithEmailNotPersistence = (navigate) => {
     return firebase
       .auth()
       .setPersistence(firebase.auth.Auth.Persistence.NONE) // Configurar la persistencia de sesión en "NONE"
@@ -40,6 +40,7 @@ export const firebaseLoginWithEmail = () => {
           .then((userCredential) => {
             const user = userCredential.user;
             console.log('Usuario autenticado:', user);
+            navigate('/'); 
             return user;
           })
           .catch((error) => {
@@ -52,16 +53,16 @@ export const firebaseLoginWithEmail = () => {
       });
   };
   
-  
-  
-export const firebaseLoginWithGoogle = () =>{
+export const firebaseLoginWithGoogle = (navigate) =>{
+
     return firebase
     .auth()
     .signInWithPopup(new firebase.auth.GoogleAuthProvider())
     .then((userCredential) => {
         // El inicio de sesión fue exitoso
         const user = userCredential.user;
-        console.log('Usuario autenticado:', user);
+        console.log('Usuario autenticado111:', user);
+        navigate('/'); 
         return user;
         }
     )
@@ -73,8 +74,7 @@ export const firebaseLoginWithGoogle = () =>{
     );
 }
 
-
-export const firebaseLoginWithGoogleNoPersistence = () => {
+export const firebaseLoginWithGoogleNoPersistence = (navigate) => {
   return firebase
     .auth()
     .setPersistence(firebase.auth.Auth.Persistence.NONE) // Configurar la persistencia de sesión en "NONE"
@@ -86,6 +86,7 @@ export const firebaseLoginWithGoogleNoPersistence = () => {
           // El inicio de sesión fue exitoso
           const user = userCredential.user;
           console.log('Usuario autenticado:', user);
+          navigate('/'); 
           return user;
         })
         .catch((error) => {
@@ -99,12 +100,14 @@ export const firebaseLoginWithGoogleNoPersistence = () => {
     });
 };
 
-export const firebaseLogout = () => {
+export const firebaseLogout = (navigate) => {
     return firebase
       .auth()
       .signOut()
       .then(() => {
         console.log('Sesión finalizada');
+        navigate('/login'); 
+
       })
       .catch((error) => {
         console.error('Error al finalizar sesión:', error);

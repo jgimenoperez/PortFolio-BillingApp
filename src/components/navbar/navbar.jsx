@@ -6,16 +6,18 @@ import {
   Text,
 } from "@nextui-org/react";
 
-import { useDispatch } from "react-redux";
+import { firebaseLogout } from "../../firebase/firebase";
 import { GithubIcon } from "../icons/GithubIcon";
 import { ModalLogin } from "../auth/authLogin";
 import { setTheme } from "../../reducers/themeReducer";
 import { Troll, icons } from "./icons";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useTheme } from "@nextui-org/react";
-import { firebaseLogout } from "../../firebase/firebase";
 
 export const Nav = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { isDark, theme } = useTheme();
   const { logged } = useSelector((state) => state.auth);
@@ -168,8 +170,9 @@ export const Nav = () => {
           <Navbar.Link
             color="inherit"
             onClick={() => {
-              firebaseLogout();
+              firebaseLogout(navigate);
             }}
+            
           >
             Logout
           </Navbar.Link>

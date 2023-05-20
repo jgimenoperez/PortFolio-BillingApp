@@ -7,7 +7,7 @@ import {
   Text,
   Navbar,
 } from "@nextui-org/react";
-import { useState, } from "react";
+import { useState } from "react";
 import {
   firebaseLoginWithGoogle,
   firebaseLoginWithEmailNotPersistence,
@@ -15,30 +15,35 @@ import {
   firebaseLoginWithEmail,
 } from "../../firebase/firebase";
 import { GooleIcon } from "../icons/GithubIcon";
+import { useNavigate } from "react-router-dom";
 
 export const ModalLogin = () => {
+
+  const navigate = useNavigate();
   const [visible, setVisible] = useState(false);
   const [remenberSession, setRemenberSession] = useState(false);
- 
   const handler = () => setVisible(true);
+
+
 
   const closeHandler = () => {
     setVisible(false);
-    // firebaseLogout()
   };
 
   const handleRememberSessionChange = (e) => {
-    setRemenberSession(e)
+    setRemenberSession(e);
   };
 
   const handleGoogleLoginWithGoogle = () => {
-    console.log(4444444)
-    remenberSession ?  firebaseLoginWithGoogle() : firebaseLoginWithGoogleNoPersistence();
+    remenberSession
+      ? firebaseLoginWithGoogle(navigate)
+      : firebaseLoginWithGoogleNoPersistence(navigate);
   };
 
   const handlFirebaseLoginWithEmail = () => {
-    console.log(333333333)
-     remenberSession ?  firebaseLoginWithEmail() : firebaseLoginWithEmailNotPersistence();
+    remenberSession
+      ? firebaseLoginWithEmail(navigate)
+      : firebaseLoginWithEmailNotPersistence(navigate);
   };
 
   return (
@@ -84,20 +89,28 @@ export const ModalLogin = () => {
             css={{
               textAlign: "center",
             }}
-            TextTransforms="fullWidth"
+            // textTransforms="fullWidth"
             size="$2x"
           >
             o
           </Text>
 
-          <Button auto flat onClick={()=>{handleGoogleLoginWithGoogle()}}>
+          <Button
+            auto
+            flat
+            onClick={() => {
+              handleGoogleLoginWithGoogle();
+            }}
+          >
             <GooleIcon />
           </Button>
 
           <Row justify="space-between">
             <Checkbox
-              checked={handleRememberSessionChange}
-              onChange={(e)=>{handleRememberSessionChange(e)}}
+              checked={remenberSession}
+              onChange={(e) => {
+                handleRememberSessionChange(e);
+              }}
             >
               <Text size={14}>Recordar sesión</Text>
             </Checkbox>
@@ -105,10 +118,15 @@ export const ModalLogin = () => {
           </Row>
         </Modal.Body>
         <Modal.Footer>
-          <Button auto flat color="error" onClick={closeHandler}>
+          <Button auto flat color="error" onClick={()=>{closeHandler()}}>
             Cerrar
           </Button>
-          <Button auto onClick={()=>{handlFirebaseLoginWithEmail()}}>
+          <Button
+            auto
+            onClick={() => {
+              handlFirebaseLoginWithEmail();
+            }}
+          >
             Iniciar Sesión
           </Button>
         </Modal.Footer>
