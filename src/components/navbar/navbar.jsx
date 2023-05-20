@@ -5,6 +5,7 @@ import {
   Switch,
   Text,
   Avatar,
+  Tooltip,
 } from "@nextui-org/react";
 
 import { firebaseLogout } from "../../firebase/firebase";
@@ -162,13 +163,27 @@ export const Nav = () => {
 
       <Navbar.Content>
         {logged ? (
-          <Avatar
-            css={{ size: "$6" }}
-            squared
-            size="lg"
-            text={ user.providerData[0].providerId === 'password' ?  user?.email: user?.displayName}
-            src={user?.photoURL}
-          />
+          <Tooltip
+            content={
+              user.providerData[0].providerId === "password"
+                ? user?.email
+                : `${user?.displayName} ${user?.email}`
+            }
+            hideArrow
+            placement="right"
+          >
+            <Avatar
+              css={{ size: "$6" }}
+              squared
+              size="lg"
+              text={
+                user.providerData[0].providerId === "password"
+                  ? user?.email
+                  : user?.displayName
+              }
+              src={user?.photoURL}
+            />
+          </Tooltip>
         ) : null}
 
         {logged ? (
