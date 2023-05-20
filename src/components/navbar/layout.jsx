@@ -1,5 +1,5 @@
 import {Box} from '../styles/box';
-import { Nav } from './navbar';
+import { Nav } from './Navbar';
 
 
 

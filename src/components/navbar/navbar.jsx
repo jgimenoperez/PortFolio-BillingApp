@@ -10,7 +10,7 @@ import { firebaseLogout } from "../../firebase/firebase";
 import { GithubIcon } from "../icons/GithubIcon";
 import { ModalLogin } from "../auth/authLogin";
 import { setTheme } from "../../reducers/themeReducer";
-import { Troll, icons } from "./icons";
+import { Troll, icons } from "./Icons";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -23,11 +23,9 @@ export const Nav = () => {
   const { logged } = useSelector((state) => state.auth);
 
   const collapseItems = [
-    "Features",
-    "Customers",
-    "Pricing",
-    "Company",
-    "Legal",
+    "Clientes",
+    "Artículos",
+    "Facturas",
   ];
 
   return (

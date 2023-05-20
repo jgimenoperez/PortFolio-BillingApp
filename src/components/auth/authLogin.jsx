@@ -7,7 +7,7 @@ import {
   Text,
   Navbar,
 } from "@nextui-org/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   firebaseLoginWithGoogle,
   firebaseLoginWithEmailNotPersistence,
@@ -16,15 +16,19 @@ import {
 } from "../../firebase/firebase";
 import { GooleIcon } from "../icons/GithubIcon";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 export const ModalLogin = () => {
-
   const navigate = useNavigate();
+
+  const { logged } = useSelector((state) => state.auth);
   const [visible, setVisible] = useState(false);
   const [remenberSession, setRemenberSession] = useState(false);
   const handler = () => setVisible(true);
 
-
+  useEffect(() => {
+    setVisible(!logged)
+  }, [logged]);
 
   const closeHandler = () => {
     setVisible(false);
@@ -58,7 +62,7 @@ export const ModalLogin = () => {
       >
         <Modal.Header>
           <Text id="modal-title" size={18}>
-            Inice seión en su cuenta <br />
+            Inice sesión en su cuenta <br />
             <Text b size={18}>
               {"Manos {DEV} troll"}
             </Text>
@@ -118,7 +122,14 @@ export const ModalLogin = () => {
           </Row>
         </Modal.Body>
         <Modal.Footer>
-          <Button auto flat color="error" onClick={()=>{closeHandler()}}>
+          <Button
+            auto
+            flat
+            color="error"
+            onClick={() => {
+              closeHandler();
+            }}
+          >
             Cerrar
           </Button>
           <Button
