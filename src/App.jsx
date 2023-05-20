@@ -12,7 +12,7 @@ import { Loading } from "@nextui-org/react";
 import { Login } from "./pages/Login";
 import { NextUIProvider } from "@nextui-org/react";
 import { PrivateRoute } from "./routes/PrivateRoute";
-import { setAuth } from "./reducers/authReducer";
+import { setAuth,setUser } from "./reducers/authReducer";
 import { useEffect, useState } from "react";
 
 function App() {
@@ -24,8 +24,10 @@ function App() {
     firebasebd.auth().onAuthStateChanged(async (user) => {
       if (user) {
         dispatch(setAuth(true))
+        dispatch(setUser(user.multiFactor.user))
       } else {
         dispatch(setAuth(false))
+        dispatch(setUser(null))
       }
       setIsLoading(false);
     });

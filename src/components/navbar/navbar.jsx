@@ -4,6 +4,7 @@ import {
   Navbar,
   Switch,
   Text,
+  Avatar,
 } from "@nextui-org/react";
 
 import { firebaseLogout } from "../../firebase/firebase";
@@ -20,13 +21,9 @@ export const Nav = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { isDark, theme } = useTheme();
-  const { logged } = useSelector((state) => state.auth);
+  const { logged, user } = useSelector((state) => state.auth);
 
-  const collapseItems = [
-    "Clientes",
-    "Artículos",
-    "Facturas",
-  ];
+  const collapseItems = ["Clientes", "Artículos", "Facturas"];
 
   return (
     <Navbar
@@ -165,12 +162,21 @@ export const Nav = () => {
 
       <Navbar.Content>
         {logged ? (
+          <Avatar
+            css={{ size: "$6" }}
+            squared
+            size="lg"
+            text={ user.providerData[0].providerId === 'password' ?  user?.email: user?.displayName}
+            src={user?.photoURL}
+          />
+        ) : null}
+
+        {logged ? (
           <Navbar.Link
             color="inherit"
             onClick={() => {
               firebaseLogout(navigate);
             }}
-            
           >
             Logout
           </Navbar.Link>

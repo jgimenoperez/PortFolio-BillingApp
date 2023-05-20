@@ -16,7 +16,7 @@ export const firebasebd = firebase.initializeApp(firebaseConfig);
 export const firebaseLoginWithEmail = (navigate) => {
     return firebase
       .auth()
-      .signInWithEmailAndPassword('jgimenoperez@gmail.com', '961421180')
+      .signInWithEmailAndPassword('prueba@prueba.com', '123456')
       .then((userCredential) => {
         const user = userCredential.user;
         console.log('Usuario autenticado:', user);
@@ -36,7 +36,7 @@ export const firebaseLoginWithEmail = (navigate) => {
       .then(() => {
         return firebase
           .auth()
-          .signInWithEmailAndPassword('jgimenoperez@gmail.com', '961421180')
+          .signInWithEmailAndPassword('prueba@prueba.com', '123456')
           .then((userCredential) => {
             const user = userCredential.user;
             console.log('Usuario autenticado:', user);
