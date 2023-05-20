@@ -4,7 +4,6 @@ import {
   Navbar,
   Switch,
   Text,
-  Button,
 } from "@nextui-org/react";
 
 import { useDispatch } from "react-redux";
@@ -128,7 +127,7 @@ export const Nav = () => {
       </Navbar.Brand>
 
       <Navbar.Collapse>
-        {collapseItems.map((item, index) => (
+        {collapseItems.map((item) => (
           <Navbar.CollapseItem key={item}>
             <Link
               color="inherit"
