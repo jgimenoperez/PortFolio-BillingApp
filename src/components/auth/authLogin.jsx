@@ -17,6 +17,7 @@ import {
 import { GooleIcon } from "../icons/GithubIcon";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { Mail, Troll } from "../navbar/icons";
 
 export const ModalLogin = () => {
   const navigate = useNavigate();
@@ -27,7 +28,7 @@ export const ModalLogin = () => {
   const handler = () => setVisible(true);
 
   useEffect(() => {
-    setVisible(!logged)
+    setVisible(!logged);
   }, [logged]);
 
   const closeHandler = () => {
@@ -76,17 +77,38 @@ export const ModalLogin = () => {
             color="primary"
             size="lg"
             placeholder="Email"
-            //   contentLeft={<Mail fill="currentColor" />}
+            contentLeft={<Mail fill="currentColor" />}
           />
-          <Input
+          <Input.Password
             clearable
             bordered
             fullWidth
             color="primary"
             size="lg"
-            placeholder="Password"
+            placeholder="Contraseña"
+            visibleIcon={<Troll fill="currentColor" />}
+
             //   contentLeft={<Password fill="currentColor" />}
           />
+
+          <Button
+            auto
+            onClick={() => {
+              handlFirebaseLoginWithEmail();
+            }}
+          >
+            Iniciar Sesión
+          </Button>
+          <Button
+            auto
+            flat
+            color="error"
+            onClick={() => {
+              closeHandler();
+            }}
+          >
+            Cerrar
+          </Button>
           <Text
             b
             className="lineWrapper"
@@ -122,24 +144,6 @@ export const ModalLogin = () => {
           </Row>
         </Modal.Body>
         <Modal.Footer>
-          <Button
-            auto
-            flat
-            color="error"
-            onClick={() => {
-              closeHandler();
-            }}
-          >
-            Cerrar
-          </Button>
-          <Button
-            auto
-            onClick={() => {
-              handlFirebaseLoginWithEmail();
-            }}
-          >
-            Iniciar Sesión
-          </Button>
         </Modal.Footer>
       </Modal>
     </div>
