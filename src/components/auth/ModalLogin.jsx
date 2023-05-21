@@ -9,7 +9,6 @@ import {
   useInput,
 } from "@nextui-org/react";
 
-import { useEffect, useState, useRef, useMemo } from "react";
 import {
   firebaseLoginWithGoogle,
   firebaseLoginWithEmailNotPersistence,
@@ -17,10 +16,13 @@ import {
   firebaseLoginWithEmail,
 } from "../../firebase/firebase";
 import { GooleIcon } from "../icons/GithubIcon";
+import { Link } from 'react-router-dom';
+import { Mail } from "../navbar/icons";
+import { useEffect, useState, useRef, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { Mail } from "../navbar/icons";
 import { validateEmail } from "../../utils/utils";
+
 
 export const ModalLogin = () => {
   const navigate = useNavigate();
@@ -51,15 +53,15 @@ export const ModalLogin = () => {
   };
 
   const handlFirebaseLoginWithEmail = () => {
-    const email=emailRef.current.value
-    const password = passwordRef.current.value
+    const email = emailRef.current.value;
+    const password = passwordRef.current.value;
     if (!validateEmail(email)) {
       emailRef.current.focus();
-      return
+      return;
     }
     remenberSession
-      ? firebaseLoginWithEmail(navigate,email,password)
-      : firebaseLoginWithEmailNotPersistence(navigate,email,password);
+      ? firebaseLoginWithEmail(navigate, email, password)
+      : firebaseLoginWithEmailNotPersistence(navigate, email, password);
   };
 
   const helper = useMemo(() => {
@@ -97,9 +99,9 @@ export const ModalLogin = () => {
           <Input
             {...bindings}
             clearable
-            bordered      
-            fullWidth      
-            color="primary"            
+            bordered
+            fullWidth
+            color="primary"
             onClearClick={reset}
             status={helper.color}
             helperColor={helper.color}
@@ -172,7 +174,25 @@ export const ModalLogin = () => {
             <Text size={14}>¿Olvidó la contraseña?</Text>
           </Row>
         </Modal.Body>
-        <Modal.Footer></Modal.Footer>
+        <Modal.Footer 
+          css={{
+            justifyContent: "center",
+          }}
+        >
+          <Text
+            b
+            css={{
+              textAlign: "left",
+            }}
+            // textTransforms="fullWidth"
+            size="$2x"
+          >
+            ¿Nuevo usuario?
+            <Link to="/register"> Inscribirse</Link>
+
+          </Text>
+          
+        </Modal.Footer>
       </Modal>
     </div>
   );
