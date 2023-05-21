@@ -6,8 +6,10 @@ import {
   Button,
   Text,
   Navbar,
+  useInput,
 } from "@nextui-org/react";
-import { useEffect, useState } from "react";
+
+import { useEffect, useState, useRef, useMemo } from "react";
 import {
   firebaseLoginWithGoogle,
   firebaseLoginWithEmailNotPersistence,
@@ -17,15 +19,18 @@ import {
 import { GooleIcon } from "../icons/GithubIcon";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { Mail, Troll } from "../navbar/icons";
+import { Mail } from "../navbar/icons";
+import { validateEmail } from "../../utils/utils";
 
 export const ModalLogin = () => {
   const navigate = useNavigate();
-
+  const { value, reset, bindings } = useInput("");
   const { logged } = useSelector((state) => state.auth);
   const [visible, setVisible] = useState(false);
   const [remenberSession, setRemenberSession] = useState(false);
   const handler = () => setVisible(true);
+  const emailRef = useRef(null);
+  const passwordRef = useRef(null);
 
   useEffect(() => {
     setVisible(!logged);
@@ -46,10 +51,29 @@ export const ModalLogin = () => {
   };
 
   const handlFirebaseLoginWithEmail = () => {
+    const email=emailRef.current.value
+    const password = passwordRef.current.value
+    if (!validateEmail(email)) {
+      emailRef.current.focus();
+      return
+    }
     remenberSession
-      ? firebaseLoginWithEmail(navigate)
-      : firebaseLoginWithEmailNotPersistence(navigate);
+      ? firebaseLoginWithEmail(navigate,email,password)
+      : firebaseLoginWithEmailNotPersistence(navigate,email,password);
   };
+
+  const helper = useMemo(() => {
+    if (!value)
+      return {
+        text: "",
+        color: "",
+      };
+    const isValid = validateEmail(value);
+    return {
+      text: isValid ? "Correct email" : "Enter a valid email",
+      color: isValid ? "success" : "error",
+    };
+  }, [value]);
 
   return (
     <div>
@@ -71,13 +95,18 @@ export const ModalLogin = () => {
         </Modal.Header>
         <Modal.Body>
           <Input
+            {...bindings}
             clearable
-            bordered
-            fullWidth
-            color="primary"
-            size="lg"
-            placeholder="Email"
+            bordered      
+            fullWidth      
+            color="primary"            
+            onClearClick={reset}
+            status={helper.color}
+            helperColor={helper.color}
+            type="email"
             contentLeft={<Mail fill="currentColor" />}
+            ref={emailRef}
+            // color={helper.color}
           />
           <Input.Password
             clearable
@@ -86,8 +115,8 @@ export const ModalLogin = () => {
             color="primary"
             size="lg"
             placeholder="Contraseña"
-            visibleIcon={<Troll fill="currentColor" />}
-
+            ref={passwordRef}
+            // visibleIcon={<Troll fill="currentColor" />}
             //   contentLeft={<Password fill="currentColor" />}
           />
 
@@ -99,7 +128,7 @@ export const ModalLogin = () => {
           >
             Iniciar Sesión
           </Button>
-          <Button
+          {/* <Button
             auto
             flat
             color="error"
@@ -108,7 +137,7 @@ export const ModalLogin = () => {
             }}
           >
             Cerrar
-          </Button>
+          </Button> */}
           <Text
             b
             className="lineWrapper"
@@ -118,7 +147,7 @@ export const ModalLogin = () => {
             // textTransforms="fullWidth"
             size="$2x"
           >
-            o
+            o inicia sesión con
           </Text>
 
           <Button
@@ -143,8 +172,7 @@ export const ModalLogin = () => {
             <Text size={14}>¿Olvidó la contraseña?</Text>
           </Row>
         </Modal.Body>
-        <Modal.Footer>
-        </Modal.Footer>
+        <Modal.Footer></Modal.Footer>
       </Modal>
     </div>
   );

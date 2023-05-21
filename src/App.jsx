@@ -14,6 +14,7 @@ import { NextUIProvider } from "@nextui-org/react";
 import { PrivateRoute } from "./routes/PrivateRoute";
 import { setAuth,setUser } from "./reducers/authReducer";
 import { useEffect, useState } from "react";
+import { Nav } from "./components/navbar/Navbar";
 
 function App() {
   const dispatch = useDispatch();
@@ -61,7 +62,9 @@ function App() {
               }
               exact
             />
-            <Route path="/login" element={<Login />} exact />
+            <Route path="/login" element={<Nav isLogin={true}/>} exact />
+            <Route path="/register" element={<Nav isLogin={false} />} exact />
+
             {/* <Route path="/prueba" element={<h1>aaa</h1>} exact /> */}
             {/* <Route path="/login" element={<Login />} exact /> */}
             {/* <Route path="/" element={<Home />} exact />

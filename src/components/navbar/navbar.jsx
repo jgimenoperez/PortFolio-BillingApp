@@ -10,7 +10,7 @@ import {
 
 import { firebaseLogout } from "../../firebase/firebase";
 import { GithubIcon } from "../icons/GithubIcon";
-import { ModalLogin } from "../auth/authLogin";
+import { ModalLogin, ModalRegister } from "../auth";
 import { setTheme } from "../../reducers/themeReducer";
 import { Troll, icons } from "./Icons";
 import { useDispatch } from "react-redux";
@@ -18,7 +18,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useTheme } from "@nextui-org/react";
 
-export const Nav = () => {
+export const Nav = ({isLogin}) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { isDark, theme } = useTheme();
@@ -199,8 +199,10 @@ export const Nav = () => {
           // <Button auto flat onClick={()=>{alert(1)}}>
           //   Start free trial
           // </Button>
-          <ModalLogin />
+          isLogin?(<ModalLogin />):(<ModalRegister/>)
         )}
+
+
 
         {/* <Navbar.Item>
           <Button auto flat href="#">

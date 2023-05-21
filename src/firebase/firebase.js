@@ -13,10 +13,10 @@ const firebaseConfig = {
 
 export const firebasebd = firebase.initializeApp(firebaseConfig);
 
-export const firebaseLoginWithEmail = (navigate) => {
+export const firebaseLoginWithEmail = (navigate,email,password) => {
     return firebase
       .auth()
-      .signInWithEmailAndPassword('prueba@prueba.com', '123456')
+      .signInWithEmailAndPassword(email, password)
       .then((userCredential) => {
         const user = userCredential.user;
         console.log('Usuario autenticado:', user);
@@ -29,14 +29,15 @@ export const firebaseLoginWithEmail = (navigate) => {
       });
   };
 
-  export const firebaseLoginWithEmailNotPersistence = (navigate) => {
+  export const firebaseLoginWithEmailNotPersistence = (navigate,email,password) => {
+    console.log(email,password);  
     return firebase
       .auth()
       .setPersistence(firebase.auth.Auth.Persistence.NONE) // Configurar la persistencia de sesión en "NONE"
       .then(() => {
         return firebase
           .auth()
-          .signInWithEmailAndPassword('prueba@prueba.com', '123456')
+          .signInWithEmailAndPassword(email, password)
           .then((userCredential) => {
             const user = userCredential.user;
             console.log('Usuario autenticado:', user);
