@@ -10,15 +10,15 @@ import {
 
 import { firebaseLogout } from "../../firebase/firebase";
 import { GithubIcon } from "../icons/GithubIcon";
-import { ModalLogin, ModalRegister } from "../auth";
+import { ModalLogin, ModalRegister,ModalResetPass } from "../auth";
 import { setTheme } from "../../reducers/themeReducer";
-import { Troll, icons } from "./Icons";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useTheme } from "@nextui-org/react";
+import { Troll, icons } from "./icons";
 
-export const Nav = ({isLogin}) => {
+export const Nav = ({isLogin,isRegister,isResetPass}) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { isDark, theme } = useTheme();
@@ -199,9 +199,12 @@ export const Nav = ({isLogin}) => {
           // <Button auto flat onClick={()=>{alert(1)}}>
           //   Start free trial
           // </Button>
-          isLogin?(<ModalLogin />):(<ModalRegister/>)
+          null
         )}
 
+        {!logged && isLogin ? (<ModalLogin />):(null) }
+        {!logged && isRegister ? (<ModalRegister />):(null) }
+        {!logged && isResetPass ? (<ModalResetPass />):(null) }
 
 
         {/* <Navbar.Item>

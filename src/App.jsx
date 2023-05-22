@@ -1,20 +1,18 @@
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
-import {  useDispatch,useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { darkTheme, ligthTheme } from "./themes/darktheme";
 import { firebasebd } from "./firebase/firebase";
 import { Home } from "./pages/Home";
 import { Loading } from "@nextui-org/react";
 import { Login } from "./pages/Login";
+import { Nav } from "./components/navbar/Navbar";
 import { NextUIProvider } from "@nextui-org/react";
 import { PrivateRoute } from "./routes/PrivateRoute";
-import { setAuth,setUser } from "./reducers/authReducer";
+import { Register } from "./pages/Register";
+import { setAuth, setUser } from "./reducers/authReducer";
 import { useEffect, useState } from "react";
-import { Nav } from "./components/navbar/Navbar";
+import { ResetPass } from "./pages/ResetPass";
 
 function App() {
   const dispatch = useDispatch();
@@ -24,11 +22,11 @@ function App() {
   useEffect(() => {
     firebasebd.auth().onAuthStateChanged(async (user) => {
       if (user) {
-        dispatch(setAuth(true))
-        dispatch(setUser(user.multiFactor.user))
+        dispatch(setAuth(true));
+        dispatch(setUser(user.multiFactor.user));
       } else {
-        dispatch(setAuth(false))
-        dispatch(setUser(null))
+        dispatch(setAuth(false));
+        dispatch(setUser(null));
       }
       setIsLoading(false);
     });
@@ -62,8 +60,9 @@ function App() {
               }
               exact
             />
-            <Route path="/login" element={<Nav isLogin={true}/>} exact />
-            <Route path="/register" element={<Nav isLogin={false} />} exact />
+            <Route path="/login" element={<Login />} exact />
+            <Route path="/register" element={<Register />} exact />
+            <Route path="/resetpassword" element={<ResetPass />} exact />
 
             {/* <Route path="/prueba" element={<h1>aaa</h1>} exact /> */}
             {/* <Route path="/login" element={<Login />} exact /> */}

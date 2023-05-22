@@ -2,7 +2,7 @@ import { Box } from "../components/styles/box";
 import { Nav } from "../components/navbar/Navbar";
 
 Box
-export const Login = () => {
+export const ResetPass = () => {
   return (
     <Box
     css={{
@@ -10,7 +10,7 @@ export const Login = () => {
        background: '$navbarcolor',
     }}
  >
-    <Nav isLogin={true}/>
+    <Nav isResetPass={true}/>
  </Box>
   )
 }

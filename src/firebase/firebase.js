@@ -171,3 +171,33 @@ export const firebaseResetPassword = (email) => {
       throw error; // Opcionalmente, puedes lanzar el error para que sea manejado por la función que llama a esta función
     });
 };
+
+//verificar contraseña
+export const firebaseVerifyPassword = (code) => {
+  return firebase
+    .auth()
+    .verifyPasswordResetCode(code)
+    .then((email) => {
+      console.log("Correo de restablecimiento:", email);
+      return email;
+    })
+    .catch((error) => {
+      console.error("Error al verificar el código:", error);
+      throw error; // Opcionalmente, puedes lanzar el error para que sea manejado por la función que llama a esta función
+    });
+}
+
+
+//cambiar contraseña
+export const firebaseChangePassword = (code, password) => {
+  return firebase
+    .auth()
+    .confirmPasswordReset(code, password)
+    .then(() => {
+      console.log("Contraseña restablecida");
+    })
+    .catch((error) => {
+      console.error("Error al restablecer la contraseña:", error);
+      throw error; // Opcionalmente, puedes lanzar el error para que sea manejado por la función que llama a esta función
+    });
+}

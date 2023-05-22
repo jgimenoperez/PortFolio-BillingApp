@@ -55,7 +55,7 @@ export const ModalLogin = () => {
       : firebaseLoginWithGoogleNoPersistence(navigate);
   };
 
-  const handlFirebaseLoginWithEmail = () => {
+  const handleFirebaseLoginWithEmail = () => {
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
     if (!validateEmail(email)) {
@@ -67,6 +67,15 @@ export const ModalLogin = () => {
       : firebaseLoginWithEmailNotPersistence(navigate, email, password,setErrorValidation)
         
   };
+
+  const handleResetPass = ()=>{
+    setErrorValidation(`Enviado correo de restablecimiento a \n${emailRef.current.value}\n Siga las instrucciones`)
+
+    // firebaseResetPassword(emailRef.current.value)
+    // .then(()=>{
+    //   setErrorValidation(`Enviado correo de restablecimiento a ${emailRef.current.value}. Siga las instrucciones`)
+    // })
+  }
 
   const helper = useMemo(() => {
     setErrorValidation(null)
@@ -131,7 +140,7 @@ export const ModalLogin = () => {
           <Button
             auto
             onClick={() => {
-              handlFirebaseLoginWithEmail();
+              handleFirebaseLoginWithEmail();
             }}
           >
             Iniciar Sesión
@@ -141,6 +150,7 @@ export const ModalLogin = () => {
             <Text
               css={{
                 textAlign: "center",
+                whiteSpace:"pre-line"
               }}
               // textTransforms="fullWidth"
               size="$1x"
@@ -193,7 +203,10 @@ export const ModalLogin = () => {
             </Checkbox>
             <Text 
               size={14}
-              onClick={()=>{firebaseResetPassword(emailRef.current.value)}}
+              css={{
+                cursor:'pointer'
+              }}
+              onClick={()=>{handleResetPass()}}
             >¿Olvidó la contraseña?</Text>
           </Row>
         </Modal.Body>
