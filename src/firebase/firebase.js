@@ -32,7 +32,7 @@ export const firebaseLoginWithEmail = (
     .catch((error) => {
       console.error("Error de autenticación:", error);
       setErrorValidation(
-        "El correo electrónico/contraseña que ingresaste es incorrecto. Verifica tus credenciales o intenta utilizar un método diferente para iniciar sesión."
+        "El correo electrónico/contraseña que ingresaste es incorrecto.\n Verifica tus credenciales o intenta utilizar un método diferente para iniciar sesión."
       );
       // throw error;
     });
@@ -61,14 +61,14 @@ export const firebaseLoginWithEmailNotPersistence = (
         .catch((error) => {
           console.error("Error de autenticación:", error);
           setErrorValidation(
-            "El correo electrónico/contraseña que ingresaste es incorrecto. Verifica tus credenciales o intenta utilizar un método diferente para iniciar sesión."
+            "El correo electrónico/contraseña que ingresaste es incorrecto.\n Verifica tus credenciales o intenta utilizar un método diferente para iniciar sesión."
           );
         });
     })
     .catch((error) => {
       console.error("Error al configurar la persistencia de sesión:", error);
       setErrorValidation(
-        "El correo electrónico/contraseña que ingresaste es incorrecto. Verifica tus credenciales o intenta utilizar un método diferente para iniciar sesión."
+        "El correo electrónico/contraseña que ingresaste es incorrecto.\n Verifica tus credenciales o intenta utilizar un método diferente para iniciar sesión."
       );
       // throw error;
     });
@@ -187,9 +187,9 @@ export const firebaseVerifyPassword = (code) => {
     });
 }
 
-
 //cambiar contraseña
 export const firebaseChangePassword = (code, password) => {
+  console.log(code,password)
   return firebase
     .auth()
     .confirmPasswordReset(code, password)

@@ -69,12 +69,12 @@ export const ModalLogin = () => {
   };
 
   const handleResetPass = ()=>{
-    setErrorValidation(`Enviado correo de restablecimiento a \n${emailRef.current.value}\n Siga las instrucciones`)
+    // setErrorValidation(`Enviado correo de restablecimiento a \n${emailRef.current.value}\n Siga las instrucciones`)
 
-    // firebaseResetPassword(emailRef.current.value)
-    // .then(()=>{
-    //   setErrorValidation(`Enviado correo de restablecimiento a ${emailRef.current.value}. Siga las instrucciones`)
-    // })
+    firebaseResetPassword(emailRef.current.value)
+    .then(()=>{
+      setErrorValidation(`Enviado correo de restablecimiento a \n${emailRef.current.value}\n Siga las instrucciones`)
+    })
   }
 
   const helper = useMemo(() => {
