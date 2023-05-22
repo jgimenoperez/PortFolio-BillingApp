@@ -37,6 +37,16 @@ export const ModalResetPass = () => {
       setPassError({ color: "", text: "" });
     }
 
+    if (!passwordValidator(password)) {
+      setPassError({
+        color: "error",
+        text: "La contraseña debe tener al menos 7 caracteres mayusculas, minusculas,números y caracteres especiales.",
+      });
+      passwordRef.current.focus();
+      return;
+    }
+
+
     const urlParams = new URLSearchParams(window.location.search);
     const oobCode = urlParams.get("oobCode");
     let count = 5;
@@ -105,6 +115,7 @@ export const ModalResetPass = () => {
             status={passError.text}
             helperColor={passError.color}
             helperText={passError.text}
+            style={{ helperText: { fontSize: '24px'} }}
             onBlur={() => {
               setPassError({ color: "", text: "" });
             }}

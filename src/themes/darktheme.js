@@ -14,6 +14,7 @@ export const darkTheme = createTheme({
       fontWeight: 'normal',
       lineHeight: '24px',
       letterSpacing: 'normal',
+      
     },
   }
 });
