@@ -1,0 +1,17 @@
+import { useState } from "react";
+
+
+
+export const useForm = (initialValue) => {
+    const [value, setValue] = useState(initialValue);
+
+    const handleChange = (event) => {
+        console.log(1111)
+        setValue(event.target.value);
+    };
+
+    return {
+        value,
+        onChange: handleChange
+    };
+};
