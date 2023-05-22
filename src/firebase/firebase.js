@@ -13,7 +13,13 @@ const firebaseConfig = {
 
 export const firebasebd = firebase.initializeApp(firebaseConfig);
 
-export const firebaseLoginWithEmail = (navigate, email, password) => {
+export const firebaseLoginWithEmail = (
+  navigate,
+  email,
+  password,
+  setErrorValidation
+) => {
+  console.log(111);
   return firebase
     .auth()
     .signInWithEmailAndPassword(email, password)
@@ -25,14 +31,18 @@ export const firebaseLoginWithEmail = (navigate, email, password) => {
     })
     .catch((error) => {
       console.error("Error de autenticación:", error);
-      throw error;
+      setErrorValidation(
+        "El correo electrónico/contraseña que ingresaste es incorrecto. Verifica tus credenciales o intenta utilizar un método diferente para iniciar sesión."
+      );
+      // throw error;
     });
 };
 
 export const firebaseLoginWithEmailNotPersistence = (
   navigate,
   email,
-  password
+  password,
+  setErrorValidation
 ) => {
   console.log(email, password);
   return firebase
@@ -50,11 +60,17 @@ export const firebaseLoginWithEmailNotPersistence = (
         })
         .catch((error) => {
           console.error("Error de autenticación:", error);
-          throw error;
+          setErrorValidation(
+            "El correo electrónico/contraseña que ingresaste es incorrecto. Verifica tus credenciales o intenta utilizar un método diferente para iniciar sesión."
+          );
         });
     })
     .catch((error) => {
       console.error("Error al configurar la persistencia de sesión:", error);
+      setErrorValidation(
+        "El correo electrónico/contraseña que ingresaste es incorrecto. Verifica tus credenciales o intenta utilizar un método diferente para iniciar sesión."
+      );
+      // throw error;
     });
 };
 
@@ -138,6 +154,20 @@ export const firebaseAddUser = (navigate, email, password) => {
     })
     .catch((error) => {
       console.error("Error al crear usuario:", error);
+      throw error; // Opcionalmente, puedes lanzar el error para que sea manejado por la función que llama a esta función
+    });
+};
+
+//restablecimiento contraseña
+export const firebaseResetPassword = (email) => {
+  return firebase
+    .auth()
+    .sendPasswordResetEmail(email)
+    .then(() => {
+      console.log("Correo de restablecimiento enviado");
+    })
+    .catch((error) => {
+      console.error("Error al enviar el correo de restablecimiento:", error);
       throw error; // Opcionalmente, puedes lanzar el error para que sea manejado por la función que llama a esta función
     });
 };

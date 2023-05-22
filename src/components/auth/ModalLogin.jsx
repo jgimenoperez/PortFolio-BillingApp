@@ -14,6 +14,7 @@ import {
   firebaseLoginWithEmailNotPersistence,
   firebaseLoginWithGoogleNoPersistence,
   firebaseLoginWithEmail,
+  firebaseResetPassword
 } from "../../firebase/firebase";
 import { GooleIcon } from "../icons/GithubIcon";
 import { Link } from "react-router-dom";
@@ -33,6 +34,8 @@ export const ModalLogin = () => {
   const handler = () => setVisible(true);
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
+
+
 
   useEffect(() => {
     setVisible(!logged);
@@ -60,19 +63,13 @@ export const ModalLogin = () => {
       return;
     }
     remenberSession
-      ? firebaseLoginWithEmail(navigate, email, password).catch(
-          setErrorValidation(
-            "El correo electrónico/contraseña que ingresaste es incorrecto. Verifica tus credenciales o intenta utilizar un método diferente para iniciar sesión."
-          )
-        )
-      : firebaseLoginWithEmailNotPersistence(navigate, email, password).catch(
-          setErrorValidation(
-            "El correo electrónico/contraseña que ingresaste es incorrecto. Verifica tus credenciales o intenta utilizar un método diferente para iniciar sesión."
-          )
-        );
+      ? firebaseLoginWithEmail(navigate, email, password,setErrorValidation)
+      : firebaseLoginWithEmailNotPersistence(navigate, email, password,setErrorValidation)
+        
   };
 
   const helper = useMemo(() => {
+    setErrorValidation(null)
     if (!value)
       return {
         text: "",
@@ -126,6 +123,7 @@ export const ModalLogin = () => {
             size="lg"
             placeholder="Contraseña"
             ref={passwordRef}
+            onChange={()=>{setErrorValidation(null)}}
             // visibleIcon={<Troll fill="currentColor" />}
             //   contentLeft={<Password fill="currentColor" />}
           />
@@ -193,7 +191,10 @@ export const ModalLogin = () => {
             >
               <Text size={14}>Recordar sesión</Text>
             </Checkbox>
-            <Text size={14}>¿Olvidó la contraseña?</Text>
+            <Text 
+              size={14}
+              onClick={()=>{firebaseResetPassword(emailRef.current.value)}}
+            >¿Olvidó la contraseña?</Text>
           </Row>
         </Modal.Body>
         <Modal.Footer
