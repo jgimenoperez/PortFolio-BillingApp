@@ -8,11 +8,11 @@ import {
   Spacer,
 } from "@nextui-org/react";
 
+import { firebaseAddUser } from "../../firebase/firebase";
+import { Mail } from "../navbar/icons";
 import { useEffect, useState, useRef, useMemo } from "react";
-import { GooleIcon } from "../icons/GithubIcon";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { Mail } from "../navbar/icons";
 import { validateEmail, passwordValidator } from "../../utils/utils";
 
 export const ModalRegister = () => {
@@ -60,6 +60,8 @@ export const ModalRegister = () => {
       passwordRef.current.focus();
       return;
     }
+
+    firebaseAddUser(navigate,email,password)
   };
 
   const helper = useMemo(() => {
