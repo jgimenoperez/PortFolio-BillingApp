@@ -16,19 +16,19 @@ import {
   firebaseLoginWithEmail,
 } from "../../firebase/firebase";
 import { GooleIcon } from "../icons/GithubIcon";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 import { Mail } from "../navbar/icons";
 import { useEffect, useState, useRef, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { validateEmail } from "../../utils/utils";
 
-
 export const ModalLogin = () => {
   const navigate = useNavigate();
   const { value, reset, bindings } = useInput("");
   const { logged } = useSelector((state) => state.auth);
   const [visible, setVisible] = useState(false);
+  const [errorValidation, setErrorValidation] = useState(null);
   const [remenberSession, setRemenberSession] = useState(false);
   const handler = () => setVisible(true);
   const emailRef = useRef(null);
@@ -60,8 +60,16 @@ export const ModalLogin = () => {
       return;
     }
     remenberSession
-      ? firebaseLoginWithEmail(navigate, email, password)
-      : firebaseLoginWithEmailNotPersistence(navigate, email, password);
+      ? firebaseLoginWithEmail(navigate, email, password).catch(
+          setErrorValidation(
+            "El correo electrónico/contraseña que ingresaste es incorrecto. Verifica tus credenciales o intenta utilizar un método diferente para iniciar sesión."
+          )
+        )
+      : firebaseLoginWithEmailNotPersistence(navigate, email, password).catch(
+          setErrorValidation(
+            "El correo electrónico/contraseña que ingresaste es incorrecto. Verifica tus credenciales o intenta utilizar un método diferente para iniciar sesión."
+          )
+        );
   };
 
   const helper = useMemo(() => {
@@ -130,6 +138,20 @@ export const ModalLogin = () => {
           >
             Iniciar Sesión
           </Button>
+
+          {errorValidation ? (
+            <Text
+              css={{
+                textAlign: "center",
+              }}
+              // textTransforms="fullWidth"
+              size="$1x"
+              color="error"
+            >
+              {errorValidation}
+            </Text>
+          ) : null}
+
           {/* <Button
             auto
             flat
@@ -174,7 +196,7 @@ export const ModalLogin = () => {
             <Text size={14}>¿Olvidó la contraseña?</Text>
           </Row>
         </Modal.Body>
-        <Modal.Footer 
+        <Modal.Footer
           css={{
             justifyContent: "center",
           }}
@@ -189,9 +211,7 @@ export const ModalLogin = () => {
           >
             ¿Nuevo usuario?
             <Link to="/register"> Inscribirse</Link>
-
           </Text>
-          
         </Modal.Footer>
       </Modal>
     </div>
