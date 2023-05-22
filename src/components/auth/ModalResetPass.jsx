@@ -3,7 +3,7 @@ import { Modal, Input, Button, Text, Navbar, Spacer } from "@nextui-org/react";
 import { firebaseChangePassword } from "../../firebase/firebase";
 import { passwordValidator } from "../../utils/utils";
 import { useEffect, useState, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 export const ModalResetPass = () => {
@@ -16,27 +16,6 @@ export const ModalResetPass = () => {
   const passwordRef = useRef(null);
   const checkPasswordRef = useRef(null);
 
-  // useEffect(() => {
-  //   const timer = setInterval(() => {
-  //     setCount((prevCount) => prevCount - 1);
-  //   }, 1000);
-
-  //   return () => {
-  //     clearInterval(timer);
-  //   };
-  // }, []);
-
-  // useEffect(() => {
-  //   // console.log(count)
-  //   // if (count === 0) {
-  //   //   // setMessage('Redirigiendo al inicio de sesión...');
-  //   //   setTimeout(() => {
-  //   //     history.push('/login');
-  //   //   }, 1000);
-  //   // } else {
-  //   //   setPassError(`Contando... ${count}`);
-  //   // }
-  // }, [count]);
 
   useEffect(() => {
     setVisible(!logged);
@@ -58,20 +37,10 @@ export const ModalResetPass = () => {
       setPassError({ color: "", text: "" });
     }
 
-    // if (!passwordValidator(password)) {
-    //   setPassError({
-    //     color: "error",
-    //     text: "La contraseña debe tener al menos 7 caracteres mayusculas, minusculas,números y caracteres especiales.",
-    //   });
-    //   passwordRef.current.focus();
-    //   return;
-    // }
     const urlParams = new URLSearchParams(window.location.search);
     const oobCode = urlParams.get("oobCode");
     let count = 5;
 
-
-    
     firebaseChangePassword(oobCode,password)
     .then(()=>{
 
@@ -94,7 +63,7 @@ export const ModalResetPass = () => {
 
   return (
     <div>
-      <Navbar.Link onClick={handler}>Login</Navbar.Link>
+      <Navbar.Link onClick={handler}>Reset</Navbar.Link>
       <Modal
         closeButton
         blur
@@ -175,7 +144,23 @@ export const ModalResetPass = () => {
             Cerrar
           </Button> */}
         </Modal.Body>
-        <Modal.Footer></Modal.Footer>
+        <Modal.Footer
+          css={{
+            justifyContent: "center",
+          }}
+        >
+          <Text
+            b
+            css={{
+              textAlign: "left",
+            }}
+            // textTransforms="fullWidth"
+            size="$2x"
+          >
+            ¿Ya tiene usuario?   <Link to="/login">  Login</Link>
+          
+          </Text>
+        </Modal.Footer>
       </Modal>
     </div>
   );

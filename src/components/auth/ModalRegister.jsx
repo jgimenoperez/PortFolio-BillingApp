@@ -11,7 +11,7 @@ import {
 import { firebaseAddUser } from "../../firebase/firebase";
 import { Mail } from "../navbar/icons";
 import { useEffect, useState, useRef, useMemo } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { validateEmail, passwordValidator } from "../../utils/utils";
 
@@ -29,6 +29,13 @@ export const ModalRegister = () => {
   useEffect(() => {
     setVisible(!logged);
   }, [logged]);
+
+  useEffect(() => {
+    
+  
+    
+  }, [visible])
+  
 
   const closeHandler = () => {
     setVisible(false);
@@ -79,7 +86,7 @@ export const ModalRegister = () => {
 
   return (
     <div>
-      <Navbar.Link onClick={handler}>Login</Navbar.Link>
+      <Navbar.Link onClick={handler}>Registro</Navbar.Link>
       <Modal
         closeButton
         blur
@@ -157,8 +164,23 @@ export const ModalRegister = () => {
           </Button> */}
 
         </Modal.Body>
-        <Modal.Footer></Modal.Footer>
-      </Modal>
+        <Modal.Footer
+          css={{
+            justifyContent: "center",
+          }}
+        >
+          <Text
+            b
+            css={{
+              textAlign: "left",
+            }}
+            // textTransforms="fullWidth"
+            size="$2x"
+          >
+            ¿Ya tiene usuario?   <Link to="/login">  Login</Link>
+
+          </Text>
+        </Modal.Footer>      </Modal>
     </div>
   );
 };

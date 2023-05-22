@@ -35,8 +35,6 @@ export const ModalLogin = () => {
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
 
-
-
   useEffect(() => {
     setVisible(!logged);
   }, [logged]);
