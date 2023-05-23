@@ -47,32 +47,38 @@ export const ModalLogin = () => {
     setRemenberSession(e);
   };
 
-  const handleGoogleLoginWithGoogle = () => {
-    remenberSession
-      ? firebaseLoginWithGoogle(navigate)
-      : firebaseLoginWithGoogleNoPersistence(navigate);
+  const handleGoogleLoginWithGoogle = async () => {
+
+    if (remenberSession){
+      const user = await firebaseLoginWithGoogle(navigate)
+    }else{
+      const user = await firebaseLoginWithGoogleNoPersistence(navigate);
+    }
   };
 
-  const handleFirebaseLoginWithEmail = () => {
+  const handleFirebaseLoginWithEmail = async () => {
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
     if (!validateEmail(email)) {
       emailRef.current.focus();
       return;
     }
-    remenberSession
-      ? firebaseLoginWithEmail(navigate, email, password, setErrorValidation)
-      : firebaseLoginWithEmailNotPersistence(
-          navigate,
-          email,
-          password,
-          setErrorValidation
-        );
+
+    if (remenberSession) {
+     const user = await firebaseLoginWithEmail(navigate, email, password, setErrorValidation);
+    } else {
+      const user = await firebaseLoginWithEmailNotPersistence(
+        navigate,
+        email,
+        password,
+        setErrorValidation
+      );
+
+    }
   };
 
   const handleResetPass = () => {
     // setErrorValidation(`Enviado correo de restablecimiento a \n${emailRef.current.value}\n Siga las instrucciones`)
-
     firebaseResetPassword(emailRef.current.value)
       .then(() => {
         setErrorValidation(

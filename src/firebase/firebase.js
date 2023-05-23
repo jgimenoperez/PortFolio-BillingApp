@@ -17,10 +17,10 @@ export const firebaseLoginWithEmail = async (navigate, email, password, setError
   try {
     const userCredential = await firebase.auth().signInWithEmailAndPassword(email, password);
     const user = userCredential.user;
-    console.log("Usuario autenticado2:", user);
-    const data = await firebaseFindUser(user.multiFactor.user.email);
-    
-    if (data === undefined) {
+    console.log("Usuario autenticado:", user);
+    let userApp = await firebaseFindUser(user.multiFactor.user.email);
+
+    if (!userApp) {
       const newUser = {
         name: user.multiFactor.user.displayName,
         email: user.multiFactor.user.email,
@@ -29,8 +29,8 @@ export const firebaseLoginWithEmail = async (navigate, email, password, setError
 
       };
       addUserFirestore(newUser)
+      .then(userApp = {...newUser})
     }
-
     navigate("/");
     return user;
   } catch (error) {
@@ -48,22 +48,21 @@ export const firebaseLoginWithEmailNotPersistence = async (navigate, email, pass
     await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.NONE); // Configurar la persistencia de sesión en "NONE"
     const userCredential = await firebase.auth().signInWithEmailAndPassword(email, password);
     const user = userCredential.user;
-    console.log("Usuario autenticado2:", user);
-    const data = await firebaseFindUser(user.multiFactor.user.email);
-    console.log(1111,user.multiFactor.user.email)
-    if (data === undefined) {
+    console.log("Usuario autenticado:", user);
+    let userApp = await firebaseFindUser(user.multiFactor.user.email);
+    console.log('userApp',userApp)
+    if (!userApp ) {
       const newUser = {
         name: user.multiFactor.user.displayName,
         email: user.multiFactor.user.email,
         image: user.multiFactor.user.photoURL,
         data: new Date()
-
       };
       addUserFirestore(newUser)
+      .then(userApp = {...newUser})
     }
-
     navigate("/");
-    return user;
+    return userApp;
   } catch (error) {
     console.error("Error de autenticación:", error);
     setErrorValidation(
@@ -77,9 +76,9 @@ export const firebaseLoginWithGoogle = async (navigate) => {
     const userCredential = await firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider());
     const user = userCredential.user;
     console.log("Usuario autenticado:", user);
-    const data = await firebaseFindUser(user.multiFactor.user.email);
+    let userApp = await firebaseFindUser(user.multiFactor.user.email);
 
-    if (data === undefined) {
+    if (! userApp ) {
       const newUser = {
         name: user.multiFactor.user.displayName,
         email: user.multiFactor.user.email,
@@ -88,6 +87,7 @@ export const firebaseLoginWithGoogle = async (navigate) => {
 
       };
       addUserFirestore(newUser)
+      .then(userApp = {...newUser})
     }
 
     navigate("/");
@@ -97,15 +97,17 @@ export const firebaseLoginWithGoogle = async (navigate) => {
     throw error; // Opcionalmente, puedes lanzar el error para que sea manejado por la función que llama a esta función
   }
 };
+
+
 export const firebaseLoginWithGoogleNoPersistence = async (navigate) => {
   try {
     await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.NONE); // Configurar la persistencia de sesión en "NONE"
     const userCredential = await firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider());
     const user = userCredential.user;
     console.log("Usuario autenticado:", user);
-    const data = await firebaseFindUser(user.multiFactor.user.email);
+    let userApp = await firebaseFindUser(user.multiFactor.user.email);
 
-    if (data === undefined) {
+    if (!userApp) {
       const newUser = {
         name: user.multiFactor.user.displayName,
         email: user.multiFactor.user.email,
@@ -114,6 +116,7 @@ export const firebaseLoginWithGoogleNoPersistence = async (navigate) => {
         contador:100001
       };
       addUserFirestore(newUser)
+      .then(userApp = {...newUser})
     }
 
     navigate("/");
@@ -203,9 +206,10 @@ export const firebaseChangePassword = (code, password) => {
     });
 }
 export const addUserFirestore = (newUser) =>{
-  firebase.firestore().collection("users").add(newUser)
+  return firebase.firestore().collection("users").add(newUser)
   .then((docRef) => {
       console.log('Registro agregado con ID:', docRef.id);
+      return docRef
     }) 
       .catch((error) => {
       console.error('Error al agregar el registro:', error);
@@ -218,14 +222,15 @@ export const firebaseFindUser = (email) => {
     .where("email", "==", email)
     .get()
     .then((querySnapshot) => {
-      // console.log(querySnapshot)
+      let user = null;
       querySnapshot.forEach((doc) => {
         console.log(doc.id, " => ", doc.data());
-        return doc.data()
-      })
+        user = doc.data();
+      });
+      return user;
     })
     .catch((error) => {
-      console.log("Error getting documents: ", error);
-      return null
+      console.log("Error al obtener los documentos: ", error);
+      return null;
     });
-}
+};
