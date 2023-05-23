@@ -1,4 +1,4 @@
-import { Layout } from "../components/navbar/layout";
+import { Layout } from "../components/navbar/Layout";
 
 export const Home = () => {
   return (

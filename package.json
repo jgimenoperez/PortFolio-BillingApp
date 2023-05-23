@@ -12,6 +12,7 @@
   "dependencies": {
     "@nextui-org/react": "^1.0.0-beta.12",
     "@reduxjs/toolkit": "^1.9.5",
+    "bootstrap": "^5.2.3",
     "firebase": "^9.22.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

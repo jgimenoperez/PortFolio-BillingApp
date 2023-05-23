@@ -9,11 +9,11 @@ import {
 } from "@nextui-org/react";
 
 import { firebaseLogout } from "../../firebase/firebase";
-import { GithubIcon } from "../icons/GithubIcon";
+import { GithubIcon } from "../icons";
 import { ModalLogin, ModalRegister, ModalResetPass } from "../auth";
 import { setTheme } from "../../reducers/themeReducer";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link as Enlace } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useTheme } from "@nextui-org/react";
 import { Troll, icons } from "./icons";
@@ -50,7 +50,8 @@ export const Nav = ({ isLogin, isRegister, isResetPass }) => {
             textGradient: "45deg, $green800 -100%, $text 90%",
           }}
         >
-          <Link href="/login" > {"Manos {DEV} troll"}</Link>
+          {/* <Link href="/" > {"Manos {DEV} troll"}</Link> */}
+          <Enlace to="/">{"Manos {DEV} troll"}</Enlace>
         </Text>
 
         <Navbar.Content
@@ -163,27 +164,29 @@ export const Nav = ({ isLogin, isRegister, isResetPass }) => {
 
       <Navbar.Content>
         {logged ? (
-          <Tooltip
-            content={
-              user.providerData[0].providerId === "password"
-                ? user?.email
-                : `${user?.displayName} ${user?.email}`
-            }
-            hideArrow
-            placement="right"
-          >
-            <Avatar
-              css={{ size: "$6" }}
-              squared
-              size="lg"
-              text={
+          <Enlace to="/profile">
+            <Tooltip
+              content={
                 user.providerData[0].providerId === "password"
                   ? user?.email
-                  : user?.displayName
+                  : `${user?.displayName} ${user?.email}`
               }
-              src={user?.photoURL}
-            />
-          </Tooltip>
+              hideArrow
+              placement="right"
+            >
+              <Avatar
+                css={{ size: "$6", cursor: "pointer" }}
+                squared
+                size="lg"
+                text={
+                  user.providerData[0].providerId === "password"
+                    ? user?.email
+                    : user?.displayName
+                }
+                src={user?.photoURL}
+              />
+            </Tooltip>
+          </Enlace>
         ) : null}
 
         {logged ? (

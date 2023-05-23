@@ -17,4 +17,26 @@
     background: currentColor;
     margin: 2%;
 }
-
+.custom-file-upload {
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+    /* //raton */
+    
+  }
+  
+  .custom-file-upload img {
+    width: 100%;
+    height: auto;
+  }
+  
+  .custom-file-upload input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0%;
+    height: 0%;
+    opacity: 1;
+    cursor: pointer;
+  }
+  

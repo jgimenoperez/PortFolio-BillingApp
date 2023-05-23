@@ -31,7 +31,6 @@ export const ModalResetPass = () => {
 
     if (password !== checkPassword) {
       setPassError({ color: "error", text: "No coincide la contraseña" });
-      passwordRef.current.focus();
       return;
     } else {
       setPassError({ color: "", text: "" });
@@ -42,7 +41,6 @@ export const ModalResetPass = () => {
         color: "error",
         text: "La contraseña debe tener al menos 7 caracteres mayusculas, minusculas,números y caracteres especiales.",
       });
-      passwordRef.current.focus();
       return;
     }
 
@@ -70,6 +68,13 @@ export const ModalResetPass = () => {
 
     })
   };
+
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      handlFirebaseChangePassword();
+    }
+  };
+
 
   return (
     <div>
@@ -119,6 +124,8 @@ export const ModalResetPass = () => {
             onBlur={() => {
               setPassError({ color: "", text: "" });
             }}
+            onKeyDown={handleKeyPress}
+
           />
           {message ? (
             <Text

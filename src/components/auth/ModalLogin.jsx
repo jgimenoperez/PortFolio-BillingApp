@@ -14,9 +14,9 @@ import {
   firebaseLoginWithEmailNotPersistence,
   firebaseLoginWithGoogleNoPersistence,
   firebaseLoginWithEmail,
-  firebaseResetPassword
+  firebaseResetPassword,
 } from "../../firebase/firebase";
-import { GooleIcon } from "../icons/GithubIcon";
+import { GooleIcon } from "../icons";
 import { Link } from "react-router-dom";
 import { Mail } from "../navbar/icons";
 import { useEffect, useState, useRef, useMemo } from "react";
@@ -61,22 +61,29 @@ export const ModalLogin = () => {
       return;
     }
     remenberSession
-      ? firebaseLoginWithEmail(navigate, email, password,setErrorValidation)
-      : firebaseLoginWithEmailNotPersistence(navigate, email, password,setErrorValidation)
-        
+      ? firebaseLoginWithEmail(navigate, email, password, setErrorValidation)
+      : firebaseLoginWithEmailNotPersistence(
+          navigate,
+          email,
+          password,
+          setErrorValidation
+        );
   };
 
-  const handleResetPass = ()=>{
+  const handleResetPass = () => {
     // setErrorValidation(`Enviado correo de restablecimiento a \n${emailRef.current.value}\n Siga las instrucciones`)
 
     firebaseResetPassword(emailRef.current.value)
-    .then(()=>{
-      setErrorValidation(`Enviado correo de restablecimiento a \n${emailRef.current.value}\n Siga las instrucciones`)
-    })
-  }
+      .then(() => {
+        setErrorValidation(
+          `Enviado correo de restablecimiento a \n${emailRef.current.value}\n Siga las instrucciones`
+        );
+      })
+      .catch(setErrorValidation(`Correo no registrado previamente`));
+  };
 
   const helper = useMemo(() => {
-    setErrorValidation(null)
+    setErrorValidation(null);
     if (!value)
       return {
         text: "",
@@ -88,6 +95,12 @@ export const ModalLogin = () => {
       color: isValid ? "success" : "error",
     };
   }, [value]);
+
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      handleFirebaseLoginWithEmail();
+    }
+  };
 
   return (
     <div>
@@ -130,7 +143,10 @@ export const ModalLogin = () => {
             size="lg"
             placeholder="Contraseña"
             ref={passwordRef}
-            onChange={()=>{setErrorValidation(null)}}
+            onChange={() => {
+              setErrorValidation(null);
+            }}
+            onKeyDown={handleKeyPress}
             // visibleIcon={<Troll fill="currentColor" />}
             //   contentLeft={<Password fill="currentColor" />}
           />
@@ -148,7 +164,7 @@ export const ModalLogin = () => {
             <Text
               css={{
                 textAlign: "center",
-                whiteSpace:"pre-line"
+                whiteSpace: "pre-line",
               }}
               // textTransforms="fullWidth"
               size="$1x"
@@ -199,13 +215,17 @@ export const ModalLogin = () => {
             >
               <Text size={14}>Recordar sesión</Text>
             </Checkbox>
-            <Text 
+            <Text
               size={14}
               css={{
-                cursor:'pointer'
+                cursor: "pointer",
               }}
-              onClick={()=>{handleResetPass()}}
-            >¿Olvidó la contraseña?</Text>
+              onClick={() => {
+                handleResetPass();
+              }}
+            >
+              ¿Olvidó la contraseña?
+            </Text>
           </Row>
         </Modal.Body>
         <Modal.Footer

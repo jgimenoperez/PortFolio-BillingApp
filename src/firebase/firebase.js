@@ -19,7 +19,6 @@ export const firebaseLoginWithEmail = (
   password,
   setErrorValidation
 ) => {
-  console.log(111);
   return firebase
     .auth()
     .signInWithEmailAndPassword(email, password)

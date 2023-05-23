@@ -11,7 +11,7 @@ import {
 import { firebaseAddUser } from "../../firebase/firebase";
 import { Mail } from "../navbar/icons";
 import { useEffect, useState, useRef, useMemo } from "react";
-import { useNavigate,Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { validateEmail, passwordValidator } from "../../utils/utils";
 
@@ -30,12 +30,7 @@ export const ModalRegister = () => {
     setVisible(!logged);
   }, [logged]);
 
-  useEffect(() => {
-    
-  
-    
-  }, [visible])
-  
+  useEffect(() => {}, [visible]);
 
   const closeHandler = () => {
     setVisible(false);
@@ -68,7 +63,7 @@ export const ModalRegister = () => {
       return;
     }
 
-    firebaseAddUser(navigate,email,password)
+    firebaseAddUser(navigate, email, password);
   };
 
   const helper = useMemo(() => {
@@ -83,6 +78,12 @@ export const ModalRegister = () => {
       color: isValid ? "success" : "error",
     };
   }, [email.value]);
+
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      handlFirebaseLoginWithEmail();
+    }
+  };
 
   return (
     <div>
@@ -127,8 +128,9 @@ export const ModalRegister = () => {
             ref={passwordRef}
             status={passError.color}
             helperColor={passError.color}
-            onBlur={()=>{setPassError({ color: "", text: "" })}}
-
+            onBlur={() => {
+              setPassError({ color: "", text: "" });
+            }}
           />
           <Input.Password
             clearable
@@ -141,7 +143,10 @@ export const ModalRegister = () => {
             status={passError.text}
             helperColor={passError.color}
             helperText={passError.text}
-            onBlur={()=>{setPassError({ color: "", text: "" })}}
+            onBlur={() => {
+              setPassError({ color: "", text: "" });
+            }}
+            onKeyDown={handleKeyPress}
           />
           <Spacer y={1} />{" "}
           <Button
@@ -162,7 +167,6 @@ export const ModalRegister = () => {
           >
             Cerrar
           </Button> */}
-
         </Modal.Body>
         <Modal.Footer
           css={{
@@ -177,10 +181,10 @@ export const ModalRegister = () => {
             // textTransforms="fullWidth"
             size="$2x"
           >
-            ¿Ya tiene usuario?   <Link to="/login">  Login</Link>
-
+            ¿Ya tiene usuario? <Link to="/login"> Login</Link>
           </Text>
-        </Modal.Footer>      </Modal>
+        </Modal.Footer>{" "}
+      </Modal>
     </div>
   );
 };
