@@ -53,7 +53,6 @@ export const ModalResetPass = () => {
     .then(()=>{
 
       const timer = setInterval(() => {
-        console.log(count);
         count -= 1;
         setMessage(
           `Se ha restablecido la contraseña\n Será redirigio a la pantalla de login en ${count} segundos`

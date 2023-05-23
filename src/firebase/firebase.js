@@ -13,108 +13,115 @@ const firebaseConfig = {
 
 export const firebasebd = firebase.initializeApp(firebaseConfig);
 
-export const firebaseLoginWithEmail = (
-  navigate,
-  email,
-  password,
-  setErrorValidation
-) => {
-  return firebase
-    .auth()
-    .signInWithEmailAndPassword(email, password)
-    .then((userCredential) => {
-      const user = userCredential.user;
-      console.log("Usuario autenticado:", user);
-      navigate("/");
-      return user;
-    })
-    .catch((error) => {
-      console.error("Error de autenticación:", error);
-      setErrorValidation(
-        "El correo electrónico/contraseña que ingresaste es incorrecto.\n Verifica tus credenciales o intenta utilizar un método diferente para iniciar sesión."
-      );
-      // throw error;
-    });
+export const firebaseLoginWithEmail = async (navigate, email, password, setErrorValidation) => {
+  try {
+    const userCredential = await firebase.auth().signInWithEmailAndPassword(email, password);
+    const user = userCredential.user;
+    console.log("Usuario autenticado2:", user);
+    const data = await firebaseFindUser(user.multiFactor.user.email);
+    
+    if (data === undefined) {
+      const newUser = {
+        name: user.multiFactor.user.displayName,
+        email: user.multiFactor.user.email,
+        image: user.multiFactor.user.photoURL,
+        data: new Date()
+
+      };
+      addUserFirestore(newUser)
+    }
+
+    navigate("/");
+    return user;
+  } catch (error) {
+    console.error("Error de autenticación:", error);
+    setErrorValidation(
+      "El correo electrónico/contraseña que ingresaste es incorrecto.\n Verifica tus credenciales o intenta utilizar un método diferente para iniciar sesión."
+    );
+    // throw error;
+  }
 };
 
-export const firebaseLoginWithEmailNotPersistence = (
-  navigate,
-  email,
-  password,
-  setErrorValidation
-) => {
-  console.log(email, password);
-  return firebase
-    .auth()
-    .setPersistence(firebase.auth.Auth.Persistence.NONE) // Configurar la persistencia de sesión en "NONE"
-    .then(() => {
-      return firebase
-        .auth()
-        .signInWithEmailAndPassword(email, password)
-        .then((userCredential) => {
-          const user = userCredential.user;
-          console.log("Usuario autenticado:", user);
-          navigate("/");
-          return user;
-        })
-        .catch((error) => {
-          console.error("Error de autenticación:", error);
-          setErrorValidation(
-            "El correo electrónico/contraseña que ingresaste es incorrecto.\n Verifica tus credenciales o intenta utilizar un método diferente para iniciar sesión."
-          );
-        });
-    })
-    .catch((error) => {
-      console.error("Error al configurar la persistencia de sesión:", error);
-      setErrorValidation(
-        "El correo electrónico/contraseña que ingresaste es incorrecto.\n Verifica tus credenciales o intenta utilizar un método diferente para iniciar sesión."
-      );
-      // throw error;
-    });
+
+export const firebaseLoginWithEmailNotPersistence = async (navigate, email, password, setErrorValidation) => {
+  try {
+    await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.NONE); // Configurar la persistencia de sesión en "NONE"
+    const userCredential = await firebase.auth().signInWithEmailAndPassword(email, password);
+    const user = userCredential.user;
+    console.log("Usuario autenticado2:", user);
+    const data = await firebaseFindUser(user.multiFactor.user.email);
+    console.log(1111,user.multiFactor.user.email)
+    if (data === undefined) {
+      const newUser = {
+        name: user.multiFactor.user.displayName,
+        email: user.multiFactor.user.email,
+        image: user.multiFactor.user.photoURL,
+        data: new Date()
+
+      };
+      addUserFirestore(newUser)
+    }
+
+    navigate("/");
+    return user;
+  } catch (error) {
+    console.error("Error de autenticación:", error);
+    setErrorValidation(
+      "El correo electrónico/contraseña que ingresaste es incorrecto.\n Verifica tus credenciales o intenta utilizar un método diferente para iniciar sesión."
+    );
+  }
 };
 
-export const firebaseLoginWithGoogle = (navigate) => {
-  return firebase
-    .auth()
-    .signInWithPopup(new firebase.auth.GoogleAuthProvider())
-    .then((userCredential) => {
-      // El inicio de sesión fue exitoso
-      const user = userCredential.user;
-      console.log("Usuario autenticado111:", user);
-      navigate("/");
-      return user;
-    })
-    .catch((error) => {
-      // Ocurrió un error durante el inicio de sesión
-      console.error("Error de autenticación:", error);
-      throw error; // Opcionalmente, puedes lanzar el error para que sea manejado por la función que llama a esta función
-    });
-};
+export const firebaseLoginWithGoogle = async (navigate) => {
+  try {
+    const userCredential = await firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider());
+    const user = userCredential.user;
+    console.log("Usuario autenticado:", user);
+    const data = await firebaseFindUser(user.multiFactor.user.email);
 
-export const firebaseLoginWithGoogleNoPersistence = (navigate) => {
-  return firebase
-    .auth()
-    .setPersistence(firebase.auth.Auth.Persistence.NONE) // Configurar la persistencia de sesión en "NONE"
-    .then(() => {
-      return firebase
-        .auth()
-        .signInWithPopup(new firebase.auth.GoogleAuthProvider())
-        .then((userCredential) => {
-          // El inicio de sesión fue exitoso
-          const user = userCredential.user;
-          console.log("Usuario autenticado:", user);
-          navigate("/");
-          return user;
-        })
-        .catch((error) => {
-          // Ocurrió un error durante el inicio de sesión
-          console.error("Error de autenticación:", error);
-          throw error; // Opcionalmente, puedes lanzar el error para que sea manejado por la función que llama a esta función
-        });
-    })
-    .catch((error) => {
-      console.error("Error al configurar la persistencia de sesión:", error);
-    });
+    if (data === undefined) {
+      const newUser = {
+        name: user.multiFactor.user.displayName,
+        email: user.multiFactor.user.email,
+        image: user.multiFactor.user.photoURL,
+        data: new Date()
+
+      };
+      addUserFirestore(newUser)
+    }
+
+    navigate("/");
+    return user;
+  } catch (error) {
+    console.error("Error de autenticación:", error);
+    throw error; // Opcionalmente, puedes lanzar el error para que sea manejado por la función que llama a esta función
+  }
+};
+export const firebaseLoginWithGoogleNoPersistence = async (navigate) => {
+  try {
+    await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.NONE); // Configurar la persistencia de sesión en "NONE"
+    const userCredential = await firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider());
+    const user = userCredential.user;
+    console.log("Usuario autenticado:", user);
+    const data = await firebaseFindUser(user.multiFactor.user.email);
+
+    if (data === undefined) {
+      const newUser = {
+        name: user.multiFactor.user.displayName,
+        email: user.multiFactor.user.email,
+        image: user.multiFactor.user.photoURL,
+        data: new Date(),
+        contador:100001
+      };
+      addUserFirestore(newUser)
+    }
+
+    navigate("/");
+    return user;
+  } catch (error) {
+    console.error("Error de autenticación:", error);
+    throw error;
+  }
 };
 
 export const firebaseLogout = (navigate) => {
@@ -131,7 +138,6 @@ export const firebaseLogout = (navigate) => {
     });
 };
 
-//add user
 export const firebaseAddUser = (navigate, email, password) => {
   return firebase
     .auth()
@@ -157,7 +163,6 @@ export const firebaseAddUser = (navigate, email, password) => {
     });
 };
 
-//restablecimiento contraseña
 export const firebaseResetPassword = (email) => {
   return firebase
     .auth()
@@ -171,7 +176,6 @@ export const firebaseResetPassword = (email) => {
     });
 };
 
-//verificar contraseña
 export const firebaseVerifyPassword = (code) => {
   return firebase
     .auth()
@@ -185,8 +189,6 @@ export const firebaseVerifyPassword = (code) => {
       throw error; // Opcionalmente, puedes lanzar el error para que sea manejado por la función que llama a esta función
     });
 }
-
-//cambiar contraseña
 export const firebaseChangePassword = (code, password) => {
   console.log(code,password)
   return firebase
@@ -198,5 +200,32 @@ export const firebaseChangePassword = (code, password) => {
     .catch((error) => {
       console.error("Error al restablecer la contraseña:", error);
       throw error; // Opcionalmente, puedes lanzar el error para que sea manejado por la función que llama a esta función
+    });
+}
+export const addUserFirestore = (newUser) =>{
+  firebase.firestore().collection("users").add(newUser)
+  .then((docRef) => {
+      console.log('Registro agregado con ID:', docRef.id);
+    }) 
+      .catch((error) => {
+      console.error('Error al agregar el registro:', error);
+    });
+}
+export const firebaseFindUser = (email) => {
+  return firebase
+    .firestore()
+    .collection("users")
+    .where("email", "==", email)
+    .get()
+    .then((querySnapshot) => {
+      // console.log(querySnapshot)
+      querySnapshot.forEach((doc) => {
+        console.log(doc.id, " => ", doc.data());
+        return doc.data()
+      })
+    })
+    .catch((error) => {
+      console.log("Error getting documents: ", error);
+      return null
     });
 }

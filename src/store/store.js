@@ -13,6 +13,6 @@ export default configureStore({
       auth: authReducer,
     },
     middleware: (getDefaultMiddleware) =>
-      getDefaultMiddleware().concat(logger, customMiddleware, thunkMiddleware),
+      getDefaultMiddleware().concat( customMiddleware, thunkMiddleware),
   
   });
