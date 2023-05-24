@@ -21,13 +21,12 @@
     display: inline-block;
     position: relative;
     cursor: pointer;
-    /* //raton */
-    
   }
   
   .custom-file-upload img {
     width: 100%;
     height: auto;
+    border-radius:100px
   }
   
   .custom-file-upload input {

@@ -21,10 +21,12 @@ import { Link } from "react-router-dom";
 import { Mail } from "../navbar/icons";
 import { useEffect, useState, useRef, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector,useDispatch } from "react-redux";
 import { validateEmail } from "../../utils/utils";
+import { setUser } from "../../reducers/authReducer";
 
 export const ModalLogin = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const { value, reset, bindings } = useInput("");
   const { logged } = useSelector((state) => state.auth);
@@ -48,12 +50,13 @@ export const ModalLogin = () => {
   };
 
   const handleGoogleLoginWithGoogle = async () => {
-
+  let user=''
     if (remenberSession){
-      const user = await firebaseLoginWithGoogle(navigate)
+       user = await firebaseLoginWithGoogle(navigate)
     }else{
-      const user = await firebaseLoginWithGoogleNoPersistence(navigate);
+       user = await firebaseLoginWithGoogleNoPersistence(navigate);
     }
+    dispatch(setUser(user))
   };
 
   const handleFirebaseLoginWithEmail = async () => {
@@ -63,18 +66,19 @@ export const ModalLogin = () => {
       emailRef.current.focus();
       return;
     }
-
+    let user=''
     if (remenberSession) {
-     const user = await firebaseLoginWithEmail(navigate, email, password, setErrorValidation);
+      user = await firebaseLoginWithEmail(navigate, email, password, setErrorValidation);
     } else {
-      const user = await firebaseLoginWithEmailNotPersistence(
+       user = await firebaseLoginWithEmailNotPersistence(
         navigate,
         email,
         password,
         setErrorValidation
       );
-
     }
+    console.log(111,user)
+    dispatch(setUser(user))
   };
 
   const handleResetPass = () => {

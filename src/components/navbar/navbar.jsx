@@ -167,24 +167,25 @@ export const Nav = ({ isLogin, isRegister, isResetPass }) => {
           <Enlace to="/profile">
             <Tooltip
               content={
-                user.providerData[0].providerId === "password"
+                user?.typeProvider === "email"
                   ? user?.email
-                  : `${user?.displayName} ${user?.email}`
+                  : `${user?.name} ${user?.email}`
               }
               hideArrow
-              placement="right"
+              placement="bottomStart"
             >
               <Avatar
                 css={{ size: "$6", cursor: "pointer" }}
                 squared
                 size="lg"
                 text={
-                  user.providerData[0].providerId === "password"
+                  user?.typeProvider === "email"
                     ? user?.email
-                    : user?.displayName
+                    : user?.name
                 }
-                src={user?.photoURL}
+                src={user?.image}
               />
+              
             </Tooltip>
           </Enlace>
         ) : null}
@@ -202,7 +203,6 @@ export const Nav = ({ isLogin, isRegister, isResetPass }) => {
         //   Start free trial
         // </Button>
         null}
-
         {!logged && isLogin ? <ModalLogin /> : null}
         {!logged && isRegister ? <ModalRegister /> : null}
         {!logged && isResetPass ? <ModalResetPass /> : null}

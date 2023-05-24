@@ -25,14 +25,15 @@ export const firebaseLoginWithEmail = async (navigate, email, password, setError
         name: user.multiFactor.user.displayName,
         email: user.multiFactor.user.email,
         image: user.multiFactor.user.photoURL,
-        data: new Date()
-
+        data: new Date(),
+        typeProvider:"email",
+        counter:100001  
       };
       addUserFirestore(newUser)
       .then(userApp = {...newUser})
     }
     navigate("/");
-    return user;
+    return userApp;
   } catch (error) {
     console.error("Error de autenticación:", error);
     setErrorValidation(
@@ -56,7 +57,9 @@ export const firebaseLoginWithEmailNotPersistence = async (navigate, email, pass
         name: user.multiFactor.user.displayName,
         email: user.multiFactor.user.email,
         image: user.multiFactor.user.photoURL,
-        data: new Date()
+        data: new Date(),
+        typeProvider:"email",
+        counter:100001        
       };
       addUserFirestore(newUser)
       .then(userApp = {...newUser})
@@ -83,7 +86,9 @@ export const firebaseLoginWithGoogle = async (navigate) => {
         name: user.multiFactor.user.displayName,
         email: user.multiFactor.user.email,
         image: user.multiFactor.user.photoURL,
-        data: new Date()
+        data: new Date(),
+        typeProvider:"google",
+        counter:100001
 
       };
       addUserFirestore(newUser)
@@ -91,13 +96,12 @@ export const firebaseLoginWithGoogle = async (navigate) => {
     }
 
     navigate("/");
-    return user;
+    return userApp;
   } catch (error) {
     console.error("Error de autenticación:", error);
     throw error; // Opcionalmente, puedes lanzar el error para que sea manejado por la función que llama a esta función
   }
 };
-
 
 export const firebaseLoginWithGoogleNoPersistence = async (navigate) => {
   try {
@@ -113,14 +117,15 @@ export const firebaseLoginWithGoogleNoPersistence = async (navigate) => {
         email: user.multiFactor.user.email,
         image: user.multiFactor.user.photoURL,
         data: new Date(),
-        contador:100001
+        typeProvider:"google",
+        counter:100001
       };
       addUserFirestore(newUser)
       .then(userApp = {...newUser})
     }
 
     navigate("/");
-    return user;
+    return userApp;
   } catch (error) {
     console.error("Error de autenticación:", error);
     throw error;
@@ -227,6 +232,7 @@ export const firebaseFindUser = (email) => {
         console.log(doc.id, " => ", doc.data());
         user = doc.data();
       });
+      console.log(1111)
       return user;
     })
     .catch((error) => {

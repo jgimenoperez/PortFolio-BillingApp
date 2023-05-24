@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
 import { useDispatch, useSelector } from "react-redux";
 import { darkTheme, ligthTheme } from "./themes/darktheme";
-import { firebasebd } from "./firebase/firebase";
+import { firebaseFindUser, firebasebd } from "./firebase/firebase";
 import { Loading } from "@nextui-org/react";
 import { Nav } from "./components/navbar/Navbar";
 
@@ -19,17 +19,43 @@ function App() {
   const { theme } = useSelector((state) => state.theme);
   const [isLoading, setIsLoading] = useState(true);
 
+  // useEffect(() => {
+  //   firebasebd.auth().onAuthStateChanged(async (user) => {
+  //     if (user) {
+  //       dispatch(setAuth(true));
+  //       console.log(user)
+  //       let user = await firebaseFindUser(user.multiFactor.user.email);
+
+  //       // dispatch(setUser(user.multiFactor.user));
+  //     } else {
+  //       dispatch(setAuth(false));
+  //       dispatch(setUser(null));
+  //     }
+  //     setIsLoading(false);
+  //   });
+  // }, [dispatch]);
+
   useEffect(() => {
-    firebasebd.auth().onAuthStateChanged(async (user) => {
-      if (user) {
-        dispatch(setAuth(true));
-        dispatch(setUser(user.multiFactor.user));
-      } else {
-        dispatch(setAuth(false));
-        dispatch(setUser(null));
+    const checkAuthState = async () => {
+      try {
+        firebasebd.auth().onAuthStateChanged(async (user) => {
+          if (user) {
+            dispatch(setAuth(true));
+            let userFirebase = await firebaseFindUser(user.multiFactor.user.email);
+            console.log(userFirebase)
+            dispatch(setUser(userFirebase));
+          } else {
+            dispatch(setAuth(false));
+            dispatch(setUser(null));
+          }
+          setIsLoading(false);
+        });
+      } catch (error) {
+        console.log(error);
       }
-      setIsLoading(false);
-    });
+    };
+  
+    checkAuthState();
   }, [dispatch]);
 
   if (isLoading)

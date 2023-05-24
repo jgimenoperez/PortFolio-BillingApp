@@ -10,11 +10,24 @@ import {
 } from "@nextui-org/react";
 import { Flex } from "../components/styles/flex";
 import { Box } from "../components/styles/box";
+import { useSelector,useDispatch } from "react-redux";
+import { useInput } from "../hooks/useImputjs";
 
 export const Profile = () => {
+
+  const { user } = useSelector((state) => state.auth);
+  const inputNombre = useInput("")
+  const inputApellido = useInput("")
+  const inputEmail = useInput("")
+  const inputClaveActual = useInput("")
+  const inputNuevaClave = useInput("")
+  const inputConfirmeNuevaClave = useInput("")
+  const inputAvatar = useInput("")
+
+
+
   return (
     <Layout>
-      );
       <>
         <Box
           css={{
@@ -43,11 +56,11 @@ export const Profile = () => {
                 textAlign: "center",
               }}
             >
-              Edita tu nombre, añade tu avatar y modifca el acceso
+              Edita tu nombre, añade tu avatar y modifica el acceso
             </Text>
             <Container xs gap={0}>
               <form action="">
-                <Grid.Container gap={2} justify="center">
+                <Grid.Container gap={5} justify="center">
                   <Grid
                     xs={6}
                     sm={6}
@@ -60,6 +73,7 @@ export const Profile = () => {
                       placeholder="Nombre"
                       color="primary"
                       css={{ marginBottom: "15px" }}
+                      {...inputNombre}
                     />
                     <Input
                       rounded
@@ -68,6 +82,7 @@ export const Profile = () => {
                       placeholder="Apellido"
                       color="primary"
                       css={{ marginBottom: "15px" }}
+                      {...inputApellido}             
                     />
                     <Input
                       rounded
@@ -76,17 +91,16 @@ export const Profile = () => {
                       placeholder="Email"
                       color="primary"
                       css={{ marginBottom: "15px" }}
+                      {...inputEmail}
                     />
-                    <label htmlFor="formFile" className="form-label">
-                      Default file input example
-                    </label>
+
                     <Text color="primary">
                      Avatar
                     </Text>
 
                     <label htmlFor="fileInput" className="custom-file-upload">
-                      <img src="ruta-de-la-imagen.jpg" alt="Imagen" />
-                      <input id="fileInput" type="file" />
+                      <img src={user.image} alt="Imagen" style={{width: '80px', height:'80px', marginTop:"3px"}}/>
+                      <input id="fileInput" type="file" {...inputAvatar}/>
                     </label>
                   </Grid>
 
@@ -102,6 +116,7 @@ export const Profile = () => {
                       placeholder="Clave actual"
                       color="primary"
                       css={{ marginBottom: "15px" }}
+                      {...inputClaveActual}                      
                     />
                     <Input
                       rounded
@@ -110,6 +125,7 @@ export const Profile = () => {
                       placeholder="Nueva clave"
                       color="primary"
                       css={{ marginBottom: "15px" }}
+                      {...inputNuevaClave}
                     />
                     <Input
                       rounded
@@ -118,6 +134,7 @@ export const Profile = () => {
                       placeholder="Confirme nueva clave"
                       color="primary"
                       css={{ marginBottom: "15px" }}
+                      {...inputConfirmeNuevaClave}
                     />
                     <Button
                       auto

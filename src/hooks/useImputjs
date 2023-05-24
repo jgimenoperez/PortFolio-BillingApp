@@ -2,7 +2,7 @@ import { useState } from "react";
 
 
 
-export const useForm = (initialValue) => {
+export const useInput = (initialValue) => {
     const [value, setValue] = useState(initialValue);
 
     const handleChange = (event) => {
