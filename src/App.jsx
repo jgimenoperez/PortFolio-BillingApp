@@ -3,10 +3,7 @@ import "./App.css";
 import { useDispatch, useSelector } from "react-redux";
 import { darkTheme, ligthTheme } from "./themes/darktheme";
 import { firebaseFindUser, firebasebd } from "./firebase/firebase";
-import { Loading } from "@nextui-org/react";
-import { Nav } from "./components/navbar/Navbar";
-
-import { NextUIProvider } from "@nextui-org/react";
+import { NextUIProvider,Loading } from "@nextui-org/react";
 import { setAuth, setUser } from "./reducers/authReducer";
 import { useEffect, useState } from "react";
 import { LoginRoute, PrivateRoute } from "./routes";

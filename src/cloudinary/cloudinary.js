@@ -18,7 +18,7 @@ export const uploadAvatar = async (file, imageFolder, imageName) => {
         .then((response) => response.json())
         .then((data) => {
           const imageUrl = data.secure_url;
-          console.log("Imagen cargada:", imageUrl);
+          // console.log("Imagen cargada:", imageUrl);
           return imageUrl;
         })
         .catch((error) => {

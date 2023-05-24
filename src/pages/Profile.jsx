@@ -7,40 +7,32 @@ import {
   Container,
   Input,
   Button,
+  Loading,
 } from "@nextui-org/react";
-import { Flex } from "../components/styles/flex";
+import { useState } from "react";
 import { Box } from "../components/styles/box";
-import { useSelector,useDispatch } from "react-redux";
-import { useInput } from "../hooks/useImputjs";
+import { Flex } from "../components/styles/flex";
 import { uploadAvatar } from "../cloudinary/cloudinary";
-
+import { useInput } from "../hooks/useImputjs";
+import { useSelector, useDispatch } from "react-redux";
 
 export const Profile = () => {
-
+  const [isLoading, setIsLoading] = useState(false);
   const { user } = useSelector((state) => state.auth);
-  const inputNombre = useInput("")
-  const inputApellido = useInput("")
-  const inputEmail = useInput("")
-  const inputClaveActual = useInput("")
-  const inputNuevaClave = useInput("")
-  const inputConfirmeNuevaClave = useInput("")
-  const inputAvatar = useInput("")
+  const inputNombre = useInput("");
+  const inputApellido = useInput("");
+  const inputEmail = useInput("");
+  const inputClaveActual = useInput("");
+  const inputNuevaClave = useInput("");
+  const inputConfirmeNuevaClave = useInput("");
+  const inputAvatar = useInput("");
 
-  const handleImageUpload = (event) => {
+  const handleImageUpload = async (event) => {
+    setIsLoading(true);
     const file = event.target.files[0];
-    uploadAvatar(file,user.docId,'avatar')
-
-    // // Subir la imagen a Cloudinary
-    // cloudinaryCore.upload_resource(file, {}, (error, result) => {
-    //   if (result) {
-    //     const imageUrl = result.url; // Obtener la URL de la imagen subida
-    //     setUploadedImage(imageUrl); // Actualizar el estado con la URL de la imagen
-    //   } else {
-    //     console.error(error);
-    //   }
-    // });
+    await uploadAvatar(file, user.docId, "avatar");
+    setIsLoading(false);
   };
-
 
   return (
     <Layout>
@@ -63,7 +55,7 @@ export const Profile = () => {
             {/* <Text span css={{ color: "$blue600" }}>
               Mi perfil
             </Text> */}
-            <Text h3>{`Bienvenido ${ (user.name ? user.name : user.email)}`}</Text>
+            <Text h3>{`Bienvenido ${user.name ? user.name : user.email}`}</Text>
             <Text
               span
               css={{
@@ -74,12 +66,16 @@ export const Profile = () => {
             >
               Edita tu nombre, añade tu avatar y modifica el acceso
             </Text>
-            <Container xs gap={0} css={{
-              borderRadius:"10px",
-              padding:"20px",
-              marginTop:"20px",
-              boxShadow: "2px 2px 10px rgba(0, 0, 0, 0.4)"
-            }}>
+            <Container
+              xs
+              gap={0}
+              css={{
+                borderRadius: "10px",
+                padding: "20px",
+                marginTop: "20px",
+                boxShadow: "2px 2px 10px rgba(0, 0, 0, 0.4)",
+              }}
+            >
               <form action="">
                 <Grid.Container gap={5} justify="center">
                   <Grid
@@ -103,7 +99,7 @@ export const Profile = () => {
                       placeholder="Apellido"
                       color="primary"
                       css={{ marginBottom: "15px" }}
-                      {...inputApellido}             
+                      {...inputApellido}
                     />
                     <Input
                       rounded
@@ -115,15 +111,30 @@ export const Profile = () => {
                       {...inputEmail}
                     />
 
-                    <Text color="primary">
-                     Avatar
-                    </Text>
+                    <Text color="primary">Avatar</Text>
 
-                    <label htmlFor="fileInput" className="custom-file-upload">
-                      <img src={user.image} alt="Imagen" style={{width: '80px', height:'80px', marginTop:"3px"}}/>
-                      <input id="fileInput" type="file" {...inputAvatar} onChange={handleImageUpload}/>
-                    </label>
-
+                    {isLoading ? (
+                      <Loading color="primary" />
+                    ) : (
+                      <label htmlFor="fileInput" className="custom-file-upload">
+                        <img
+                          src={user.image}
+                          alt="Imagen"
+                          style={{
+                            width: "80px",
+                            height: "80px",
+                            marginTop: "3px",
+                          }}
+                        />
+                        <input
+                          id="fileInput"
+                          type="file"
+                          accept=".jpg, .jpeg, .png"
+                          {...inputAvatar}
+                          onChange={handleImageUpload}
+                        />
+                      </label>
+                    )}
                   </Grid>
 
                   <Grid
@@ -138,7 +149,7 @@ export const Profile = () => {
                       placeholder="Clave actual"
                       color="primary"
                       css={{ marginBottom: "15px" }}
-                      {...inputClaveActual}                      
+                      {...inputClaveActual}
                     />
                     <Input
                       rounded
