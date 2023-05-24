@@ -178,31 +178,13 @@ export const Nav = ({ isLogin, isRegister, isResetPass }) => {
                 css={{ size: "$6", cursor: "pointer" }}
                 squared
                 size="lg"
-                text={
-                  user?.typeProvider === "email"
-                    ? user?.email
-                    : user?.name
-                }
+                text={user?.typeProvider === "email" ? user?.email : user?.name}
                 src={user?.image}
               />
-              
             </Tooltip>
           </Enlace>
         ) : null}
 
-        {logged ? (
-          <Navbar.Link
-            color="inherit"
-            onClick={() => {
-              firebaseLogout(navigate);
-            }}
-          >
-            Logout
-          </Navbar.Link>
-        ) : // <Button auto flat onClick={()=>{alert(1)}}>
-        //   Start free trial
-        // </Button>
-        null}
         {!logged && isLogin ? <ModalLogin /> : null}
         {!logged && isRegister ? <ModalRegister /> : null}
         {!logged && isResetPass ? <ModalResetPass /> : null}
@@ -233,6 +215,21 @@ export const Nav = ({ isLogin, isRegister, isResetPass }) => {
             }
           />
         </Navbar.Item>
+
+        {logged ? (
+          <Navbar.Link
+            color="inherit"
+            onClick={() => {
+              firebaseLogout(navigate);
+            }}
+          >
+            Logout
+          </Navbar.Link>
+        ) : 
+        // <Button auto flat onClick={()=>{alert(1)}}>
+        //   Start free trial
+        // </Button>
+        null}
       </Navbar.Content>
     </Navbar>
   );

@@ -230,7 +230,7 @@ export const firebaseFindUser = (email) => {
       let user = null;
       querySnapshot.forEach((doc) => {
         console.log(doc.id, " => ", doc.data());
-        user = doc.data();
+        user = {"docId":doc.id, ...doc.data()};
       });
       console.log(1111)
       return user;
