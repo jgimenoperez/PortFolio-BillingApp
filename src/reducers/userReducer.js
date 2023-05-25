@@ -12,6 +12,10 @@ export const UserSlice = createSlice({
     setAuth: (state, action) => {
       state.logged = action.payload;
     },
+    setErrorLogin: (state, action) => {
+      state.logged = false;
+      state.errorLogin=action.payload
+    },
     getUser: (state, action) => {
       state.user = action.payload;
     },
@@ -26,5 +30,5 @@ export const UserSlice = createSlice({
   },
 });
 
-export const { setAuth, getUser,setImageAvatar } = UserSlice.actions;
+export const { setAuth, getUser,setImageAvatar,setErrorLogin } = UserSlice.actions;
 export default UserSlice.reducer;

@@ -13,18 +13,22 @@ import { GithubIcon } from "../icons";
 import { ModalLogin, ModalRegister, ModalResetPass } from "../auth";
 import { setTheme } from "../../reducers/themeReducer";
 import { useDispatch } from "react-redux";
-import { useNavigate, Link as Enlace } from "react-router-dom";
+import {  Link as Enlace } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useTheme } from "@nextui-org/react";
 import { Troll, icons } from "./icons";
+import { setAuth } from "../../reducers/userReducer";
 
 export const Nav = ({ isLogin, isRegister, isResetPass }) => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { isDark, theme } = useTheme();
   const { logged, user } = useSelector((state) => state.user);
 
   const collapseItems = ["Clientes", "Artículos", "Facturas"];
+  const logoutClick = () =>{
+    firebaseLogout();
+    dispatch(setAuth(false))
+  }
 
   return (
     <Navbar
@@ -220,7 +224,7 @@ export const Nav = ({ isLogin, isRegister, isResetPass }) => {
           <Navbar.Link
             color="inherit"
             onClick={() => {
-              firebaseLogout(navigate);
+              logoutClick()
             }}
           >
             Logout

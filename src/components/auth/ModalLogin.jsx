@@ -10,28 +10,22 @@ import {
 } from "@nextui-org/react";
 
 import {
-  firebaseLoginWithGoogle,
-  firebaseLoginWithEmailNotPersistence,
-  firebaseLoginWithGoogleNoPersistence,
-  firebaseLoginWithEmail,
   firebaseResetPassword,
 } from "../../firebase/firebase";
 import { GooleIcon } from "../icons";
 import { Link } from "react-router-dom";
 import { Mail } from "../navbar/icons";
 import { useEffect, useState, useRef, useMemo } from "react";
-import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { validateEmail } from "../../utils/utils";
-import { getUser } from "../../reducers/userReducer";
+import { actions } from "../../types/types";
+import { setErrorLogin } from "../../reducers/userReducer";
 
 export const ModalLogin = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const { value, reset, bindings } = useInput("");
-  const { logged } = useSelector((state) => state.user);
+  const { logged, errorLogin } = useSelector((state) => state.user);
   const [visible, setVisible] = useState(false);
-  const [errorValidation, setErrorValidation] = useState(null);
   const [remenberSession, setRemenberSession] = useState(false);
   const handler = () => setVisible(true);
   const emailRef = useRef(null);
@@ -50,13 +44,12 @@ export const ModalLogin = () => {
   };
 
   const handleGoogleLoginWithGoogle = async () => {
-    let user = "";
-    if (remenberSession) {
-      user = await firebaseLoginWithGoogle(navigate);
-    } else {
-      user = await firebaseLoginWithGoogleNoPersistence(navigate);
-    }
-    dispatch(getUser(user));
+    dispatch({
+      type: actions.LOGIN_GOOGLE,
+      payload: {
+        remenberSession,
+      },
+    });
   };
 
   const handleFirebaseLoginWithEmail = async () => {
@@ -66,38 +59,41 @@ export const ModalLogin = () => {
       emailRef.current.focus();
       return;
     }
-    let user = "";
-    if (remenberSession) {
-      user = await firebaseLoginWithEmail(
-        navigate,
+
+    dispatch({
+      type: actions.LOGIN_MAIL,
+      payload: {
+        remenberSession,
         email,
         password,
-        setErrorValidation
-      );
-    } else {
-      user = await firebaseLoginWithEmailNotPersistence(
-        navigate,
-        email,
-        password,
-        setErrorValidation
-      );
-    }
-    dispatch(getUser(user));
+      },
+    });
   };
 
   const handleResetPass = () => {
-    // setErrorValidation(`Enviado correo de restablecimiento a \n${emailRef.current.value}\n Siga las instrucciones`)
-    firebaseResetPassword(emailRef.current.value)
+
+    try {
+      firebaseResetPassword(emailRef.current.value)
       .then(() => {
-        setErrorValidation(
-          `Enviado correo de restablecimiento a \n${emailRef.current.value}\n Siga las instrucciones`
+        dispatch(
+          setErrorLogin(
+            `Enviado correo de restablecimiento a \n${emailRef.current.value}\n Siga las instrucciones`
+          )
         );
       })
-      .catch(setErrorValidation(`Correo no registrado previamente`));
+      .catch((error)=>{
+        dispatch(
+          setErrorLogin(
+            error.message
+          )
+        );
+      });
+    } catch (error) {
+      setErrorLogin(error.message)
+    }
   };
 
   const helper = useMemo(() => {
-    setErrorValidation(null);
     if (!value)
       return {
         text: "",
@@ -158,7 +154,7 @@ export const ModalLogin = () => {
             placeholder="Contraseña"
             ref={passwordRef}
             onChange={() => {
-              setErrorValidation(null);
+              dispatch(setErrorLogin(null))
             }}
             onKeyDown={handleKeyPress}
             // visibleIcon={<Troll fill="currentColor" />}
@@ -174,7 +170,7 @@ export const ModalLogin = () => {
             Iniciar Sesión
           </Button>
 
-          {errorValidation ? (
+          {errorLogin ? (
             <Text
               css={{
                 textAlign: "center",
@@ -184,7 +180,7 @@ export const ModalLogin = () => {
               size="$1x"
               color="error"
             >
-              {errorValidation}
+              {errorLogin}
             </Text>
           ) : null}
 

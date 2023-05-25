@@ -7,19 +7,22 @@ import {
   useInput,
   Spacer,
 } from "@nextui-org/react";
-
-import { firebaseAddUser } from "../../firebase/firebase";
+import { firebaseAddUser, firebaseLogout } from "../../firebase/firebase";
+import { Link, useNavigate } from "react-router-dom";
 import { Mail } from "../navbar/icons";
+import { setAuth } from "../../reducers/userReducer";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState, useRef, useMemo } from "react";
-import { useNavigate, Link } from "react-router-dom";
-import { useSelector } from "react-redux";
 import { validateEmail, passwordValidator } from "../../utils/utils";
+import swal from "sweetalert";
 
 export const ModalRegister = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const email = useInput("");
   const { logged } = useSelector((state) => state.user);
   const [visible, setVisible] = useState(false);
+
   const [passError, setPassError] = useState({ color: "", text: "" });
   const handler = () => setVisible(true);
   const emailRef = useRef(null);
@@ -63,7 +66,28 @@ export const ModalRegister = () => {
       return;
     }
 
-    firebaseAddUser(navigate, email, password);
+    firebaseAddUser(email, password)
+    .then(() => {
+      swal({
+        title: "Usuario creado",
+        text: "Enviado correo de confirmación",
+        icon: "success",
+        button: "Iniciar sesión",
+      }).then(() => {
+        firebaseLogout();
+        dispatch(setAuth(false));
+        navigate("/login");
+      })
+    })
+    .catch((error) => {
+      swal({
+        title: "Error",
+        text: error.message,
+        icon: "error",
+        button: "Ok",
+      });
+    }
+    );
   };
 
   const helper = useMemo(() => {

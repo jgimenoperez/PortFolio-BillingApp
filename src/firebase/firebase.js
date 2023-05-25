@@ -13,7 +13,7 @@ const firebaseConfig = {
 
 export const firebasebd = firebase.initializeApp(firebaseConfig);
 
-export const firebaseLoginWithEmail = async (navigate, email, password, setErrorValidation) => {
+export const firebaseLoginWithEmail = async (email, password) => {
   try {
     const userCredential = await firebase.auth().signInWithEmailAndPassword(email, password);
     const user = userCredential.user;
@@ -32,19 +32,14 @@ export const firebaseLoginWithEmail = async (navigate, email, password, setError
       addUserFirestore(newUser)
       .then(userApp = {...newUser})
     }
-    navigate("/");
     return userApp;
   } catch (error) {
-    console.error("Error de autenticación:", error);
-    setErrorValidation(
-      "El correo electrónico/contraseña que ingresaste es incorrecto.\n Verifica tus credenciales o intenta utilizar un método diferente para iniciar sesión."
-    );
-    // throw error;
+    // console.error("Error de autenticación:", error);
+    throw new Error ("El correo electrónico/contraseña que ingresaste es incorrecto.\n Verifica tus credenciales o intenta utilizar un método diferente para iniciar sesión.");
   }
 };
 
-
-export const firebaseLoginWithEmailNotPersistence = async (navigate, email, password, setErrorValidation) => {
+export const firebaseLoginWithEmailNotPersistence = async ( email, password) => {
   try {
     await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.NONE); // Configurar la persistencia de sesión en "NONE"
     const userCredential = await firebase.auth().signInWithEmailAndPassword(email, password);
@@ -64,17 +59,14 @@ export const firebaseLoginWithEmailNotPersistence = async (navigate, email, pass
       addUserFirestore(newUser)
       .then(userApp = {...newUser})
     }
-    navigate("/");
     return userApp;
   } catch (error) {
-    console.error("Error de autenticación:", error);
-    setErrorValidation(
-      "El correo electrónico/contraseña que ingresaste es incorrecto.\n Verifica tus credenciales o intenta utilizar un método diferente para iniciar sesión."
-    );
+    // console.error("Error de autenticación:", error);
+    throw new Error ("El correo electrónico/contraseña que ingresaste es incorrecto.\n Verifica tus credenciales o intenta utilizar un método diferente para iniciar sesión.")
   }
 };
 
-export const firebaseLoginWithGoogle = async (navigate) => {
+export const firebaseLoginWithGoogle = async () => {
   try {
     const userCredential = await firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider());
     const user = userCredential.user;
@@ -95,7 +87,6 @@ export const firebaseLoginWithGoogle = async (navigate) => {
       .then(userApp = {...newUser})
     }
 
-    navigate("/");
     return userApp;
   } catch (error) {
     console.error("Error de autenticación:", error);
@@ -103,7 +94,7 @@ export const firebaseLoginWithGoogle = async (navigate) => {
   }
 };
 
-export const firebaseLoginWithGoogleNoPersistence = async (navigate) => {
+export const firebaseLoginWithGoogleNoPersistence = async () => {
   try {
     await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.NONE); // Configurar la persistencia de sesión en "NONE"
     const userCredential = await firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider());
@@ -124,7 +115,6 @@ export const firebaseLoginWithGoogleNoPersistence = async (navigate) => {
       .then(userApp = {...newUser})
     }
 
-    navigate("/");
     return userApp;
   } catch (error) {
     console.error("Error de autenticación:", error);
@@ -132,13 +122,12 @@ export const firebaseLoginWithGoogleNoPersistence = async (navigate) => {
   }
 };
 
-export const firebaseLogout = (navigate) => {
+export const firebaseLogout = () => {
   return firebase
     .auth()
     .signOut()
     .then(() => {
       console.log("Sesión finalizada");
-      navigate("/login");
     })
     .catch((error) => {
       console.error("Error al finalizar sesión:", error);
@@ -146,7 +135,7 @@ export const firebaseLogout = (navigate) => {
     });
 };
 
-export const firebaseAddUser = (navigate, email, password) => {
+export const firebaseAddUser = ( email, password) => {
   return firebase
     .auth()
     .createUserWithEmailAndPassword(email, password)
@@ -161,7 +150,6 @@ export const firebaseAddUser = (navigate, email, password) => {
         .catch((error) => {
           console.log("Error al enviar el correo de confirmación:", error);
         });
-      navigate("/");
       console.log("Usuario creado:", user);
       return user;
     })
@@ -180,7 +168,7 @@ export const firebaseResetPassword = (email) => {
     })
     .catch((error) => {
       console.error("Error al enviar el correo de restablecimiento:", error);
-      throw error; // Opcionalmente, puedes lanzar el error para que sea manejado por la función que llama a esta función
+      throw new Error ("El correo electrónico/contraseña que ingresaste es incorrecto.\n Verifica tus credenciales o intenta utilizar un método diferente para iniciar sesión.")
     });
 };
 

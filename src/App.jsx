@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route,Navigate } from "react-router-dom";
 import "./App.css";
 import { useDispatch, useSelector } from "react-redux";
 import { darkTheme, ligthTheme } from "./themes/darktheme";
@@ -12,6 +12,7 @@ import { Home, Login, Profile, Register, ResetPass } from "./pages";
 function App() {
   const dispatch = useDispatch();
   const { theme } = useSelector((state) => state.theme);
+  const { logged } = useSelector((state) => state.user);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -37,6 +38,11 @@ function App() {
 
     checkAuthState();
   }, [dispatch]);
+
+  useEffect(() => {
+      logged ? <Navigate to="/" /> : <Navigate to="/login" />
+  }, [logged])
+  
 
   if (isLoading)
     return (
