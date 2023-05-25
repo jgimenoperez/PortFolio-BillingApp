@@ -27,7 +27,7 @@ export const firebaseLoginWithEmail = async (navigate, email, password, setError
         image: user.multiFactor.user.photoURL,
         data: new Date().toLocaleDateString('es-ES'),
         typeProvider:"email",
-        counter:100001  
+        nextNumBill:100001  
       };
       addUserFirestore(newUser)
       .then(userApp = {...newUser})
@@ -59,7 +59,7 @@ export const firebaseLoginWithEmailNotPersistence = async (navigate, email, pass
         image: 'https://res.cloudinary.com/dxnwtmj3l/image/upload/v1684944632/BillingApp/Public/avatar_slisqu.png',
         data: new Date().toLocaleDateString('es-ES'),
         typeProvider:"email",
-        counter:100001        
+        nextNumBill:100001        
       };
       addUserFirestore(newUser)
       .then(userApp = {...newUser})
@@ -88,7 +88,7 @@ export const firebaseLoginWithGoogle = async (navigate) => {
         image: user.multiFactor.user.photoURL,
         data: new Date().toLocaleDateString('es-ES'),
         typeProvider:"google",
-        counter:100001
+        nextNumBill:100001
 
       };
       addUserFirestore(newUser)
@@ -118,7 +118,7 @@ export const firebaseLoginWithGoogleNoPersistence = async (navigate) => {
         image: user.multiFactor.user.photoURL,
         data: new Date().toLocaleDateString('es-ES'),
         typeProvider:"google",
-        counter:100001
+        nextNumBill:100001
       };
       addUserFirestore(newUser)
       .then(userApp = {...newUser})

@@ -16,29 +16,65 @@ import { uploadAvatar } from "../cloudinary/cloudinary";
 import { useInput } from "../hooks/useImputjs";
 import { useSelector, useDispatch } from "react-redux";
 import { useState } from "react";
-import { firebaseUpdateUser } from "../firebase/firebase";
+import { useEffect } from "react";
 
 export const Profile = () => {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const { user } = useSelector((state) => state.auth);
-  const inputNombre = useInput("");
-  const inputApellido = useInput("");
+  const inputName = useInput("");
+  const inputSurname = useInput("");
   const inputEmail = useInput("");
-  const inputClaveActual = useInput("");
-  const inputNuevaClave = useInput("");
-  const inputConfirmeNuevaClave = useInput("");
+  const inputDNI = useInput("");
+  const inputVillage = useInput("");
+  const inputPostalCode = useInput("");
+  const inputAdress = useInput("");
+  const inputProvince = useInput("");
   const inputAvatar = useInput("");
+  const inputPhone = useInput("");
+  const inputNextNumBill = useInput("");
+
+  useEffect(() => {
+    inputName.setValue(user?.name);
+    inputSurname.setValue(user?.surname);
+    inputEmail.setValue(user?.email);
+    inputDNI.setValue(user?.dni);
+    inputVillage.setValue(user?.village);
+    inputPostalCode.setValue(user?.postalCode);
+    inputAdress.setValue(user?.address);
+    inputProvince.setValue(user?.province);
+    inputPhone.setValue(user?.phone);
+    inputAvatar.setValue(user?.avatar);
+    inputNextNumBill.setValue(user?.nextNumBill);
+  }, []);
 
   const handleImageUpload = async (event) => {
     setIsLoading(true);
     const file = event.target.files[0];
     const extension = file?.name.split(".").pop();
-    uploadAvatar(file, user.docId, "avatar",extension)
-    .then((imageAvatar)=>{
-      dispatch(setImageAvatar(imageAvatar))
+    uploadAvatar(file, user.docId, "avatar", extension).then((imageAvatar) => {
+      dispatch(setImageAvatar(imageAvatar));
       setIsLoading(false);
-    })
+    });
+  };
+
+  //submit
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const user = {
+      email: inputEmail.value,
+      image: inputEmail.avatar,
+      name: inputName.value,
+      surname: inputSurname.value,
+      dni: inputDNI.value,
+      village: inputVillage.value,
+      postalCode: inputPostalCode.value,
+      address: inputAdress.value,
+      province: inputProvince.value,
+      phone: inputPhone.value,
+      avatar: inputEmail.avatar,
+    };
   };
 
   return (
@@ -71,7 +107,7 @@ export const Profile = () => {
                 textAlign: "center",
               }}
             >
-              Edita tu nombre, añade tu avatar y modifica el acceso
+              Datos de facturación
             </Text>
             <Container
               xs
@@ -83,7 +119,7 @@ export const Profile = () => {
                 boxShadow: "2px 2px 10px rgba(0, 0, 0, 0.4)",
               }}
             >
-              <form action="">
+              <form onSubmit={handleSubmit}>
                 <Grid.Container gap={5} justify="center">
                   <Grid
                     xs={6}
@@ -93,11 +129,20 @@ export const Profile = () => {
                     <Input
                       rounded
                       bordered
+                      label="D.N.I"
+                      placeholder="D.N.I"
+                      color="primary"
+                      css={{ marginBottom: "15px" }}
+                      {...inputDNI}
+                    />
+                    <Input
+                      rounded
+                      bordered
                       label="Nombre"
                       placeholder="Nombre"
                       color="primary"
                       css={{ marginBottom: "15px" }}
-                      {...inputNombre}
+                      {...inputName}
                     />
                     <Input
                       rounded
@@ -106,24 +151,36 @@ export const Profile = () => {
                       placeholder="Apellido"
                       color="primary"
                       css={{ marginBottom: "15px" }}
-                      {...inputApellido}
+                      {...inputSurname}
                     />
                     <Input
                       rounded
-                      bordered
                       label="Email"
-                      placeholder="Email"
                       color="primary"
                       css={{ marginBottom: "15px" }}
                       {...inputEmail}
+                      readOnly
+                    />
+                    <Input
+                      rounded
+                      type="number" 
+                      bordered
+                      label="Próxima factura"
+                      color="primary"
+                      css={{ marginBottom: "15px" }}
+                      {...inputNextNumBill}
                     />
 
-                    <Text color="primary">Avatar</Text>
+                    <Text color="primary">Logotipo Factura</Text>
 
                     {isLoading ? (
                       <Loading color="primary" />
                     ) : (
-                      <label htmlFor="fileInput" className="custom-file-upload" style={{width:"200px",height:"200px"}}>
+                      <label
+                        htmlFor="fileInput"
+                        className="custom-file-upload"
+                        style={{ width: "200px", height: "200px" }}
+                      >
                         <img
                           src={`${user.image}?random=${Date.now()}`}
                           alt="Imagen"
@@ -153,32 +210,52 @@ export const Profile = () => {
                     <Input
                       rounded
                       bordered
-                      label="Clave actual"
-                      placeholder="Clave actual"
+                      label="Poblacion"
+                      placeholder="Poblacion"
                       color="primary"
                       css={{ marginBottom: "15px" }}
-                      {...inputClaveActual}
+                      {...inputVillage}
                     />
                     <Input
                       rounded
                       bordered
-                      label="Nueva clave"
-                      placeholder="Nueva clave"
+                      label="Cod.Postal"
+                      placeholder="Cod. Postal"
                       color="primary"
                       css={{ marginBottom: "15px" }}
-                      {...inputNuevaClave}
+                      {...inputPostalCode}
                     />
                     <Input
                       rounded
                       bordered
-                      label="Confirme nueva clave"
-                      placeholder="Confirme nueva clave"
+                      label="Dirección"
+                      placeholder="Dirección"
                       color="primary"
                       css={{ marginBottom: "15px" }}
-                      {...inputConfirmeNuevaClave}
+                      {...inputAdress}
+                    />
+                    <Input
+                      rounded
+                      bordered
+                      label="Provincia"
+                      placeholder="Provincia"
+                      color="primary"
+                      css={{ marginBottom: "15px" }}
+                      {...inputProvince}
+                    />
+                    <Input
+                      rounded
+                      bordered
+                      label="Teléfono"
+                      placeholder="Teléfono"
+                      color="primary"
+                      css={{ marginBottom: "15px" }}
+                      {...inputPhone}
                     />
                     <Button
                       auto
+                      type="submit"
+
                       // css={{width:"50%",  marginLeft: 'auto' }}
                     >
                       Guardar cambios
