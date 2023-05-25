@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 
 export const ModalResetPass = () => {
   const navigate = useNavigate();
-  const { logged } = useSelector((state) => state.auth);
+  const { logged } = useSelector((state) => state.user);
   const [visible, setVisible] = useState(false);
   const [message, setMessage] = useState(null);
   const [passError, setPassError] = useState({ color: "", text: "" });

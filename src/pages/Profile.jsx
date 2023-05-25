@@ -11,7 +11,7 @@ import {
 } from "@nextui-org/react";
 import { Box } from "../components/styles/box";
 import { Flex } from "../components/styles/flex";
-import { setImageAvatar } from "../reducers/authReducer";
+import { setImageAvatar } from "../reducers/userReducer";
 import { uploadAvatar } from "../cloudinary/cloudinary";
 import { useInput } from "../hooks/useImputjs";
 import { useSelector, useDispatch } from "react-redux";
@@ -21,7 +21,7 @@ import { useEffect } from "react";
 export const Profile = () => {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
-  const { user } = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state.user);
   const inputName = useInput("");
   const inputSurname = useInput("");
   const inputEmail = useInput("");
@@ -84,7 +84,6 @@ export const Profile = () => {
           css={{
             px: "$6",
             pb: "$14",
-            height: "100vh",
           }}
         >
           <Flex
@@ -93,6 +92,7 @@ export const Profile = () => {
             align={"center"}
             css={{
               pt: "$20",
+              height: "100vh",
             }}
           >
             {/* <Text span css={{ color: "$blue600" }}>
@@ -163,7 +163,7 @@ export const Profile = () => {
                     />
                     <Input
                       rounded
-                      type="number" 
+                      type="number"
                       bordered
                       label="Próxima factura"
                       color="primary"
@@ -386,9 +386,9 @@ export const Profile = () => {
           </Flex> */}
         </Box>
 
-        <Divider
+        {/* <Divider
           css={{ position: "absolute", inset: "0p", left: "0", mt: "$5" }}
-        />
+        /> */}
       </>
     </Layout>
   );

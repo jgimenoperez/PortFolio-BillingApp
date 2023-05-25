@@ -22,7 +22,7 @@ export const Nav = ({ isLogin, isRegister, isResetPass }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { isDark, theme } = useTheme();
-  const { logged, user } = useSelector((state) => state.auth);
+  const { logged, user } = useSelector((state) => state.user);
 
   const collapseItems = ["Clientes", "Artículos", "Facturas"];
 

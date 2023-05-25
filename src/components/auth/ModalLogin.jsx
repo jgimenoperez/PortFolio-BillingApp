@@ -21,15 +21,15 @@ import { Link } from "react-router-dom";
 import { Mail } from "../navbar/icons";
 import { useEffect, useState, useRef, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-import { useSelector,useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { validateEmail } from "../../utils/utils";
-import { setUser } from "../../reducers/authReducer";
+import { getUser } from "../../reducers/userReducer";
 
 export const ModalLogin = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { value, reset, bindings } = useInput("");
-  const { logged } = useSelector((state) => state.auth);
+  const { logged } = useSelector((state) => state.user);
   const [visible, setVisible] = useState(false);
   const [errorValidation, setErrorValidation] = useState(null);
   const [remenberSession, setRemenberSession] = useState(false);
@@ -50,13 +50,13 @@ export const ModalLogin = () => {
   };
 
   const handleGoogleLoginWithGoogle = async () => {
-  let user=''
-    if (remenberSession){
-       user = await firebaseLoginWithGoogle(navigate)
-    }else{
-       user = await firebaseLoginWithGoogleNoPersistence(navigate);
+    let user = "";
+    if (remenberSession) {
+      user = await firebaseLoginWithGoogle(navigate);
+    } else {
+      user = await firebaseLoginWithGoogleNoPersistence(navigate);
     }
-    dispatch(setUser(user))
+    dispatch(getUser(user));
   };
 
   const handleFirebaseLoginWithEmail = async () => {
@@ -66,18 +66,23 @@ export const ModalLogin = () => {
       emailRef.current.focus();
       return;
     }
-    let user=''
+    let user = "";
     if (remenberSession) {
-      user = await firebaseLoginWithEmail(navigate, email, password, setErrorValidation);
+      user = await firebaseLoginWithEmail(
+        navigate,
+        email,
+        password,
+        setErrorValidation
+      );
     } else {
-       user = await firebaseLoginWithEmailNotPersistence(
+      user = await firebaseLoginWithEmailNotPersistence(
         navigate,
         email,
         password,
         setErrorValidation
       );
     }
-    dispatch(setUser(user))
+    dispatch(getUser(user));
   };
 
   const handleResetPass = () => {

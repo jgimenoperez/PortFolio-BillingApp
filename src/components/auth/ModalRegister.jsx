@@ -18,7 +18,7 @@ import { validateEmail, passwordValidator } from "../../utils/utils";
 export const ModalRegister = () => {
   const navigate = useNavigate();
   const email = useInput("");
-  const { logged } = useSelector((state) => state.auth);
+  const { logged } = useSelector((state) => state.user);
   const [visible, setVisible] = useState(false);
   const [passError, setPassError] = useState({ color: "", text: "" });
   const handler = () => setVisible(true);

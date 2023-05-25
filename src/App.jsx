@@ -3,19 +3,16 @@ import "./App.css";
 import { useDispatch, useSelector } from "react-redux";
 import { darkTheme, ligthTheme } from "./themes/darktheme";
 import { firebaseFindUser, firebasebd } from "./firebase/firebase";
-import { NextUIProvider,Loading } from "@nextui-org/react";
-import { setAuth, setUser } from "./reducers/authReducer";
+import { NextUIProvider, Loading } from "@nextui-org/react";
+import { setAuth, getUser } from "./reducers/userReducer";
 import { useEffect, useState } from "react";
 import { LoginRoute, PrivateRoute } from "./routes";
-import {Home,Login,Profile,Register,ResetPass } from "./pages";
-
-
+import { Home, Login, Profile, Register, ResetPass } from "./pages";
 
 function App() {
   const dispatch = useDispatch();
   const { theme } = useSelector((state) => state.theme);
   const [isLoading, setIsLoading] = useState(true);
-
 
   useEffect(() => {
     const checkAuthState = async () => {
@@ -23,11 +20,13 @@ function App() {
         firebasebd.auth().onAuthStateChanged(async (user) => {
           if (user) {
             dispatch(setAuth(true));
-            let userFirebase = await firebaseFindUser(user.multiFactor.user.email);
-            dispatch(setUser(userFirebase));
+            let userFirebase = await firebaseFindUser(
+              user.multiFactor.user.email
+            );
+            dispatch(getUser(userFirebase));
           } else {
             dispatch(setAuth(false));
-            dispatch(setUser(null));
+            dispatch(getUser(null));
           }
           setIsLoading(false);
         });
@@ -35,7 +34,7 @@ function App() {
         console.log(error);
       }
     };
-  
+
     checkAuthState();
   }, [dispatch]);
 

@@ -1,5 +1,5 @@
 export const actions ={
 
-    GET_MOVIES: 'auth/setImageAvatar',
+    UPDATE_AVATAR: 'user/setImageAvatar',
 
 }
