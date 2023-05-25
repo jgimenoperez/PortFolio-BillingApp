@@ -16,6 +16,7 @@ import { uploadAvatar } from "../cloudinary/cloudinary";
 import { useInput } from "../hooks/useImputjs";
 import { useSelector, useDispatch } from "react-redux";
 import { useState } from "react";
+import { firebaseUpdateUser } from "../firebase/firebase";
 
 export const Profile = () => {
   const dispatch = useDispatch();
@@ -33,11 +34,12 @@ export const Profile = () => {
     setIsLoading(true);
     const file = event.target.files[0];
     const extension = file?.name.split(".").pop();
-    const imageAvatar= await uploadAvatar(file, user.docId, "avatar",extension);
-    setIsLoading(false);
-    dispatch(setImageAvatar(imageAvatar))
+    uploadAvatar(file, user.docId, "avatar",extension)
+    .then((imageAvatar)=>{
+      dispatch(setImageAvatar(imageAvatar))
+      setIsLoading(false);
+    })
   };
-
 
   return (
     <Layout>

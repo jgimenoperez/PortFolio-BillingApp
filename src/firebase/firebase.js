@@ -238,3 +238,20 @@ export const firebaseFindUser = (email) => {
       return null;
     });
 };
+
+//udpate user
+export const firebaseUpdateUser = (docId,data) => {
+  return firebase
+    .firestore()
+    .collection("users")
+    .doc(docId)
+    .update(data)
+    .then(() => {
+      console.log("Usuario actualizado");
+      return data;
+    })
+    .catch((error) => {
+      console.error("Error al actualizar el usuario:", error);
+      throw error;
+    });
+}
