@@ -1,6 +1,6 @@
 import { sha1 } from "crypto-hash";
 
-export const uploadAvatar = async (file, imageFolder, imageName) => {
+export const uploadAvatar = async (file, imageFolder, imageName,extension) => {
   const uploadPreset = "BillingApp";
   const cloudUrl = `https://api.cloudinary.com/v1_1/${
     import.meta.env.VITE_CLOUDINARYCLOUDNAME
@@ -10,8 +10,9 @@ export const uploadAvatar = async (file, imageFolder, imageName) => {
   formData.append("file", file);
   formData.append("public_id", `users/${imageFolder}/${imageName}`); // Carpeta y nombre de la imagen
   try {
-    deleteAvatar(imageFolder, imageName).then(
-      fetch(cloudUrl, {
+    return deleteAvatar(imageFolder, imageName,extension)
+    .then(()=>{ return (
+          fetch(cloudUrl, {
         method: "POST",
         body: formData,
       })
@@ -24,15 +25,16 @@ export const uploadAvatar = async (file, imageFolder, imageName) => {
         .catch((error) => {
           console.error("Error al cargar la imagen:", error);
         })
+    )}
+  
     );
   } catch (error) {
     console.error("Error al cargar la imagen:", error);
   }
 };
 
-export const deleteAvatar = async (imageFolder, imageName) => {
+export const deleteAvatar = async (imageFolder, imageName,extension) => {
   const publicId = `BillingApp/users/${imageFolder}/${imageName}`;
-  console.log(2, publicId);
   const timestamp = new Date().getTime();
   const string = `public_id=${publicId}&timestamp=${timestamp}${
     import.meta.env.VITE_CLOUDINARYSECRET

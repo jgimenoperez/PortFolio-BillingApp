@@ -25,7 +25,7 @@ export const firebaseLoginWithEmail = async (navigate, email, password, setError
         name: user.multiFactor.user.displayName,
         email: user.multiFactor.user.email,
         image: user.multiFactor.user.photoURL,
-        data: new Date(),
+        data: new Date().toLocaleDateString('es-ES'),
         typeProvider:"email",
         counter:100001  
       };
@@ -56,8 +56,8 @@ export const firebaseLoginWithEmailNotPersistence = async (navigate, email, pass
       const newUser = {
         name: user.multiFactor.user.displayName,
         email: user.multiFactor.user.email,
-        image: user.multiFactor.user.photoURL,
-        data: new Date(),
+        image: 'https://res.cloudinary.com/dxnwtmj3l/image/upload/v1684944632/BillingApp/Public/avatar_slisqu.png',
+        data: new Date().toLocaleDateString('es-ES'),
         typeProvider:"email",
         counter:100001        
       };
@@ -86,7 +86,7 @@ export const firebaseLoginWithGoogle = async (navigate) => {
         name: user.multiFactor.user.displayName,
         email: user.multiFactor.user.email,
         image: user.multiFactor.user.photoURL,
-        data: new Date(),
+        data: new Date().toLocaleDateString('es-ES'),
         typeProvider:"google",
         counter:100001
 
@@ -99,7 +99,7 @@ export const firebaseLoginWithGoogle = async (navigate) => {
     return userApp;
   } catch (error) {
     console.error("Error de autenticación:", error);
-    throw error; // Opcionalmente, puedes lanzar el error para que sea manejado por la función que llama a esta función
+    throw error; 
   }
 };
 
@@ -116,7 +116,7 @@ export const firebaseLoginWithGoogleNoPersistence = async (navigate) => {
         name: user.multiFactor.user.displayName,
         email: user.multiFactor.user.email,
         image: user.multiFactor.user.photoURL,
-        data: new Date(),
+        data: new Date().toLocaleDateString('es-ES'),
         typeProvider:"google",
         counter:100001
       };
@@ -198,7 +198,6 @@ export const firebaseVerifyPassword = (code) => {
     });
 }
 export const firebaseChangePassword = (code, password) => {
-  console.log(code,password)
   return firebase
     .auth()
     .confirmPasswordReset(code, password)
@@ -229,10 +228,9 @@ export const firebaseFindUser = (email) => {
     .then((querySnapshot) => {
       let user = null;
       querySnapshot.forEach((doc) => {
-        console.log(doc.id, " => ", doc.data());
+        // console.log(doc.id, " => ", doc.data());
         user = {"docId":doc.id, ...doc.data()};
       });
-      console.log(1111)
       return user;
     })
     .catch((error) => {

@@ -26,7 +26,8 @@
   .custom-file-upload img {
     width: 100%;
     height: auto;
-    border-radius:100px
+    border-radius:100px;
+    object-fit: cover;
   }
   
   .custom-file-upload input {

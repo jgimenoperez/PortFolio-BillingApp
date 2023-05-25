@@ -77,7 +77,6 @@ export const ModalLogin = () => {
         setErrorValidation
       );
     }
-    console.log(111,user)
     dispatch(setUser(user))
   };
 

@@ -9,14 +9,16 @@ import {
   Button,
   Loading,
 } from "@nextui-org/react";
-import { useState } from "react";
 import { Box } from "../components/styles/box";
 import { Flex } from "../components/styles/flex";
+import { setImageAvatar } from "../reducers/authReducer";
 import { uploadAvatar } from "../cloudinary/cloudinary";
 import { useInput } from "../hooks/useImputjs";
 import { useSelector, useDispatch } from "react-redux";
+import { useState } from "react";
 
 export const Profile = () => {
+  const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const { user } = useSelector((state) => state.auth);
   const inputNombre = useInput("");
@@ -30,9 +32,12 @@ export const Profile = () => {
   const handleImageUpload = async (event) => {
     setIsLoading(true);
     const file = event.target.files[0];
-    await uploadAvatar(file, user.docId, "avatar");
+    const extension = file?.name.split(".").pop();
+    const imageAvatar= await uploadAvatar(file, user.docId, "avatar",extension);
     setIsLoading(false);
+    dispatch(setImageAvatar(imageAvatar))
   };
+
 
   return (
     <Layout>
@@ -116,15 +121,16 @@ export const Profile = () => {
                     {isLoading ? (
                       <Loading color="primary" />
                     ) : (
-                      <label htmlFor="fileInput" className="custom-file-upload">
+                      <label htmlFor="fileInput" className="custom-file-upload" style={{width:"200px",height:"200px"}}>
                         <img
-                          src={user.image}
+                          src={`${user.image}?random=${Date.now()}`}
                           alt="Imagen"
                           style={{
                             width: "80px",
                             height: "80px",
                             marginTop: "3px",
                           }}
+                          className="img-fluid"
                         />
                         <input
                           id="fileInput"

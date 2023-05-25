@@ -16,21 +16,6 @@ function App() {
   const { theme } = useSelector((state) => state.theme);
   const [isLoading, setIsLoading] = useState(true);
 
-  // useEffect(() => {
-  //   firebasebd.auth().onAuthStateChanged(async (user) => {
-  //     if (user) {
-  //       dispatch(setAuth(true));
-  //       console.log(user)
-  //       let user = await firebaseFindUser(user.multiFactor.user.email);
-
-  //       // dispatch(setUser(user.multiFactor.user));
-  //     } else {
-  //       dispatch(setAuth(false));
-  //       dispatch(setUser(null));
-  //     }
-  //     setIsLoading(false);
-  //   });
-  // }, [dispatch]);
 
   useEffect(() => {
     const checkAuthState = async () => {
@@ -39,7 +24,6 @@ function App() {
           if (user) {
             dispatch(setAuth(true));
             let userFirebase = await firebaseFindUser(user.multiFactor.user.email);
-            console.log(userFirebase)
             dispatch(setUser(userFirebase));
           } else {
             dispatch(setAuth(false));
