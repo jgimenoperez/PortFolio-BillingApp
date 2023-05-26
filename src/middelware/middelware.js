@@ -15,7 +15,7 @@ export const customMiddleware = (store) => (next) => async (action) => {
     case actions.UPDATE_AVATAR:
       // eslint-disable-next-line no-case-declarations
       user = state.user;
-      firebaseUpdateUser(user.docId, {
+      firebaseUpdateUser(user.user.docId, {
         image: action.payload,
       }).then(() => {
         return next(action);
@@ -23,6 +23,7 @@ export const customMiddleware = (store) => (next) => async (action) => {
       break;
 
     case actions.LOGIN_GOOGLE:
+      store.dispatch(setErrorLogin(null))
       try {
         if (action.payload.remenberSession) {
           user = await firebaseLoginWithGoogle();
@@ -33,11 +34,11 @@ export const customMiddleware = (store) => (next) => async (action) => {
         store.dispatch(setErrorLogin(error.message));
         console.log('Ocurrió un error:', error.message);
       }
-
       store.dispatch(getUser(user));
       break;
 
     case actions.LOGIN_MAIL:
+      store.dispatch(setErrorLogin(null))
       try {
         if (action.payload.remenberSession) {
           user = await firebaseLoginWithEmail(
@@ -59,6 +60,16 @@ export const customMiddleware = (store) => (next) => async (action) => {
       // dispatch(getUser(user));
       break;
 
+    case actions.UPDATE_DATA_USER:
+      user = state.user;
+      console.log(11,user)
+      firebaseUpdateUser(user.user.docId, {
+         ...action.payload,
+      }).then(() => {
+        return next(action);
+      });
+      break;    
+    
     default:
       return next(action);
   }

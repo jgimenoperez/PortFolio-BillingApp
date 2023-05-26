@@ -1,22 +1,22 @@
 import { Layout } from "../components/navbar/Layout";
 import {
   Text,
-  Divider,
-  Card,
   Grid,
   Container,
   Input,
   Button,
   Loading,
 } from "@nextui-org/react";
+import { actions } from "../types/types";
 import { Box } from "../components/styles/box";
 import { Flex } from "../components/styles/flex";
 import { setImageAvatar } from "../reducers/userReducer";
 import { uploadAvatar } from "../cloudinary/cloudinary";
+import { useEffect } from "react";
 import { useInput } from "../hooks/useImputjs";
 import { useSelector, useDispatch } from "react-redux";
 import { useState } from "react";
-import { useEffect } from "react";
+import swal from "sweetalert";
 
 export const Profile = () => {
   const dispatch = useDispatch();
@@ -35,24 +35,25 @@ export const Profile = () => {
   const inputNextNumBill = useInput("");
 
   useEffect(() => {
-    inputName.setValue(user?.name);
-    inputSurname.setValue(user?.surname);
-    inputEmail.setValue(user?.email);
-    inputDNI.setValue(user?.dni);
-    inputVillage.setValue(user?.village);
-    inputPostalCode.setValue(user?.postalCode);
-    inputAdress.setValue(user?.address);
-    inputProvince.setValue(user?.province);
-    inputPhone.setValue(user?.phone);
-    inputAvatar.setValue(user?.avatar);
-    inputNextNumBill.setValue(user?.nextNumBill);
+    inputName.setValue(user?.name || '');
+    inputSurname.setValue(user?.surname || '');
+    inputEmail.setValue(user?.email || '');
+    inputDNI.setValue(user?.dni || '');
+    inputVillage.setValue(user?.village || '');
+    inputPostalCode.setValue(user?.postalCode || '');
+    inputAdress.setValue(user?.address || '');
+    inputProvince.setValue(user?.province || '');
+    inputPhone.setValue(user?.phone || '');
+    inputAvatar.setValue(user?.avatar || '');
+    inputNextNumBill.setValue(user?.nextNumBill || '');
   }, []);
 
   const handleImageUpload = async (event) => {
     setIsLoading(true);
     const file = event.target.files[0];
     const extension = file?.name.split(".").pop();
-    uploadAvatar(file, user.docId, "avatar", extension).then((imageAvatar) => {
+    uploadAvatar(file, user.docId, "avatar", extension)
+    .then((imageAvatar) => {
       dispatch(setImageAvatar(imageAvatar));
       setIsLoading(false);
     });
@@ -64,17 +65,27 @@ export const Profile = () => {
 
     const user = {
       email: inputEmail.value,
-      image: inputEmail.avatar,
       name: inputName.value,
       surname: inputSurname.value,
-      dni: inputDNI.value,
-      village: inputVillage.value,
+      dni: inputDNI?.value,
+      village: inputVillage?.value,
       postalCode: inputPostalCode.value,
       address: inputAdress.value,
       province: inputProvince.value,
       phone: inputPhone.value,
-      avatar: inputEmail.avatar,
     };
+    console.log(user)
+    dispatch({
+      type: actions.UPDATE_DATA_USER,
+      payload: {
+        ...user
+      },
+    });
+    swal({
+      title: "Datos actualizados",
+      icon: "success",
+    })
+    
   };
 
   return (

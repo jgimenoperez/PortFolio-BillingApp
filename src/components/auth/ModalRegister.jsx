@@ -10,7 +10,7 @@ import {
 import { firebaseAddUser, firebaseLogout } from "../../firebase/firebase";
 import { Link, useNavigate } from "react-router-dom";
 import { Mail } from "../navbar/icons";
-import { setAuth } from "../../reducers/userReducer";
+import { setAuth, setErrorLogin } from "../../reducers/userReducer";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState, useRef, useMemo } from "react";
 import { validateEmail, passwordValidator } from "../../utils/utils";
@@ -43,7 +43,7 @@ export const ModalRegister = () => {
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
     const checkPassword = checkPasswordRef.current.value;
-
+    dispatch(setErrorLogin(null))
     if (!validateEmail(email)) {
       emailRef.current.focus();
       return;
