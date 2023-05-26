@@ -6,6 +6,7 @@ import {
   Text,
   Avatar,
   Tooltip,
+  Button,
 } from "@nextui-org/react";
 
 import { firebaseLogout } from "../../firebase/firebase";
@@ -188,6 +189,20 @@ export const Nav = ({ isLogin, isRegister, isResetPass }) => {
                 />
               </Tooltip>
             </Enlace>
+          ) : null}
+        </Navbar.CollapseItem>
+
+        <Navbar.CollapseItem>
+          {logged ? (
+            <Button
+              auto
+              flat
+              icon={icons.logout}
+              onClick={() => {
+                logoutClick();
+              }}
+            >
+            </Button>
           ) : null}
         </Navbar.CollapseItem>
       </Navbar.Collapse>

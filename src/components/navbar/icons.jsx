@@ -1,4 +1,3 @@
-
 const ChevronDownIcon = ({ fill, size, width = 24, height = 24, ...props }) => {
   return (
     <svg
@@ -197,7 +196,6 @@ export const Troll = ({ fill, size, width = 60, height = 60, ...props }) => {
 -55 -370 -70 -498 -70 -144 0 -178 16 -244 117 -105 159 -264 220 -514 194
 -62 -6 -119 -14 -127 -17 -11 -4 -21 18 -41 81 -134 428 -497 721 -1011 816
 -127 23 -417 33 -535 19z"
-
         />
         <path
           d="M3565 8479 c-157 -67 -396 -149 -480 -164 -60 -12 -123 -16 -188 -13
@@ -248,6 +246,27 @@ export const Mail = ({ fill, size, height, width, ...props }) => {
   );
 };
 
+export const Logout = ({ fill, size, height, width, ...props }) => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={size || width || 24}
+      height={size || height || 24}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke={fill}
+
+      strokeWidth={2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="feather feather-log-out"
+    >
+      <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+      <polyline points="16 17 21 12 16 7" />
+      <line x1={21} y1={12} x2={9} y2={12} />
+    </svg>
+  );
+};
 
 export const icons = {
   chevron: <ChevronDownIcon fill="currentColor" size={16} />,
@@ -259,4 +278,5 @@ export const icons = {
   article: <Article fill="var(--nextui-colors-error)" size={30} />,
   troll: <Troll fill="var(--nextui-colors-trollcolor)" size={30} />,
   mail: <Troll fill="var(--nextui-colors-trollcolor)" size={30} />,
+  logout: <Logout fill="var(--nextui-colors-primary)" size={30} />,
 };
