@@ -13,7 +13,7 @@ import { GithubIcon } from "../icons";
 import { ModalLogin, ModalRegister, ModalResetPass } from "../auth";
 import { setTheme } from "../../reducers/themeReducer";
 import { useDispatch } from "react-redux";
-import {  Link as Enlace } from "react-router-dom";
+import { Link as Enlace } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useTheme } from "@nextui-org/react";
 import { Troll, icons } from "./icons";
@@ -25,10 +25,10 @@ export const Nav = ({ isLogin, isRegister, isResetPass }) => {
   const { logged, user } = useSelector((state) => state.user);
 
   const collapseItems = ["Clientes", "Artículos", "Facturas"];
-  const logoutClick = () =>{
+  const logoutClick = () => {
     firebaseLogout();
-    dispatch(setAuth(false))
-  }
+    dispatch(setAuth(false));
+  };
 
   return (
     <Navbar
@@ -48,7 +48,7 @@ export const Nav = ({ isLogin, isRegister, isResetPass }) => {
         <Text
           b
           color="inherit"
-          hideIn="xs"
+          // hideIn="xs"
           size={40}
           css={{
             textGradient: "45deg, $green800 -100%, $text 90%",
@@ -164,9 +164,35 @@ export const Nav = ({ isLogin, isRegister, isResetPass }) => {
             }
           />
         </Navbar.CollapseItem>
+
+        <Navbar.CollapseItem>
+          {logged ? (
+            <Enlace to="/profile">
+              <Tooltip
+                content={
+                  user?.typeProvider === "email"
+                    ? user?.email
+                    : `${user?.name} ${user?.email}`
+                }
+                hideArrow
+                placement="bottomStart"
+              >
+                <Avatar
+                  css={{ size: "$6", cursor: "pointer" }}
+                  squared
+                  size="lg"
+                  text={
+                    user?.typeProvider === "email" ? user?.email : user?.name
+                  }
+                  src={user?.image}
+                />
+              </Tooltip>
+            </Enlace>
+          ) : null}
+        </Navbar.CollapseItem>
       </Navbar.Collapse>
 
-      <Navbar.Content>
+      <Navbar.Content hideIn="sm">
         {logged ? (
           <Enlace to="/profile">
             <Tooltip
@@ -224,13 +250,12 @@ export const Nav = ({ isLogin, isRegister, isResetPass }) => {
           <Navbar.Link
             color="inherit"
             onClick={() => {
-              logoutClick()
+              logoutClick();
             }}
           >
             Logout
           </Navbar.Link>
-        ) : 
-        // <Button auto flat onClick={()=>{alert(1)}}>
+        ) : // <Button auto flat onClick={()=>{alert(1)}}>
         //   Start free trial
         // </Button>
         null}
