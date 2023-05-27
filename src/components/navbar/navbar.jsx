@@ -230,7 +230,7 @@ export const Nav = ({ isLogin, isRegister, isResetPass }) => {
           </Enlace>
         ) : null}
 
-        {!logged && isLogin ? <ModalLogin /> : null}
+        {!logged  ? <ModalLogin /> : null}
         {!logged && isRegister ? <ModalRegister /> : null}
         {!logged && isResetPass ? <ModalResetPass /> : null}
 

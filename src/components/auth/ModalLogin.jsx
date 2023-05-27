@@ -31,9 +31,9 @@ export const ModalLogin = () => {
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
 
-  useEffect(() => {
-    setVisible(!logged);
-  }, [logged]);
+  // useEffect(() => {
+  //   setVisible(!logged);
+  // }, [logged]);
 
   const closeHandler = () => {
     setVisible(false);

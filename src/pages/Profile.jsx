@@ -6,10 +6,12 @@ import {
   Input,
   Button,
   Loading,
+  Spacer,
 } from "@nextui-org/react";
 import { actions } from "../types/types";
 import { Box } from "../components/styles/box";
 import { Flex } from "../components/styles/flex";
+import {  useNavigate } from "react-router-dom";
 import { setImageAvatar } from "../reducers/userReducer";
 import { uploadAvatar } from "../cloudinary/cloudinary";
 import { useEffect } from "react";
@@ -20,6 +22,7 @@ import swal from "sweetalert";
 
 export const Profile = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const { user } = useSelector((state) => state.user);
   const inputName = useInput("");
@@ -35,25 +38,40 @@ export const Profile = () => {
   const inputNextNumBill = useInput("");
 
   useEffect(() => {
-    inputName.setValue(user?.name || '');
-    inputSurname.setValue(user?.surname || '');
-    inputEmail.setValue(user?.email || '');
-    inputDNI.setValue(user?.dni || '');
-    inputVillage.setValue(user?.village || '');
-    inputPostalCode.setValue(user?.postalCode || '');
-    inputAdress.setValue(user?.address || '');
-    inputProvince.setValue(user?.province || '');
-    inputPhone.setValue(user?.phone || '');
-    inputAvatar.setValue(user?.avatar || '');
-    inputNextNumBill.setValue(user?.nextNumBill || '');
+    inputName.setValue(user?.name || "");
+    inputSurname.setValue(user?.surname || "");
+    inputEmail.setValue(user?.email || "");
+    inputDNI.setValue(user?.dni || "");
+    inputVillage.setValue(user?.village || "");
+    inputPostalCode.setValue(user?.postalCode || "");
+    inputAdress.setValue(user?.address || "");
+    inputProvince.setValue(user?.province || "");
+    inputPhone.setValue(user?.phone || "");
+    inputAvatar.setValue(user?.avatar || "");
+    inputNextNumBill.setValue(user?.nextNumBill || "");
+  }, []);
+
+
+  useEffect(() => {
+    const handleKeyPress = (event) => {
+      if (event.key === 'Escape') {
+        navigate('/')
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyPress);
+
+    // Limpia el evento al desmontar el componente
+    return () => {
+      document.removeEventListener('keydown', handleKeyPress);
+    };
   }, []);
 
   const handleImageUpload = async (event) => {
     setIsLoading(true);
     const file = event.target.files[0];
     const extension = file?.name.split(".").pop();
-    uploadAvatar(file, user.docId, "avatar", extension)
-    .then((imageAvatar) => {
+    uploadAvatar(file, user.docId, "avatar", extension).then((imageAvatar) => {
       dispatch(setImageAvatar(imageAvatar));
       setIsLoading(false);
     });
@@ -74,18 +92,17 @@ export const Profile = () => {
       province: inputProvince.value,
       phone: inputPhone.value,
     };
-    console.log(user)
+    console.log(user);
     dispatch({
       type: actions.UPDATE_DATA_USER,
       payload: {
-        ...user
+        ...user,
       },
     });
     swal({
       title: "Datos actualizados",
       icon: "success",
-    })
-    
+    });
   };
 
   return (
@@ -270,6 +287,19 @@ export const Profile = () => {
                       // css={{width:"50%",  marginLeft: 'auto' }}
                     >
                       Guardar cambios
+                    </Button>
+                    <Spacer />
+     
+
+                    <Button
+                      auto
+                      flat
+                      color="error"
+                      onClick={() => {
+                        navigate("/");
+                      }}
+                    >
+                      Cerrar
                     </Button>
                   </Grid>
                 </Grid.Container>
