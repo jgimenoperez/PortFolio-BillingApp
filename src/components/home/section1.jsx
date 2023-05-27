@@ -124,6 +124,73 @@ export const Section1 = () => {
                 a
               </span>
             </span>
+
+            <br></br>
+            <span>
+              <span
+                className="inner aos-init"
+                data-aos="fade-up"
+                data-aos-delay="100"
+              >
+                t
+              </span>
+              <span
+                className="inner aos-init"
+                data-aos="fade-up"
+                data-aos-delay="200"
+              >
+                u
+              </span>
+              <span
+                className="inner aos-init"
+                data-aos="fade-up"
+                data-aos-delay="300"
+              >
+                s
+              </span>
+              <span
+                className="inner aos-init"
+                data-aos="fade-up"
+                data-aos-delay="400"
+              >
+                {' '}
+              </span>
+              <span
+                className="inner aos-init"
+                data-aos="fade-up"
+                data-aos-delay="500"
+              >
+                &quot;b
+              </span>
+              <span
+                className="inner aos-init"
+                data-aos="fade-up"
+                data-aos-delay="600"
+              >
+                i
+              </span>
+              <span
+                className="inner aos-init"
+                data-aos="fade-up"
+                data-aos-delay="700"
+              >
+                l
+              </span>
+              <span
+                className="inner aos-init"
+                data-aos="fade-up"
+                data-aos-delay="700"
+              >
+                l
+              </span>  
+              <span
+                className="inner aos-init"
+                data-aos="fade-up"
+                data-aos-delay="700"
+              >
+                s&quot;
+              </span>            
+            </span>
             <br></br>
             <span>
               <span
@@ -162,36 +229,45 @@ export const Section1 = () => {
                 {" a "}
               </span>
             </span>
+
             <br></br>
+
             <span>
               <span
                 className="inner aos-init"
                 data-aos="fade-up"
                 data-aos-delay="1300"
               >
-                p
+                B
               </span>
               <span
                 className="inner aos-init"
                 data-aos="fade-up"
                 data-aos-delay="1400"
               >
-                r
+                i
               </span>
               <span
                 className="inner aos-init"
                 data-aos="fade-up"
                 data-aos-delay="1500"
               >
-                o
+                l
+              </span>
+              <span
+                className="inner aos-init"
+                data-aos="fade-up"
+                data-aos-delay="1500"
+              >
+                l
               </span>
             </span>
           </h1>
           <div>
             <img
-                            className="inner aos-init"
-                            data-aos="fade-up"
-                            data-aos-delay="1500"
+              className="inner aos-init"
+              data-aos="fade-up"
+              data-aos-delay="1500"
               src="https://res.cloudinary.com/dxnwtmj3l/image/upload/v1685201679/BillingApp/Public/bill_lfjsph.png"
               className="img-fluid"
             />
