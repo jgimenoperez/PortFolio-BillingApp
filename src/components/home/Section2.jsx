@@ -2,7 +2,7 @@ import { Text } from "@nextui-org/react";
 
 export const Section2 = () => {
   return (
-    <section>
+    <section className="section2">
       <div
         style={{
           height: "71vh",
@@ -16,6 +16,7 @@ export const Section2 = () => {
         }}
       >
         <Text
+          h2
           className="tittleSection1"
           size={140}
           weight="bold"
@@ -29,17 +30,17 @@ export const Section2 = () => {
           size={30}
           weight="bold"
           color="#20264c"
-          css={{
-            marginLeft: "65%",
-            textAlign: "left",
-            lineHeight: "1.2",
-            paddingRight: "5%",
-          }}
         >
-          Hasta los egs de costosos y complicados programas de facturación.
+          ¿Hasta los egs de costosos y complicados programas de facturación?
           <br></br> Preocupate solo por la parte del complicado.
         </Text>
-      </div>
+
+          <img
+            className="arrow"
+            src="https://res.cloudinary.com/dxnwtmj3l/image/upload/v1685345009/BillingApp/Public/arrow-bottom_w7b3ro.svg"
+          ></img>
+        </div>
+
     </section>
   );
 };
