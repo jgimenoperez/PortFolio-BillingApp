@@ -1,12 +1,18 @@
 import { Text } from "@nextui-org/react";
 import Aos from "aos";
 import "aos/dist/aos.css";
+import { useParallax } from "react-scroll-parallax";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 export const Section1 = () => {
-  const [pathD, setPathD] = useState("M0,0L1800,800L100,400L0,350Z");
-
+  const target = useRef(null);
+  const [pathD, setPathD] = useState("M0,0L100,800L100,400L0,350Z");
+  const bill = useParallax({
+    speed: 50,
+    easing: 'easeInOut',
+    targetElement: target.current,
+  });
   useEffect(() => {
     Aos.init({ duration: 2000 });
   }, []);
@@ -27,7 +33,7 @@ export const Section1 = () => {
       } else if (screenWidth < 1200) {
         newPathD = "M0,0L1200,800L200,100L0,100Z";
       } else {
-        newPathD = "M0,0L1800,800L100,400L0,350Z";
+        newPathD = "M0,0L1800,800L100,100L0,350Z";
       }
 
       // if (screenWidth < 1468) {
@@ -53,17 +59,16 @@ export const Section1 = () => {
   }, []);
 
   return (
-    <section>
-      <div>
+    <section ref={target}>
+      <div >
         <div
           style={{
             position: "relative",
             height: "91vh",
-            backgroundColor: "blue",
           }}
           className="section1"
         >
-          <Text
+          <Text 
             className="tittleSection1"
             size={40}
             weight="bold"
@@ -153,7 +158,7 @@ export const Section1 = () => {
                 data-aos="fade-up"
                 data-aos-delay="400"
               >
-                {' '}
+                {" "}
               </span>
               <span
                 className="inner aos-init"
@@ -182,14 +187,14 @@ export const Section1 = () => {
                 data-aos-delay="700"
               >
                 l
-              </span>  
+              </span>
               <span
                 className="inner aos-init"
                 data-aos="fade-up"
                 data-aos-delay="700"
               >
                 s&quot;
-              </span>            
+              </span>
             </span>
             <br></br>
             <span>
@@ -263,13 +268,13 @@ export const Section1 = () => {
               </span>
             </span>
           </h1>
-          <div>
-            <img
-              className="inner aos-init"
+
+          <div  >
+            <img  ref={bill.ref}
+              className="inner aos-init img-fluid"
               data-aos="fade-up"
-              data-aos-delay="1500"
-              src="https://res.cloudinary.com/dxnwtmj3l/image/upload/v1685201679/BillingApp/Public/bill_lfjsph.png"
-              className="img-fluid"
+              // data-aos-delay="1500"
+              src="https://res.cloudinary.com/dxnwtmj3l/image/upload/v1685300806/BillingApp/Public/bill2_aq2pfs.png"
             />
             <svg data-aos="fade-up" className="circle" viewBox="0 0 100 100">
               <circle cx="50%" cy="50%" r="15%" fill="#ff4f52" />
@@ -287,10 +292,11 @@ export const Section1 = () => {
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0.650 0 500 1"
-              style={{ height: "100vh", backgroundColor: "white" }}
+              style={{ height: "50vh" }}
+              className="svg"
             >
-              <rect x="0%" y="80%" width="100%" height="500" fill="#ff4f52" />
-              <path fill="#ff4f52" fillOpacity="1" d={pathD}></path>
+              <rect x="0%" y="65%"  style={{height:"100%",width:"100%" }} fill="#ff4f52" />
+              <path fill="#ff4f52" fillOpacity="1" d={pathD} ></path>
               {/* <foreignObject x={"80%"} y={"10%"} width={160} height={80}>
                 <h1
                   xmlns="http://www.w3.org/1999/xhtml"
