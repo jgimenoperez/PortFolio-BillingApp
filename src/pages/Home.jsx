@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Layout } from "../components/navbar/Layout";
-import { Section1, Section2 } from "../components/home/";
+import { Section1, Section2,Section3 } from "../components/home/";
 
 export const Home = () => {
   // useEffect(() => {
@@ -176,6 +176,9 @@ export const Home = () => {
       <Layout>
         <Section1 />
         <Section2 />
+        <Section3 />
+        <Section1 />
+        <Section1 />
       </Layout>
     </div>
   );

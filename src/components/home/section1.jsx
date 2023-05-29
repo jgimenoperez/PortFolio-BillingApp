@@ -272,7 +272,7 @@ export const Section1 = () => {
           <div  >
             <img  ref={bill.ref}
               className="inner aos-init img-fluid"
-              data-aos="fade-up"
+              // data-aos="fade-up"
               // data-aos-delay="1500"
               src="https://res.cloudinary.com/dxnwtmj3l/image/upload/v1685300806/BillingApp/Public/bill2_aq2pfs.png"
             />

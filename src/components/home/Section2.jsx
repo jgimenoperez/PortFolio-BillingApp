@@ -32,7 +32,7 @@ export const Section2 = () => {
           color="#20264c"
         >
           ¿Hasta los egs de costosos y complicados programas de facturación?
-          <br></br> Preocupate solo por la parte del complicado.
+          <br></br>  <br></br>  Preocupate solo por la parte del complicado.
         </Text>
 
           <img
