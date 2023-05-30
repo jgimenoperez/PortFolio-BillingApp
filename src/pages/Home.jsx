@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Layout } from "../components/navbar/Layout";
+import { Layout } from "../components/navbar/layout";
 import { Section1, Section2,Section3 } from "../components/home/";
 
 export const Home = () => {
