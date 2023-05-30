@@ -1,5 +1,5 @@
 import { Box } from "../components/styles/box";
-import { Nav } from "../components/navbar/Navbar";
+import { Nav } from "../components/navbar/navbar";
 
 Box
 export const Register = () => {
