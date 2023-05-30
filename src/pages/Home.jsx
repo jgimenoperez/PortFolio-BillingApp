@@ -1,9 +1,8 @@
 import { useEffect } from "react";
 import { Layout } from "../components/navbar/layout";
-import { Section1 } from "../components/home/Section1";
-import { Section2 } from "../components/home/Section2";
-import { Section3 } from "../components/home/Section3";
-
+import { Section1 } from "../components/home/section1";
+import { Section2 } from "../components/home/section2";
+import { Section3 } from "../components/home/section3";
 
 export const Home = () => {
   // useEffect(() => {
@@ -126,7 +125,6 @@ export const Home = () => {
   //   };
   // }, []);
 
-
   // useEffect(() => {
   //   const handleScroll = (e) => {
   //     e.preventDefault();
@@ -172,7 +170,6 @@ export const Home = () => {
   // const easeOutQuart = (t) => {
   //   return 1 - Math.pow(1 - t, 4);
   // };
-
 
   return (
     <div className="prueba">
