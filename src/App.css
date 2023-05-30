@@ -74,7 +74,7 @@
   position: absolute;
   width: 50%;
   height: 500px;
-  top:-6%;
+  top: -6%;
 }
 
 .section1 .svg {
@@ -102,12 +102,42 @@
 .section2 .arrow {
   width: 100%;
   height: 30%;
+  margin-top: -180px;
+}
 
+.section3{
+  height: 100vh;
+  background-color: #20264c;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-image: url(https://res.cloudinary.com/dxnwtmj3l/image/upload/v1685346952/BillingApp/Public/lines-map-2_Mesa-de-trabajo-1_tvrojo.svg);
+  background-size: 100%;
+  /* // alignItems: center; */
+  justify-content: center;
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  
+
+  
 }
 
 .section3 p {
-  margin-top: 250px;
+  margin-top: 20px;
   font-size: 25px;
+  text-align: center;
+}
+
+.section3 .buttonContainer{
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+  width: 50%;
+}
+
+.section3 h2 {
   text-align: center;
 }
 
@@ -122,6 +152,7 @@
   border-radius: 30px;
   color: #333;
   transition: all 0.5s ease-in-out;
+  /* margin: 100px */
 }
 
 .btn-txt {
@@ -131,7 +162,16 @@
   letter-spacing: 4px;
 }
 
-.type1::after {
+.button:hover {
+  box-shadow: 1px 1px 200px white;
+  color: white;
+  border: none;
+  background-color: #ff4f52;
+
+}
+
+
+/* .type1::after {
   content: "";
   position: absolute;
   left: 0;
@@ -145,27 +185,24 @@
   z-index: -1;
 }
 
-.button:hover {
-  box-shadow: 1px 1px 200px #ff4f52;
-  color: #fff;
-  border: none;
-}
 
 .type1:hover::after {
   visibility: visible;
   transform: scale(100) translateX(2px);
-}
+} */
 
 
 .pulsating-circle {
   position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translateX(-50%) translateY(-50%);
-  width: 30px;
-  height: 30px;
+  /* transform: translateX(-50%) translateY(-50%); */
+  width: 20px;
+  height: 20px;
+  bottom: -10%;
+  left:50;
   
-  &:before {
+
+
+   &:before {
     content: '';
     position: relative;
     display: block;
@@ -176,29 +213,33 @@
     margin-top: -100%;
     border-radius: 45px;
     background-color: #ff4f52;
-    animation: pulse-ring 1.25s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+    animation: pulse-ring 2.25s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
   }
-  
+
   &:after {
     content: '';
     position: absolute;
-    left: 0; 
+    left: 0;
     top: 0;
     display: block;
     width: 100%;
     height: 100%;
     background-color: #ff4f52;
     border-radius: 15px;
-    box-shadow: 0 0 8px rgba(0,0,0,.3);
+    box-shadow: 0 0 8px rgba(0, 0, 0, .3);
     animation: pulse-dot 1.25s cubic-bezier(0.455, 0.03, 0.515, 0.955) -.4s infinite;
-  }
+  } 
 }
+
+
 
 @keyframes pulse-ring {
   0% {
     transform: scale(.33);
   }
-  80%, 100% {
+
+  80%,
+  100% {
     opacity: 0;
   }
 }
@@ -207,9 +248,11 @@
   0% {
     transform: scale(.8);
   }
+
   50% {
     transform: scale(1);
   }
+
   100% {
     transform: scale(.8);
   }
@@ -268,13 +311,17 @@ circle {
 @keyframes rotateCircles {
   from {
     transform: rotate(0);
-  } to {
+  }
+
+  to {
     transform: rotate(360deg);
   }
 }
 
 
 /* media query */
+
+
 
 @media (max-width: 1220px) {
   .section1 img {
@@ -287,11 +334,11 @@ circle {
     left: 15%;
     width: 40%;
   }
-  
+
   .section2 p {
     font-size: 30px;
   }
-  
+
 
 }
 
@@ -321,53 +368,38 @@ circle {
     margin-left: 50%;
     margin-bottom: 25px;
   }
-  
+
+  .section2 .arrow {
+    width: 100%;
+    height: 30%;
+    margin-top: 0
+  }
 }
 
-@media (max-width: 768px) {
-  .section1 h1 {
-    font-size: 62px;
-    bottom: -25%;
+@media (max-width: 540px) {
+  .section2 .arrow {
+    width: 100%;
+    height: 30%;
+    margin-top: -200px;
+    margin-left: -80px
   }
 
-  .section1 p {
-    font-size: 60px
+  .section3 p {
+    font-size: 15px;
   }
 
-  .section1 .circle {
-    top: 38%;
-    left: 15%;
-    width: 40%;
-  }
-  
 }
 
-@media (max-width: 440px) {
-  .section1 h1 {
-    font-size: 62px;
-    bottom: -25%;
-  }
-
-  .section1 p {
-    font-size: 60px
-  }
-
-  .section1 .circle {
-    top: 43%;
-    left: 10%;
-    width: 50%;
-  }
-  
-}
-
-@media (max-width: 440px) {
+@media (max-width: 411px) {
   .section1 h1 {
     font-size: 52px;
     bottom: -25%;
+
   }
 
   .section1 p {
-    font-size: 50px
+    font-size: 50px;
+    margin-bottom: 25px;
   }
 
   .section1 .circle {
@@ -379,33 +411,90 @@ circle {
   .section1 img {
     width: 50%;
   }
-  
+
   .section2 h2 {
-    font-size: 80px;
+    font-size: 70px;
+  }
+
+  .section2 p {
+    font-size: 25px;
+  }
+
+  .section2 .arrow {
+    width: 100%;
+    height: 30%;
+    margin-left: -20px;
+    margin-top: -110px
+  }
+
+  .section3 p {
+    margin-top: 20px;
+    font-size: 18px;
+    font-weight: bold;
+  }
+
+  .section3 h2 {
+    font-size: 30px;
+  }
+
+  .section1 .circle {
+    position: absolute;
+    width: 50%;
+    height: 500px;
+    left:65px;
+    top: 30%;
+  }
+
+  .button {
+    margin: 0px
   }
 
 }
 
-@media (max-width: 440px) {
-  .section1 h1 {
-    font-size: 42px;
-    bottom: -25%;
+@media (max-width: 360px) {
+  .section2 .arrow {
+    width: 100%;
+    height: 30%;
+    margin-top: -200px;
+    margin-left: -100px
   }
 
-  .section1 p {
-    font-size: 40px
+  .section3 p {
+    margin-top: 60px;
   }
 
-  .section1 .circle {
-    top: 43%;
-    left: 45%;
-    width: 50%;
+  .section3 .button {
+    width: 150px;
+  }
+  .section3 .button .btn-txt {
+    font-size: 20px;
+  }
+  .section3  {
+    height: 121vh;
   }
 
-  .section1 img {
-    width: 70%;
+  .section3 .button {
+
+    width: 130px;
+
   }
-  
+  .button {
+    /* margin: 20px */
+  }
+
+}
+
+@media (max-width: 280px) {
+  .section2 .arrow {
+    width: 100%;
+    height: 30%;
+    margin-top: -220px;
+    margin-left: -80px;
+  }
+
+
+
+
 }
 
 html {
@@ -421,5 +510,3 @@ html {
     font-size: 20px
   }
 } */
-
-

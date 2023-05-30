@@ -1,18 +1,18 @@
 import { Text } from "@nextui-org/react";
 import Aos from "aos";
 import "aos/dist/aos.css";
-import { useParallax } from "react-scroll-parallax";
+// import { useParallax } from "react-scroll-parallax";
 
 import { useEffect, useState, useRef } from "react";
 
 export const Section1 = () => {
-  const target = useRef(null);
+  // const target = useRef(null);
   const [pathD, setPathD] = useState("M0,0L100,800L100,400L0,350Z");
-  const bill = useParallax({
-    speed: 50,
-    easing: 'easeInOut',
-    targetElement: target.current,
-  });
+  // const bill = useParallax({
+  //   speed: 50,
+  //   easing: 'easeInOut',
+  //   targetElement: target.current,
+  // });
   useEffect(() => {
     Aos.init({ duration: 2000 });
   }, []);
@@ -23,7 +23,6 @@ export const Section1 = () => {
 
       // Lógica para calcular el nuevo valor de 'd' según la resolución de pantalla
       let newPathD = "";
-      console.log(screenWidth);
 
       //switch segun screenwidth
       if (screenWidth < 768) {
@@ -59,7 +58,9 @@ export const Section1 = () => {
   }, []);
 
   return (
-    <section ref={target}>
+    <section 
+    // ref={target}
+    >
       <div >
         <div
           style={{
@@ -270,7 +271,8 @@ export const Section1 = () => {
           </h1>
 
           <div  >
-            <img  ref={bill.ref}
+            <img  
+            // ref={bill.ref}
               className="inner aos-init img-fluid"
               // data-aos="fade-up"
               // data-aos-delay="1500"
