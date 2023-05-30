@@ -1,6 +1,9 @@
 import { useEffect } from "react";
 import { Layout } from "../components/navbar/layout";
-import { Section1, Section2,Section3 } from "../components/home/";
+import { Section1 } from "../components/home/Section1";
+import { Section2 } from "../components/home/Section2";
+import { Section3 } from "../components/home/Section3";
+
 
 export const Home = () => {
   // useEffect(() => {
