@@ -1,21 +1,52 @@
 import { Text } from "@nextui-org/react";
 import Aos from "aos";
 import "aos/dist/aos.css";
-// import { useParallax } from "react-scroll-parallax";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState,  } from "react";
+import { useInView } from "react-intersection-observer";
 
 export const Section1 = () => {
-  // const target = useRef(null);
+  const [position, setPosition] = useState(0);
+  const [scroll, setScroll] = useState(0);
+  const [inViewRef, inView] = useInView();
   const [pathD, setPathD] = useState("M0,0L100,800L100,400L0,350Z");
-  // const bill = useParallax({
-  //   speed: 50,
-  //   easing: 'easeInOut',
-  //   targetElement: target.current,
-  // });
+
+  const parallaxEffect = inView ? position : 0;
+
   useEffect(() => {
     Aos.init({ duration: 2000 });
   }, []);
+
+  useEffect(() => {
+    let lastScrollTop = 0;
+    const handleScroll = (e) => {
+      e.preventDefault();
+      if (window.scrollY==0){
+        setPosition(0);
+      }else 
+      if (lastScrollTop < window.scrollY) {
+        setPosition((prevCount) => prevCount - 10);
+      } else {
+        setPosition((prevCount) => prevCount + 10);
+      }
+
+      lastScrollTop = window.scrollY;
+      if (inView) {
+        setScroll(window.scrollY);
+      }
+    };
+
+    if (inView) {
+      window.addEventListener("scroll", handleScroll);
+    } else {
+      window.removeEventListener("scroll", handleScroll);
+      setPosition(0);
+    }
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [inView]);
 
   useEffect(() => {
     const updatePathD = () => {
@@ -58,10 +89,11 @@ export const Section1 = () => {
   }, []);
 
   return (
-    <section 
-    // ref={target}
+    <section
+      ref={inViewRef}
+      // ref={target}
     >
-      <div >
+      <div>
         <div
           style={{
             position: "relative",
@@ -69,7 +101,7 @@ export const Section1 = () => {
           }}
           className="section1"
         >
-          <Text 
+          <Text
             className="tittleSection1"
             size={40}
             weight="bold"
@@ -270,11 +302,11 @@ export const Section1 = () => {
             </span>
           </h1>
 
-          <div  >
-            <img  
-            // ref={bill.ref}
+          <div>
+            <img
+              style={{ transform: `translateY(${parallaxEffect}px)` }}
               className="inner aos-init img-fluid"
-              // data-aos="fade-up"
+              data-aos="fade-up"
               // data-aos-delay="1500"
               src="https://res.cloudinary.com/dxnwtmj3l/image/upload/v1685300806/BillingApp/Public/bill2_aq2pfs.png"
             />
@@ -297,8 +329,13 @@ export const Section1 = () => {
               style={{ height: "50vh" }}
               className="svg"
             >
-              <rect x="0%" y="65%"  style={{height:"100%",width:"100%" }} fill="#ff4f52" />
-              <path fill="#ff4f52" fillOpacity="1" d={pathD} ></path>
+              <rect
+                x="0%"
+                y="65%"
+                style={{ height: "100%", width: "100%" }}
+                fill="#ff4f52"
+              />
+              <path fill="#ff4f52" fillOpacity="1" d={pathD}></path>
               {/* <foreignObject x={"80%"} y={"10%"} width={160} height={80}>
                 <h1
                   xmlns="http://www.w3.org/1999/xhtml"
@@ -314,14 +351,3 @@ export const Section1 = () => {
     </section>
   );
 };
-
-// const MyButton = styled(Button, {
-//   borderRadius: "9999px",
-//   fontSize: "85px",
-//   border: "0",
-//   fontFamily: "MiFuente",
-//   "@font-face": {
-//     fontFamily: "MiFuente",
-//     src: `url(${fuente}) format('truetype')`,
-//   },
-// });

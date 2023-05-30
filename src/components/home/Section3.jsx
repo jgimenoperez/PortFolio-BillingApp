@@ -8,16 +8,15 @@ export const Section3 = () => {
   const [scroll, setScroll] = useState(0);
   const [inViewRef, inView] = useInView();
 
-  useEffect(() => {}, []);
 
   useEffect(() => {
     let lastScrollTop = 0;
     const handleScroll = (e) => {
       e.preventDefault();
       if (lastScrollTop < window.scrollY) {
-        setPosition((prevCount) => prevCount + 100);
+        setPosition((prevCount) => prevCount + 10);
       } else {
-        setPosition((prevCount) => prevCount -100);
+        setPosition((prevCount) => prevCount -10);
       }
 
       lastScrollTop = window.scrollY;
@@ -48,47 +47,9 @@ export const Section3 = () => {
     };
   }, [inView]);
 
-  // const getParallaxScroll = () => {
-  //   const direction = scroll > lastScrollTop ? 1 : -1;
-  //   setLastScrollTop(scroll);
-  //   return scroll * 0.2 * direction; // Ajusta la velocidad del efecto parallax y la dirección del scroll
-  // };
-
-  // const parallaxEffect = inView ? position + getParallaxScroll() : 0;
+  
   const parallaxEffect = inView ? position : 0;
-  // const target1 = useRef(null);
-
-  // const button1 = useParallax({
-  //   speed: 10,
-  //   easing: "easeInOut",
-  //   targetElement: target1.current,
-  // });
-
-  // const button2 = useParallax({
-  //   speed: -10,
-  //   easing: "easeInOut",
-  //   targetElement: target1.current,
-  // });
-
-  // const parallaxRef = useRef(null);
-  // useEffect(() => {
-  //   const handleScroll = () => {
-  //     const scrollPosition = window.scrollX;
-  //     const parallaxElement = parallaxRef.current;
-
-  //     if (parallaxElement) {
-  //       const elementRect = parallaxElement.getBoundingClientRect();
-  //       const elementOffset = elementRect.y;
-  //       parallaxElement.style.transform = `translateX(${elementOffset+1}px)`;
-  //     }
-  //   };
-
-  //   window.addEventListener("scroll", handleScroll);
-
-  //   return () => {
-  //     window.removeEventListener("scroll", handleScroll);
-  //   };
-  // }, []);
+  
 
   return (
     <section className="section3"   >
@@ -114,7 +75,7 @@ export const Section3 = () => {
         <strong>!! Si a tu cuñado le parece sencillo imaginate a ti. !!</strong>
       </Text>
 
-      <div  className="buttonContainer parallax-container">
+      <div  className="buttonContainer parallax-container" ref={inViewRef}>
         {/* <div className="pulsating-circle" /> */}
 
         {/* <div className="circles-wrapper">
@@ -135,7 +96,7 @@ export const Section3 = () => {
           }}
           className="parallax-element"
         >
-          <button className="button type1"ref={inViewRef}> 
+          <button className="button type1"> 
             <span className="btn-txt">Petalo</span>
           </button>
           <div className="type1 pulsating-circle" />
