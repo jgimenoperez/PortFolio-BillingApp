@@ -5,35 +5,50 @@ import { useInView } from "react-intersection-observer";
 
 export const Section3 = () => {
   const [inViewRef, inView] = useInView();
-  const [position, setPosition] = useState(0);
-  const [scroll, setScroll] = useState(0);
-
-  const parallaxEffect = inView ? position : 0;
-
+  const [buttonIntersection, setButtonIntersection] = useState('');
   useEffect(() => {
+    let startPosition = 0;
+    let nextPosition = 200;
     let lastScrollTop = 0;
+
     const handleScroll = (e) => {
       e.preventDefault();
-      if (window.scrollY==0){
-        setPosition(0);
-      }else 
       if (lastScrollTop < window.scrollY) {
-        setPosition((prevCount) => prevCount - 10);
+        setButtonIntersection('down')
+        // Scroll down
+        nextPosition += 1;
+        // startPosition += 10;
+        document.documentElement.style.setProperty(
+          "--desplazamiento",
+          `${nextPosition}px`
+        );
+        document.documentElement.style.setProperty(
+          "--startPosition",
+          `${startPosition}px`
+        );
       } else {
-        setPosition((prevCount) => prevCount + 10);
+        // Scroll up
+        setButtonIntersection('up')
+        nextPosition -= 1;
+        // startPosition -= 10;
+        document.documentElement.style.setProperty(
+          "--desplazamiento",
+          `${nextPosition*-1 }px`
+        );
+        document.documentElement.style.setProperty(
+          "--startPosition",
+          `${startPosition*-1}px`
+        );
       }
-
       lastScrollTop = window.scrollY;
-      if (inView) {
-        setScroll(window.scrollY);
-      }
     };
 
     if (inView) {
       window.addEventListener("scroll", handleScroll);
+      // setButtonIntersection(true)
     } else {
       window.removeEventListener("scroll", handleScroll);
-      setPosition(0);
+      // setButtonIntersection(false)
     }
 
     return () => {
@@ -41,14 +56,12 @@ export const Section3 = () => {
     };
   }, [inView]);
 
-  
-  
   useEffect(() => {
     console.log(1, inView);
   }, [inView]);
 
   return (
-    <section className="section3" >
+    <section className="section3" ref={inViewRef}>
       <Text color="white">
         Dale un impulso a tu negocio con nuestro programa de facturación de
         última generación<br></br> Simplifica tus tareas financieras y lleva un
@@ -61,7 +74,7 @@ export const Section3 = () => {
         agilizar tus operaciones diarias.<br></br>{" "}
       </Text>
       <br></br>
-      <Text h2 color="white" ref={inViewRef}>
+      <Text h2 color="white">
         <strong>!! Si a tu cuñado le parece sencillo imaginate a ti. !!</strong>
       </Text>
 
@@ -72,13 +85,14 @@ export const Section3 = () => {
             flexDirection: "column",
             alignItems: "center",
             position: "relative",
-            transform: `translateY(${parallaxEffect}px)`
           }}
           className="parallax-element"
         >
-          <button 
-            className="button type1" 
-            >
+          <button
+            className={`button type1 ${
+              buttonIntersection==='up' ? "buttonAnimationUp" :"buttonAnimationDown"
+            }`}
+          >
             <span className="btn-txt">Petalo</span>
           </button>
           <div className="type1 pulsating-circle" />
@@ -90,7 +104,7 @@ export const Section3 = () => {
             flexDirection: "column",
             alignItems: "center",
             position: "relative",
-            transform: `translateY(${parallaxEffect*-1}px)`
+            // transform: `translateY(${parallaxEffect * -1}px)`,
           }}
         >
           <button className="button type1">

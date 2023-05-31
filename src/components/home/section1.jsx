@@ -9,12 +9,11 @@ export const Section1 = () => {
   const [position, setPosition] = useState(0);
   const [scroll, setScroll] = useState(0);
   const [inViewRef, inView] = useInView();
-  const [pathD, setPathD] = useState("M0,0L100,800L100,400L0,350Z");
 
   const parallaxEffect = inView ? position : 0;
 
   useEffect(() => {
-    Aos.init({ duration: 2000 });
+    Aos.init({ duration: 1000 });
   }, []);
 
   useEffect(() => {
@@ -48,50 +47,10 @@ export const Section1 = () => {
     };
   }, [inView]);
 
-  useEffect(() => {
-    const updatePathD = () => {
-      const screenWidth = window.innerWidth;
-
-      // Lógica para calcular el nuevo valor de 'd' según la resolución de pantalla
-      let newPathD = "";
-
-      //switch segun screenwidth
-      if (screenWidth < 768) {
-        newPathD = "M0,0L800,800L200,100L0,100Z";
-      } else if (screenWidth < 992) {
-        newPathD = "M0,0L1000,800L200,100L0,100Z";
-      } else if (screenWidth < 1200) {
-        newPathD = "M0,0L1200,800L200,100L0,100Z";
-      } else {
-        newPathD = "M0,0L1800,800L100,100L0,350Z";
-      }
-
-      // if (screenWidth < 1468) {
-      //   newPathD = 'M0,0L1200,800L200,100L0,100Z';
-      // } else {
-      //   newPathD = 'M0,0L1800,800L100,400L0,350Z';
-      // }
-
-      // Actualizar el estado con el nuevo valor de 'd'
-      setPathD(newPathD);
-    };
-
-    // Llamar a la función inicial para establecer el valor inicial de 'd'
-    updatePathD();
-
-    // Agregar el evento de redimensionamiento
-    window.addEventListener("resize", updatePathD);
-
-    // Limpiar el evento de redimensionamiento al desmontar el componente
-    return () => {
-      window.removeEventListener("resize", updatePathD);
-    };
-  }, []);
 
   return (
     <section
       ref={inViewRef}
-      // ref={target}
     >
       <div>
         <div
@@ -323,29 +282,31 @@ export const Section1 = () => {
                 strokeWidth=""
               />
             </svg>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0.650 0 500 1"
-              style={{ height: "50vh" }}
-              className="svg"
-            >
-              <rect
-                x="0%"
-                y="65%"
-                style={{ height: "100%", width: "100%" }}
-                fill="#ff4f52"
-              />
-              <path fill="#ff4f52" fillOpacity="1" d={pathD}></path>
-              {/* <foreignObject x={"80%"} y={"10%"} width={160} height={80}>
-                <h1
-                  xmlns="http://www.w3.org/1999/xhtml"
-                  style={{ color: "black", fontSize: 24, textAlign: "center" }}
-                >
-                  Título dentro del SVG
-                </h1>
-              </foreignObject> */}
-            </svg>
+
           </div>
+
+          <div
+            style={{
+              position: "absolute",
+              width:'55%',
+              height:'40%',
+              backgroundImage: 'linear-gradient(15deg, #ff4f52 50%, transparent 50%)',
+              bottom:'0',
+
+            }}
+           ></div> 
+
+           <div
+            style={{
+              position: "absolute",
+              width:'100%',
+              right:0,
+              height:'22%',
+              backgroundColor:'#ff4f52',
+                  bottom:'0'
+            }}
+           ></div> 
+
         </div>
       </div>
     </section>

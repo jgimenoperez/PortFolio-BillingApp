@@ -109,7 +109,7 @@ export const Home = () => {
       e.preventDefault();
 
       const delta = Math.sign(e.deltaY);
-      const scrollDistance = 400; // Distancia de desplazamiento suave
+      const scrollDistance = 1000; // Distancia de desplazamiento suave
       window.scrollTo({
         top: window.pageYOffset + delta * scrollDistance,
         behavior: 'smooth'
@@ -129,7 +129,7 @@ export const Home = () => {
   //     e.preventDefault();
 
   //     const delta = Math.sign(e.deltaY);
-  //     const scrollDistance =250 //1050; // Distancia de desplazamiento suave
+  //     const scrollDistance =550 //1050; // Distancia de desplazamiento suave
   //     const duration = 2000; // Duración total de la animación en milisegundos
 
   //     const start = window.pageYOffset || document.documentElement.scrollTop;
@@ -177,7 +177,8 @@ export const Home = () => {
         <Section1 />
         <Section2 />
         <Section3 />
-        <Section1 />
+        {/* <Section1 />
+        <Section2 /> */}
         {/* <Section1 />
         <Section1 /> */}
       </Layout>

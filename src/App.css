@@ -1,3 +1,8 @@
+:root{
+  --desplazamiento:200px
+  --startPosition:0px
+}
+
 .lineWrapper {
   display: flex;
   align-items: center;
@@ -42,6 +47,7 @@
 .svg-text {
   color: black;
 }
+
 
 .section1 h1 {
   position: absolute;
@@ -105,7 +111,7 @@
   margin-top: -180px;
 }
 
-.section3{
+.section3 {
   height: 100vh;
   background-color: #20264c;
   display: flex;
@@ -119,9 +125,6 @@
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  
-
-  
 }
 
 .section3 p {
@@ -130,7 +133,7 @@
   text-align: center;
 }
 
-.section3 .buttonContainer{
+.section3 .buttonContainer {
   display: flex;
   justify-content: space-around;
   margin-top: 20px;
@@ -170,6 +173,23 @@
 
 }
 
+@keyframes floating {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.button {
+  animation: floating 2s ease-in-out infinite;
+  animation-fill-mode: forwards;
+
+}
 
 /* .type1::after {
   content: "";
@@ -198,11 +218,11 @@
   width: 20px;
   height: 20px;
   bottom: -10%;
-  left:50;
-  
+  left: 50;
 
 
-   &:before {
+
+  &:before {
     content: '';
     position: relative;
     display: block;
@@ -228,7 +248,7 @@
     border-radius: 15px;
     box-shadow: 0 0 8px rgba(0, 0, 0, .3);
     animation: pulse-dot 1.25s cubic-bezier(0.455, 0.03, 0.515, 0.955) -.4s infinite;
-  } 
+  }
 }
 
 
@@ -441,7 +461,7 @@ circle {
     position: absolute;
     width: 50%;
     height: 500px;
-    left:65px;
+    left: 65px;
     top: 30%;
   }
 
@@ -450,6 +470,7 @@ circle {
   }
 
 }
+
 
 @media (max-width: 360px) {
   .section2 .arrow {
@@ -466,10 +487,12 @@ circle {
   .section3 .button {
     width: 150px;
   }
+
   .section3 .button .btn-txt {
     font-size: 20px;
   }
-  .section3  {
+
+  .section3 {
     height: 121vh;
   }
 
@@ -478,6 +501,7 @@ circle {
     width: 130px;
 
   }
+
   .button {
     /* margin: 20px */
   }
