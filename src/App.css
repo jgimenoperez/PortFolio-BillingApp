@@ -3,6 +3,7 @@
   --startPosition:0px
 }
 
+
 .lineWrapper {
   display: flex;
   align-items: center;
@@ -446,6 +447,10 @@ circle {
     font-size: 15px;
   }
 
+  .ManosDevTrollText{
+    font-size: 25px;
+  }
+
 }
 
 @media (max-width: 411px) {
@@ -543,8 +548,8 @@ circle {
 
   }
 
-  .button {
-    /* margin: 20px */
+  .ManosDevTrollText{
+    font-size: 20px;
   }
 
 }
@@ -557,7 +562,9 @@ circle {
     margin-left: -80px;
   }
 
-
+  .ManosDevTrollText{
+    font-size: 14px;
+  }
 
 
 }

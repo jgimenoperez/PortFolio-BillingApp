@@ -1,15 +1,18 @@
-import { BrowserRouter as Router, Routes, Route,Navigate } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import "./App.css";
 import { useDispatch, useSelector } from "react-redux";
 import { darkTheme, ligthTheme } from "./themes/darktheme";
 import { firebaseFindUser, firebasebd } from "./firebase/firebase";
-import { NextUIProvider, Loading  } from "@nextui-org/react";
+import { NextUIProvider, Loading } from "@nextui-org/react";
 import { setAuth, getUser } from "./reducers/userReducer";
 import { useEffect, useState } from "react";
 import { LoginRoute, PrivateRoute } from "./routes";
-import { Home, Login, Profile, Register, ResetPass } from "./pages";
-
-
+import { Home, Login, Profile, Register, ResetPass,Customers } from "./pages";
 
 function App() {
   const dispatch = useDispatch();
@@ -42,9 +45,8 @@ function App() {
   }, [dispatch]);
 
   useEffect(() => {
-      logged ? <Navigate to="/" /> : <Navigate to="/login" />
-  }, [logged])
-  
+    logged ? <Navigate to="/" /> : <Navigate to="/login" />;
+  }, [logged]);
 
   if (isLoading)
     return (
@@ -60,7 +62,6 @@ function App() {
       </Loading>
     );
 
-
   return (
     <NextUIProvider theme={theme === "light" ? ligthTheme : darkTheme}>
       <Router>
@@ -70,7 +71,7 @@ function App() {
               path="/"
               element={
                 // <PrivateRoute>
-                  <Home />
+                <Home />
                 // </PrivateRoute>
               }
               exact
@@ -81,6 +82,16 @@ function App() {
               element={
                 <PrivateRoute>
                   <Profile />
+                </PrivateRoute>
+              }
+              exact
+            />
+
+            <Route
+              path="/customers"
+              element={
+                <PrivateRoute>
+                  <Customers/>
                 </PrivateRoute>
               }
               exact

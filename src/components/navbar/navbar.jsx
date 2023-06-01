@@ -19,7 +19,6 @@ import { useSelector } from "react-redux";
 import { useTheme } from "@nextui-org/react";
 import { Troll, icons } from "./icons";
 import { setAuth } from "../../reducers/userReducer";
-
 export const Nav = ({ isLogin, isRegister, isResetPass }) => {
   const dispatch = useDispatch();
   const { isDark, theme } = useTheme();
@@ -56,7 +55,7 @@ export const Nav = ({ isLogin, isRegister, isResetPass }) => {
           }}
         >
           {/* <Link href="/" > {"Manos {DEV} troll"}</Link> */}
-          <Enlace to="/">{"Manos {DEV} troll"}</Enlace>
+          <Enlace className="ManosDevTrollText" to="/">{"Manos {DEV} troll"}</Enlace>
         </Text>
 
         <Navbar.Content
@@ -201,8 +200,7 @@ export const Nav = ({ isLogin, isRegister, isResetPass }) => {
               onClick={() => {
                 logoutClick();
               }}
-            >
-            </Button>
+            ></Button>
           ) : null}
         </Navbar.CollapseItem>
       </Navbar.Collapse>
@@ -230,7 +228,6 @@ export const Nav = ({ isLogin, isRegister, isResetPass }) => {
           </Enlace>
         ) : null}
 
-        {!logged  ? <ModalLogin /> : null}
         {!logged && isRegister ? <ModalRegister /> : null}
         {!logged && isResetPass ? <ModalResetPass /> : null}
 
@@ -274,6 +271,10 @@ export const Nav = ({ isLogin, isRegister, isResetPass }) => {
         //   Start free trial
         // </Button>
         null}
+        {!logged ? <ModalLogin /> : null}
+      </Navbar.Content>
+      <Navbar.Content showIn="sm">
+        {!logged ? <ModalLogin /> : null}
       </Navbar.Content>
     </Navbar>
   );

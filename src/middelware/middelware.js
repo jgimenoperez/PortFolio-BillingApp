@@ -51,7 +51,6 @@ export const customMiddleware = (store) => (next) => async (action) => {
             action.payload.password
           );
         }
-        console.log(user);
       } catch (error) {
         store.dispatch(setErrorLogin(error.message));
         console.log('Ocurrió un error:', error.message);
@@ -62,7 +61,6 @@ export const customMiddleware = (store) => (next) => async (action) => {
 
     case actions.UPDATE_DATA_USER:
       user = state.user;
-      console.log(11,user)
       firebaseUpdateUser(user.user.docId, {
          ...action.payload,
       }).then(() => {

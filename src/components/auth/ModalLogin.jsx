@@ -15,7 +15,7 @@ import {
 import { GooleIcon } from "../icons";
 import { Link } from "react-router-dom";
 import { Mail } from "../navbar/icons";
-import { useEffect, useState, useRef, useMemo } from "react";
+import { useState, useRef, useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { validateEmail } from "../../utils/utils";
 import { actions } from "../../types/types";

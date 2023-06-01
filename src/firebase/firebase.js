@@ -198,7 +198,7 @@ export const firebaseChangePassword = (code, password) => {
     });
 }
 export const addUserFirestore = (newUser) =>{
-  return firebase.firestore().collection("users").add(newUser)
+  return firebase.firestore().collection("users").doc(newUser.email).set(newUser)
   .then((docRef) => {
       console.log('Registro agregado con ID:', docRef.id);
       return docRef
