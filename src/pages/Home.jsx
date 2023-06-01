@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Layout } from "../components/navbar/layout";
-import { Section1, Section2,Section3 } from "../components/home/";
+import { Section1, Section2,Section3,Section4 } from "../components/home/";
 
 export const Home = () => {
   // useEffect(() => {
@@ -109,7 +109,7 @@ export const Home = () => {
       e.preventDefault();
 
       const delta = Math.sign(e.deltaY);
-      const scrollDistance = 1000; // Distancia de desplazamiento suave
+      const scrollDistance = 500; // Distancia de desplazamiento suave
       window.scrollTo({
         top: window.pageYOffset + delta * scrollDistance,
         behavior: 'smooth'
@@ -177,6 +177,7 @@ export const Home = () => {
         <Section1 />
         <Section2 />
         <Section3 />
+        <Section4 />
         {/* <Section1 />
         <Section2 /> */}
         {/* <Section1 />

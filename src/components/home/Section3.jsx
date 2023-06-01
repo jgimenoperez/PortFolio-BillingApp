@@ -6,21 +6,29 @@ import { useInView } from "react-intersection-observer";
 export const Section3 = () => {
   const [inViewRef, inView] = useInView();
   const [position, setPosition] = useState(0);
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const [scroll, setScroll] = useState(0);
 
-  const parallaxEffect = inView ? position : 0;
 
+  const parallaxEffect = inView ? position : 0;
+  
   useEffect(() => {
     let lastScrollTop = 0;
+    let desplazamiento=10
+
+    if (screenWidth<=800){
+      desplazamiento=2
+    }
+
     const handleScroll = (e) => {
       e.preventDefault();
       if (window.scrollY==0){
         setPosition(0);
       }else 
       if (lastScrollTop < window.scrollY) {
-        setPosition((prevCount) => prevCount - 10);
+        setPosition((prevCount) => prevCount - desplazamiento);
       } else {
-        setPosition((prevCount) => prevCount + 10);
+        setPosition((prevCount) => prevCount + desplazamiento);
       }
 
       lastScrollTop = window.scrollY;
@@ -79,7 +87,7 @@ export const Section3 = () => {
           <button 
             className="button type1" 
             >
-            <span className="btn-txt">Petalo</span>
+            <span className="btn-txt">Saber más</span>
           </button>
           <div className="type1 pulsating-circle" />
         </div>
