@@ -24,7 +24,20 @@ export const Nav = ({ isLogin, isRegister, isResetPass }) => {
   const { isDark, theme } = useTheme();
   const { logged, user } = useSelector((state) => state.user);
 
-  const collapseItems = ["Clientes", "Artículos", "Facturas"];
+  const collapseItems = [
+    {
+      name: "Clientes",
+      link: "customers",
+    },
+    {
+      name: "Articulos",
+      link: "/products",
+    },
+    {
+      name: "Facturas",
+      link: "invoices",
+    },
+  ];
   const logoutClick = () => {
     firebaseLogout();
     dispatch(setAuth(false));
@@ -55,7 +68,9 @@ export const Nav = ({ isLogin, isRegister, isResetPass }) => {
           }}
         >
           {/* <Link href="/" > {"Manos {DEV} troll"}</Link> */}
-          <Enlace className="ManosDevTrollText" to="/">{"Manos {DEV} troll"}</Enlace>
+          <Enlace className="ManosDevTrollText" to="/">
+            {"Manos {DEV} troll"}
+          </Enlace>
         </Text>
 
         <Navbar.Content
@@ -106,7 +121,9 @@ export const Nav = ({ isLogin, isRegister, isResetPass }) => {
                   description="Mantenimiento de clientes"
                   icon={icons.user}
                 >
-                  Clientes
+                  <Navbar.Link isActive color="inherit" href="/customers">
+                    Clientes
+                  </Navbar.Link>
                 </Dropdown.Item>
 
                 <Dropdown.Item
@@ -131,15 +148,15 @@ export const Nav = ({ isLogin, isRegister, isResetPass }) => {
 
       <Navbar.Collapse>
         {collapseItems.map((item) => (
-          <Navbar.CollapseItem key={item}>
+          <Navbar.CollapseItem key={item.name}>
             <Link
               color="inherit"
               css={{
                 minWidth: "100%",
               }}
-              href="#"
+              href={`/${item.link}`}
             >
-              {item}
+              {item.name}
             </Link>
           </Navbar.CollapseItem>
         ))}
