@@ -128,6 +128,25 @@
   background-size: cover;
 }
 
+.mantenimientos {
+  height: 100vh;
+  background-color: #20264c;
+
+  flex-direction: column;
+  align-items: center;
+  background-image: url(https://res.cloudinary.com/dxnwtmj3l/image/upload/v1685346952/BillingApp/Public/lines-map-2_Mesa-de-trabajo-1_tvrojo.svg);
+  background-size: 100%;
+  /* // alignItems: center; */
+  justify-content: center;
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  
+}
+
+
+
 .section3 p {
   margin-top: 20px;
   font-size: 25px;

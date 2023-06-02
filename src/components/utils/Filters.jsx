@@ -1,5 +1,5 @@
 import React from "react";
-import { Input } from "reactstrap";
+// import { Input } from "reactstrap";
 
 export const Filter = ({ column }) => {
   return (

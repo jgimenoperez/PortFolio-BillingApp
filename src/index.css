@@ -1,7 +1,6 @@
-@font-face {
+/* @font-face {
     font-family: "stratos";
     src: url("./fonts/Stratos-Light.ttf");
-    /* src: url("./fonts/stratosweb-thinitalic-TRIAL-BF63c604b5657b4.woff"); */
   }
   
   .pagina  {
@@ -10,13 +9,12 @@
 
   .pagina p{
     font-family: "stratos";
-  }
+  } */
 
   .animacion {
     animation-name: mover;
     animation-duration: 22s;
     animation-timing-function: ease-in-out;
-    /* animation-iteration-count: infinite; */
     color:white
   }
 

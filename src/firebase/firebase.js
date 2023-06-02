@@ -226,7 +226,6 @@ export const firebaseFindUser = (email) => {
       return null;
     });
 };
-
 //udpate user
 export const firebaseUpdateUser = (docId,data) => {
   return firebase
@@ -243,3 +242,25 @@ export const firebaseUpdateUser = (docId,data) => {
       throw error;
     });
 }
+//get customers
+export const firebaseGetCustomers = (email) => {
+  return firebase
+    .firestore()
+    .collection("users")
+    .doc(email)
+    .collection("customers")
+    .get()
+    .then((querySnapshot) => {
+      let customers = [];
+      querySnapshot.forEach((docs) => {
+        // console.log( docs.data());
+        customers.push (  {"id":docs.id,...docs.data()})
+        console.log(customers)
+      });
+      return customers;
+    })
+    .catch((error) => {
+      console.log("Error al obtener los documentos: ", error);
+      return null;
+    });
+};
