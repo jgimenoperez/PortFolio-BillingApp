@@ -1,4 +1,7 @@
-import { customerFields, firebaseGetCustomers } from "../firebase/firebase";
+import {
+  customerFields,
+  firebaseGetCustomers,
+} from "../firebase/firebase";
 import { Layout } from "../components/navbar/layout";
 import {
   Table,
@@ -21,6 +24,8 @@ import { EyeIcon, EditIcon, DeleteIcon } from "../components/icons";
 export const Customers = () => {
   const dispatch = useDispatch();
   const [customers, setCustomers] = useState([]);
+  const [nameFields, setNameFields] = useState([{ name: '', uid: '' }]);
+
   const [directionSort, setDirectionSort] = useState(true);
 
   const { email } = useSelector((state) => state.user.user);
@@ -29,21 +34,30 @@ export const Customers = () => {
     firebaseGetCustomers(email).then((data) => {
       setCustomers(data);
     });
+    
+  }, []);
+
+  useEffect(() => {
+
+
+    const data = customerFields.map((item) => {
+      return {
+        name: item.toUpperCase(),
+        uid: item.toLowerCase(),
+      };
+    });
+    setNameFields(data);
   }, []);
 
   async function sort({ column, direction }) {
     setDirectionSort(!directionSort);
-    console.log(column,direction)
-    const data=customers.sort((a, b) => {
-        a[column] < b[column]
-        return -1;
+    console.log(column, direction);
+    const data = customers.sort((a, b) => {
+      a[column] < b[column];
+      return -1;
     });
-    setCustomers(data)
+    setCustomers(data);
   }
-
-  
-
- 
 
   const renderCell = (user, columnKey) => {
     const cellValue = user[columnKey];
@@ -135,7 +149,9 @@ export const Customers = () => {
               sort(e);
             }}
           >
-            <Table.Header columns={customerFields}>
+            <Table.Header 
+              columns={nameFields}
+            >
               {(column) => (
                 <Table.Column
                   key={column.uid}

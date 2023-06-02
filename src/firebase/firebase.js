@@ -15,7 +15,9 @@ export const firebasebd = firebase.initializeApp(firebaseConfig);
 
 export const firebaseLoginWithEmail = async (email, password) => {
   try {
-    const userCredential = await firebase.auth().signInWithEmailAndPassword(email, password);
+    const userCredential = await firebase
+      .auth()
+      .signInWithEmailAndPassword(email, password);
     const user = userCredential.user;
     console.log("Usuario autenticado:", user);
     let userApp = await firebaseFindUser(user.multiFactor.user.email);
@@ -25,79 +27,86 @@ export const firebaseLoginWithEmail = async (email, password) => {
         name: user.multiFactor.user.displayName,
         email: user.multiFactor.user.email,
         image: user.multiFactor.user.photoURL,
-        data: new Date().toLocaleDateString('es-ES'),
-        typeProvider:"email",
-        nextNumBill:100001  
+        data: new Date().toLocaleDateString("es-ES"),
+        typeProvider: "email",
+        nextNumBill: 100001,
       };
-      addUserFirestore(newUser)
-      .then(userApp = {...newUser})
+      addUserFirestore(newUser).then((userApp = { ...newUser }));
     }
     return userApp;
   } catch (error) {
     // console.error("Error de autenticación:", error);
-    throw new Error ("El correo electrónico/contraseña que ingresaste es incorrecto.\n Verifica tus credenciales o intenta utilizar un método diferente para iniciar sesión.");
+    throw new Error(
+      "El correo electrónico/contraseña que ingresaste es incorrecto.\n Verifica tus credenciales o intenta utilizar un método diferente para iniciar sesión."
+    );
   }
 };
 
-export const firebaseLoginWithEmailNotPersistence = async ( email, password) => {
+export const firebaseLoginWithEmailNotPersistence = async (email, password) => {
   try {
     await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.NONE); // Configurar la persistencia de sesión en "NONE"
-    const userCredential = await firebase.auth().signInWithEmailAndPassword(email, password);
+    const userCredential = await firebase
+      .auth()
+      .signInWithEmailAndPassword(email, password);
     const user = userCredential.user;
     console.log("Usuario autenticado:", user);
     let userApp = await firebaseFindUser(user.multiFactor.user.email);
-    console.log('userApp',userApp)
-    if (!userApp ) {
+    console.log("userApp", userApp);
+    if (!userApp) {
       const newUser = {
         name: user.multiFactor.user.displayName,
         email: user.multiFactor.user.email,
-        image: 'https://res.cloudinary.com/dxnwtmj3l/image/upload/v1684944632/BillingApp/Public/avatar_slisqu.png',
-        data: new Date().toLocaleDateString('es-ES'),
-        typeProvider:"email",
-        nextNumBill:100001        
+        image:
+          "https://res.cloudinary.com/dxnwtmj3l/image/upload/v1684944632/BillingApp/Public/avatar_slisqu.png",
+        data: new Date().toLocaleDateString("es-ES"),
+        typeProvider: "email",
+        nextNumBill: 100001,
       };
-      addUserFirestore(newUser)
-      .then(userApp = {...newUser})
+      addUserFirestore(newUser).then((userApp = { ...newUser }));
     }
     return userApp;
   } catch (error) {
     // console.error("Error de autenticación:", error);
-    throw new Error ("El correo electrónico/contraseña que ingresaste es incorrecto.\n Verifica tus credenciales o intenta utilizar un método diferente para iniciar sesión.")
+    throw new Error(
+      "El correo electrónico/contraseña que ingresaste es incorrecto.\n Verifica tus credenciales o intenta utilizar un método diferente para iniciar sesión."
+    );
   }
 };
 
 export const firebaseLoginWithGoogle = async () => {
   try {
-    const userCredential = await firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider());
+    const userCredential = await firebase
+      .auth()
+      .signInWithPopup(new firebase.auth.GoogleAuthProvider());
     const user = userCredential.user;
     console.log("Usuario autenticado:", user);
     let userApp = await firebaseFindUser(user.multiFactor.user.email);
 
-    if (! userApp ) {
+    if (!userApp) {
       const newUser = {
         name: user.multiFactor.user.displayName,
         email: user.multiFactor.user.email,
         image: user.multiFactor.user.photoURL,
-        data: new Date().toLocaleDateString('es-ES'),
-        typeProvider:"google",
-        nextNumBill:100001
-
+        data: new Date().toLocaleDateString("es-ES"),
+        typeProvider: "google",
+        nextNumBill: 100001,
       };
-      addUserFirestore(newUser)
-      .then(userApp = {...newUser})
+      addUserFirestore(newUser).then((userApp = { ...newUser }));
     }
 
     return userApp;
   } catch (error) {
     console.error("Error de autenticación:", error);
-    throw error; 
+    throw error;
   }
 };
 
 export const firebaseLoginWithGoogleNoPersistence = async () => {
   try {
     await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.NONE); // Configurar la persistencia de sesión en "NONE"
-    const userCredential = await firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider());
+    const userCredential = await firebase
+      .auth()
+      .signInWithPopup(new firebase.auth.GoogleAuthProvider());
     const user = userCredential.user;
     console.log("Usuario autenticado:", user);
     let userApp = await firebaseFindUser(user.multiFactor.user.email);
@@ -107,12 +116,11 @@ export const firebaseLoginWithGoogleNoPersistence = async () => {
         name: user.multiFactor.user.displayName,
         email: user.multiFactor.user.email,
         image: user.multiFactor.user.photoURL,
-        data: new Date().toLocaleDateString('es-ES'),
-        typeProvider:"google",
-        nextNumBill:100001
+        data: new Date().toLocaleDateString("es-ES"),
+        typeProvider: "google",
+        nextNumBill: 100001,
       };
-      addUserFirestore(newUser)
-      .then(userApp = {...newUser})
+      addUserFirestore(newUser).then((userApp = { ...newUser }));
     }
 
     return userApp;
@@ -135,7 +143,7 @@ export const firebaseLogout = () => {
     });
 };
 
-export const firebaseAddUser = ( email, password) => {
+export const firebaseAddUser = (email, password) => {
   return firebase
     .auth()
     .createUserWithEmailAndPassword(email, password)
@@ -168,7 +176,9 @@ export const firebaseResetPassword = (email) => {
     })
     .catch((error) => {
       console.error("Error al enviar el correo de restablecimiento:", error);
-      throw new Error ("El correo electrónico/contraseña que ingresaste es incorrecto.\n Verifica tus credenciales o intenta utilizar un método diferente para iniciar sesión.")
+      throw new Error(
+        "El correo electrónico/contraseña que ingresaste es incorrecto.\n Verifica tus credenciales o intenta utilizar un método diferente para iniciar sesión."
+      );
     });
 };
 
@@ -184,7 +194,7 @@ export const firebaseVerifyPassword = (code) => {
       console.error("Error al verificar el código:", error);
       throw error; // Opcionalmente, puedes lanzar el error para que sea manejado por la función que llama a esta función
     });
-}
+};
 export const firebaseChangePassword = (code, password) => {
   return firebase
     .auth()
@@ -196,17 +206,21 @@ export const firebaseChangePassword = (code, password) => {
       console.error("Error al restablecer la contraseña:", error);
       throw error; // Opcionalmente, puedes lanzar el error para que sea manejado por la función que llama a esta función
     });
-}
-export const addUserFirestore = (newUser) =>{
-  return firebase.firestore().collection("users").doc(newUser.email).set(newUser)
-  .then((docRef) => {
-      console.log('Registro agregado con ID:', docRef.id);
-      return docRef
-    }) 
-      .catch((error) => {
-      console.error('Error al agregar el registro:', error);
+};
+export const addUserFirestore = (newUser) => {
+  return firebase
+    .firestore()
+    .collection("users")
+    .doc(newUser.email)
+    .set(newUser)
+    .then((docRef) => {
+      console.log("Registro agregado con ID:", docRef.id);
+      return docRef;
+    })
+    .catch((error) => {
+      console.error("Error al agregar el registro:", error);
     });
-}
+};
 export const firebaseFindUser = (email) => {
   return firebase
     .firestore()
@@ -217,7 +231,7 @@ export const firebaseFindUser = (email) => {
       let user = null;
       querySnapshot.forEach((doc) => {
         // console.log(doc.id, " => ", doc.data());
-        user = {"docId":doc.id, ...doc.data()};
+        user = { docId: doc.id, ...doc.data() };
       });
       return user;
     })
@@ -227,7 +241,7 @@ export const firebaseFindUser = (email) => {
     });
 };
 //udpate user
-export const firebaseUpdateUser = (docId,data) => {
+export const firebaseUpdateUser = (docId, data) => {
   return firebase
     .firestore()
     .collection("users")
@@ -241,7 +255,7 @@ export const firebaseUpdateUser = (docId,data) => {
       console.error("Error al actualizar el usuario:", error);
       throw error;
     });
-}
+};
 //get customers
 export const firebaseGetCustomers = (email) => {
   return firebase
@@ -254,7 +268,7 @@ export const firebaseGetCustomers = (email) => {
       let customers = [];
       querySnapshot.forEach((docs) => {
         // console.log( docs.data());
-        customers.push (  {"id":docs.id,...docs.data()})
+        customers.push({ id: docs.id, ...docs.data() });
         // console.log(customers)
       });
       return customers;
@@ -265,17 +279,32 @@ export const firebaseGetCustomers = (email) => {
     });
 };
 
-export  const customerFields = [
-    { name: "NOMBRE", uid: "nombre" },
-    { name: "RAZON", uid: "razon" },
-    { name: "DNI", uid: "dni" },
-    { name: "EMAIL", uid: "email" },
-    { name: "TELEFONO", uid: "telefono" },
-    { name: "CIUDAD", uid: "ciudad" },
-    { name: "PROVINCIA", uid: "provincia" },
-    { name: "DIRECCION", uid: "direccion" },
-    { name: "CODPOSTAL", uid: "codpostal" },
-    { name: "FECHA", uid: "fecha" },
-    { name: "ESTATUS", uid: "estatus" },
-    { name: "ACTIONS", uid: "actions" },
-  ];
+// export const customerFields22 = [
+//   { name: "NOMBRE", uid: "nombre" },
+//   { name: "RAZON", uid: "razon" },
+//   { name: "DNI", uid: "dni" },
+//   { name: "EMAIL", uid: "email" },
+//   { name: "TELEFONO", uid: "telefono" },
+//   { name: "CIUDAD", uid: "ciudad" },
+//   { name: "PROVINCIA", uid: "provincia" },
+//   { name: "DIRECCION", uid: "direccion" },
+//   { name: "CODPOSTAL", uid: "codpostal" },
+//   { name: "FECHA", uid: "fecha" },
+//   { name: "ESTATUS", uid: "estatus" },
+//   { name: "ACTIONS", uid: "actions" },
+// ];
+
+export const customerFields = [
+  "Nombre",
+  "razon",
+  "dni",
+  "email",
+  "telefono",
+  "ciudad",
+  "provincia",
+  "direccion",
+  "codpostal",
+  "fecha",
+  "estatus",
+  "actions"
+];
