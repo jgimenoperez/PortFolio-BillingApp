@@ -1,4 +1,4 @@
-import { firebaseGetCustomers } from "../firebase/firebase";
+import { customerFields, firebaseGetCustomers } from "../firebase/firebase";
 import { Layout } from "../components/navbar/layout";
 import {
   Table,
@@ -21,29 +21,29 @@ import { EyeIcon, EditIcon, DeleteIcon } from "../components/icons";
 export const Customers = () => {
   const dispatch = useDispatch();
   const [customers, setCustomers] = useState([]);
+  const [directionSort, setDirectionSort] = useState(true);
+
   const { email } = useSelector((state) => state.user.user);
 
   useEffect(() => {
     firebaseGetCustomers(email).then((data) => {
-      console.log(data);
       setCustomers(data);
     });
   }, []);
 
-  const columns2 = [
-    { name: "NOMBRE", uid: "nombre" },
-    { name: "RAZON", uid: "razon" },
-    { name: "DNI", uid: "dni" },
-    { name: "EMAIL", uid: "email" },
-    { name: "TELEFONO", uid: "telefono" },
-    { name: "CIUDAD", uid: "ciudad" },
-    { name: "PROVINCIA", uid: "provincia" },
-    { name: "DIRECCION", uid: "direccion" },
-    { name: "CODPOSTAL", uid: "codpostal" },
-    { name: "FECHA", uid: "fecha" },
-    { name: "ESTATUS", uid: "estatus" },
-    { name: "ACTIONS", uid: "actions" },
-  ];
+  async function sort({ column, direction }) {
+    setDirectionSort(!directionSort);
+    console.log(column,direction)
+    const data=customers.sort((a, b) => {
+        a[column] < b[column]
+        return -1;
+    });
+    setCustomers(data)
+  }
+
+  
+
+ 
 
   const renderCell = (user, columnKey) => {
     const cellValue = user[columnKey];
@@ -112,18 +112,17 @@ export const Customers = () => {
   return (
     <Layout>
       <div className="mantenimientos">
- 
         <Container>
           <Table
             aria-label="Example table with custom cells"
             css={{
               height: "150px",
               minWidth: "8%",
-              backgroundColor:'$gray200',
-              marginTop:"15px",
-              borderRadius: '10px',
-              boxShadow: 'inset 0 2px 4px rgba(0, 0, 0, 0.1)',
-              border: '1px solid rgba(0, 0, 0, 0.1)',
+              backgroundColor: "$gray200",
+              marginTop: "15px",
+              borderRadius: "10px",
+              boxShadow: "inset 0 2px 4px rgba(0, 0, 0, 0.1)",
+              border: "1px solid rgba(0, 0, 0, 0.1)",
             }}
             bordered
             shadow={false}
@@ -132,9 +131,11 @@ export const Customers = () => {
             color="primary"
             selectionMode="single"
             hoverable={true}
-            
+            onSortChange={(e) => {
+              sort(e);
+            }}
           >
-            <Table.Header columns={columns2}>
+            <Table.Header columns={customerFields}>
               {(column) => (
                 <Table.Column
                   key={column.uid}

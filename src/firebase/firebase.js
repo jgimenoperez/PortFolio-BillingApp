@@ -255,7 +255,7 @@ export const firebaseGetCustomers = (email) => {
       querySnapshot.forEach((docs) => {
         // console.log( docs.data());
         customers.push (  {"id":docs.id,...docs.data()})
-        console.log(customers)
+        // console.log(customers)
       });
       return customers;
     })
@@ -264,3 +264,18 @@ export const firebaseGetCustomers = (email) => {
       return null;
     });
 };
+
+export  const customerFields = [
+    { name: "NOMBRE", uid: "nombre" },
+    { name: "RAZON", uid: "razon" },
+    { name: "DNI", uid: "dni" },
+    { name: "EMAIL", uid: "email" },
+    { name: "TELEFONO", uid: "telefono" },
+    { name: "CIUDAD", uid: "ciudad" },
+    { name: "PROVINCIA", uid: "provincia" },
+    { name: "DIRECCION", uid: "direccion" },
+    { name: "CODPOSTAL", uid: "codpostal" },
+    { name: "FECHA", uid: "fecha" },
+    { name: "ESTATUS", uid: "estatus" },
+    { name: "ACTIONS", uid: "actions" },
+  ];
