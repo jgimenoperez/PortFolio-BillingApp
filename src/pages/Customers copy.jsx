@@ -1,4 +1,4 @@
-import { customerFields, firebaseGetCustomers } from "../firebase/firebase";
+import { customerFields, firebaseGetData } from "../firebase/firebase";
 import { Layout } from "../components/navbar/layout";
 import {
   Table,
@@ -22,8 +22,8 @@ export const Customers = () => {
   const { email } = useSelector((state) => state.user.user);
 
   useEffect(() => {
-    firebaseGetCustomers(email).then((data) => {
-      setCustomers(data);
+    firebaseGetData(email).then((data) => {
+      setCustomers(data,"customers");
     });
   }, []);
 
