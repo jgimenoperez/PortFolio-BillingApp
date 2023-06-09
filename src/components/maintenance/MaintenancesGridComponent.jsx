@@ -9,7 +9,7 @@ import {
   Input,
   styled,
 } from "@nextui-org/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IconButton, StyledBadge } from "../utils";
 import { EyeIcon, EditIcon, DeleteIcon } from "../icons";
 
@@ -17,6 +17,18 @@ import { EyeIcon, EditIcon, DeleteIcon } from "../icons";
 export const MaintenancesGridComponent = ({ dataGrid, nameFields }) => {
   const [directionSort, setDirectionSort] = useState(true);
   const [dataGridFiltered, setDataGridFiltered] = useState(dataGrid);
+  const [debouncedTerm, setDebouncedTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
+
+  useEffect(() => {
+    const timerId = setTimeout(() => {
+      filterData();
+    }, 500);
+
+    return () => {
+      clearTimeout(timerId);
+    };
+  }, [searchTerm]);
 
   async function sort({ column }) {
     setDirectionSort(!directionSort);
@@ -102,19 +114,24 @@ export const MaintenancesGridComponent = ({ dataGrid, nameFields }) => {
     }
   };
 
-  const filterData = (e) => {
-    if (e.target.value.length > 0) {
+  const filterData = () => {
+    if (searchTerm.length > 0) {
       const data = dataGrid.filter((row) => {
         return Object.values(row).some((valor) => {
           if (typeof valor === "string") {
-            return valor.toLowerCase().includes(e.target.value.toLowerCase());
+            return valor.toLowerCase().includes(searchTerm.toLowerCase());
           }
         });
       });
+      console.log(data)
       setDataGridFiltered(data);
     } else {
       setDataGridFiltered(dataGrid);
     }
+  };
+
+  const handleInputChange = (event) => {
+    setSearchTerm(event.target.value);
   };
 
   return (
@@ -123,7 +140,7 @@ export const MaintenancesGridComponent = ({ dataGrid, nameFields }) => {
         <Input
           clearable
           contentRightStyling={false}
-          onChange={filterData}
+          onChange={handleInputChange}
           // labelPlaceholder="Buscar"
           contentRight={
             <SendButton>
