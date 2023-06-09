@@ -300,6 +300,47 @@ export const firebaseAddCustomers = (email, customers) => {
   });
 };
 
+export const firebaseAddProducts = (email, products) => {
+  const customersCollection = firebase
+    .firestore()
+    .collection("users")
+    .doc(email)
+    .collection("products");
+
+    products.forEach((product) => {
+    customersCollection
+      .add(product)
+      .then((docRef) => {
+        console.log("Producto agregado con ID: ", docRef.id);
+      })
+      .catch((error) => {
+        console.log("Error al agregar el pruducto: ", error);
+      });
+  });
+};
+
+export const firebaseGetProducts = (email) => {
+  return firebase
+    .firestore()
+    .collection("users")
+    .doc(email)
+    .collection("products")
+    .get()
+    .then((querySnapshot) => {
+      let products = [];
+      querySnapshot.forEach((docs) => {
+        // console.log( docs.data());
+        products.push({ id: docs.id, ...docs.data() });
+        // console.log(customers)
+      });
+      return products;
+    })
+    .catch((error) => {
+      console.log("Error al obtener los documentos: ", error);
+      return null;
+    });
+};
+
 // export const customerFields22 = [
 //   { name: "NOMBRE", uid: "nombre" },
 //   { name: "RAZON", uid: "razon" },
@@ -328,4 +369,14 @@ export const customerFields = [
   "fecha",
   "estatus",
   "actions",
+];
+
+export const ProductFields = [
+  "id",
+  "nombre",
+  "descripcion",
+  "precio",
+  "cantidad_stock",
+  "categoria",
+  "proveedor",
 ];

@@ -31,7 +31,7 @@ export const Nav = ({ isLogin, isRegister, isResetPass }) => {
     },
     {
       name: "Articulos",
-      link: "/products",
+      link: "products",
     },
     {
       name: "Facturas",
@@ -132,7 +132,9 @@ export const Nav = ({ isLogin, isRegister, isResetPass }) => {
                   description="Mantenimiento de artículos"
                   icon={icons.article}
                 >
-                  Artículos
+                  <Navbar.Link isActive color="inherit" href="/products">
+                    Artículos
+                  </Navbar.Link>
                 </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
