@@ -207,6 +207,7 @@ export const firebaseChangePassword = (code, password) => {
       throw error; // Opcionalmente, puedes lanzar el error para que sea manejado por la función que llama a esta función
     });
 };
+
 export const addUserFirestore = (newUser) => {
   return firebase
     .firestore()
@@ -221,6 +222,7 @@ export const addUserFirestore = (newUser) => {
       console.error("Error al agregar el registro:", error);
     });
 };
+
 export const firebaseFindUser = (email) => {
   return firebase
     .firestore()
@@ -279,6 +281,25 @@ export const firebaseGetCustomers = (email) => {
     });
 };
 
+export const firebaseAddCustomers = (email, customers) => {
+  const customersCollection = firebase
+    .firestore()
+    .collection("users")
+    .doc(email)
+    .collection("customers");
+
+  customers.forEach((customer) => {
+    customersCollection
+      .add(customer)
+      .then((docRef) => {
+        console.log("Cliente agregado con ID: ", docRef.id);
+      })
+      .catch((error) => {
+        console.log("Error al agregar el cliente: ", error);
+      });
+  });
+};
+
 // export const customerFields22 = [
 //   { name: "NOMBRE", uid: "nombre" },
 //   { name: "RAZON", uid: "razon" },
@@ -295,7 +316,7 @@ export const firebaseGetCustomers = (email) => {
 // ];
 
 export const customerFields = [
-  "Nombre",
+  "nombre",
   "razon",
   "dni",
   "email",
@@ -306,5 +327,5 @@ export const customerFields = [
   "codpostal",
   "fecha",
   "estatus",
-  "actions"
+  "actions",
 ];

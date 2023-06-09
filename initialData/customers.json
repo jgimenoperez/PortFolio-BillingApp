@@ -1,0 +1,411 @@
+
+     [
+        {
+            "nombre": "Fiona",
+            "razon": "Empresa XYZ",
+            "dni": "12345678A",
+            "email": "fiona@manosdehada.es",
+            "telefono": "123456789",
+            "ciudad": "Ciudad Ejemplo",
+            "provincia": "Provincia Ejemplo",
+            "direccion": "Calle Ejemplo 123",
+            "codpostal": "12345",
+            "fecha": "08-06-2023",
+            "estatus": "Activo",
+            "actions": [
+                "Acción 1",
+                "Acción 2",
+                "Acción 3"
+            ]
+        },
+        {
+            "nombre": "Juan",
+            "razon": "Particular",
+            "dni": "87654321B",
+            "email": "juan@example.com",
+            "telefono": "987654321",
+            "ciudad": "Otra Ciudad",
+            "provincia": "Otra Provincia",
+            "direccion": "Calle Otra 987",
+            "codpostal": "54321",
+            "fecha": "08-06-2023",
+            "estatus": "Activo",
+            "actions": [
+                "Acción 1",
+                "Acción 2",
+                "Acción 3"
+            ]
+        },
+        {
+            "nombre": "María",
+            "razon": "Empresa ABC",
+            "dni": "56789012C",
+            "email": "maria@example.com",
+            "telefono": "654321987",
+            "ciudad": "Ciudad Nueva",
+            "provincia": "Provincia Nueva",
+            "direccion": "Calle Nueva 456",
+            "codpostal": "67890",
+            "fecha": "08-06-2023",
+            "estatus": "Activo",
+            "actions": [
+                "Acción 1",
+                "Acción 2",
+                "Acción 3"
+            ]
+        },
+        {
+            "nombre": "Luis",
+            "razon": "Particular",
+            "dni": "09876543D",
+            "email": "luis@example.com",
+            "telefono": "123987654",
+            "ciudad": "Otra Ciudad",
+            "provincia": "Otra Provincia",
+            "direccion": "Calle Otra 789",
+            "codpostal": "09876",
+            "fecha": "08-06-2023",
+            "estatus": "Activo",
+            "actions": [
+                "Acción 1",
+                "Acción 2",
+                "Acción 3"
+            ]
+        },
+        {
+            "nombre": "Ana",
+            "razon": "Empresa DEF",
+            "dni": "543210987E",
+            "email": "ana@example.com",
+            "telefono": "789456123",
+            "ciudad": "Ciudad Ejemplo",
+            "provincia": "Provincia Ejemplo",
+            "direccion": "Calle Ejemplo 456",
+            "codpostal": "54321",
+            "fecha": "08-06-2023",
+            "estatus": "Activo",
+            "actions": [
+                "Acción 1",
+                "Acción 2",
+                "Acción 3"
+            ]
+        },
+        {
+            "nombre": "Pedro",
+            "razon": "Particular",
+            "dni": "123450987F",
+            "email": "pedro@example.com",
+            "telefono": "987654321",
+            "ciudad": "Otra Ciudad",
+            "provincia": "Otra Provincia",
+            "direccion": "Calle Otra 654",
+            "codpostal": "09876",
+            "fecha": "08-06-2023",
+            "estatus": "Activo",
+            "actions": [
+                "Acción 1",
+                "Acción 2",
+                "Acción 3"
+            ]
+        },
+        {
+            "nombre": "Laura",
+            "razon": "Empresa GHI",
+            "dni": "76543210G",
+            "email": "laura@example.com",
+            "telefono": "456123789",
+            "ciudad": "Ciudad Nueva",
+            "provincia": "Provincia Nueva",
+            "direccion": "Calle Nueva 123",
+            "codpostal": "67890",
+            "fecha": "08-06-2023",
+            "estatus": "Activo",
+            "actions": [
+                "Acción 1",
+                "Acción 2",
+                "Acción 3"
+            ]
+        },
+        {
+            "nombre": "Carlos",
+            "razon": "Particular",
+            "dni": "543210987H",
+            "email": "carlos@example.com",
+            "telefono": "987654321",
+            "ciudad": "Otra Ciudad",
+            "provincia": "Otra Provincia",
+            "direccion": "Calle Otra 654",
+            "codpostal": "09876",
+            "fecha": "08-06-2023",
+            "estatus": "Activo",
+            "actions": [
+                "Acción 1",
+                "Acción 2",
+                "Acción 3"
+            ]
+        },
+        {
+            "nombre": "Sara",
+            "razon": "Empresa JKL",
+            "dni": "10987654J",
+            "email": "sara@example.com",
+            "telefono": "654321987",
+            "ciudad": "Ciudad Ejemplo",
+            "provincia": "Provincia Ejemplo",
+            "direccion": "Calle Ejemplo 789",
+            "codpostal": "12345",
+            "fecha": "08-06-2023",
+            "estatus": "Activo",
+            "actions": [
+                "Acción 1",
+                "Acción 2",
+                "Acción 3"
+            ]
+        },
+        {
+            "nombre": "David",
+            "razon": "Particular",
+            "dni": "98765432D",
+            "email": "david@example.com",
+            "telefono": "123456789",
+            "ciudad": "Ciudad Ejemplo",
+            "provincia": "Provincia Ejemplo",
+            "direccion": "Calle Ejemplo 123",
+            "codpostal": "12345",
+            "fecha": "08-06-2023",
+            "estatus": "Activo",
+            "actions": [
+                "Acción 1",
+                "Acción 2",
+                "Acción 3"
+            ]
+        },
+        {
+            "nombre": "Laura",
+            "razon": "Empresa XYZ",
+            "dni": "65432198L",
+            "email": "laura@example.com",
+            "telefono": "987654321",
+            "ciudad": "Otra Ciudad",
+            "provincia": "Otra Provincia",
+            "direccion": "Calle Otra 987",
+            "codpostal": "54321",
+            "fecha": "08-06-2023",
+            "estatus": "Activo",
+            "actions": [
+                "Acción 1",
+                "Acción 2",
+                "Acción 3"
+            ]
+        },
+        {
+            "nombre": "Carolina",
+            "razon": "Empresa ABC",
+            "dni": "54321098C",
+            "email": "carolina@example.com",
+            "telefono": "654321987",
+            "ciudad": "Ciudad Nueva",
+            "provincia": "Provincia Nueva",
+            "direccion": "Calle Nueva 456",
+            "codpostal": "67890",
+            "fecha": "08-06-2023",
+            "estatus": "Activo",
+            "actions": [
+                "Acción 1",
+                "Acción 2",
+                "Acción 3"
+            ]
+        },
+        {
+            "nombre": "Miguel",
+            "razon": "Particular",
+            "dni": "87654321M",
+            "email": "miguel@example.com",
+            "telefono": "123987654",
+            "ciudad": "Otra Ciudad",
+            "provincia": "Otra Provincia",
+            "direccion": "Calle Otra 789",
+            "codpostal": "09876",
+            "fecha": "08-06-2023",
+            "estatus": "Activo",
+            "actions": [
+                "Acción 1",
+                "Acción 2",
+                "Acción 3"
+            ]
+        },
+        {
+            "nombre": "Isabel",
+            "razon": "Empresa DEF",
+            "dni": "09876543I",
+            "email": "isabel@example.com",
+            "telefono": "789456123",
+            "ciudad": "Ciudad Ejemplo",
+            "provincia": "Provincia Ejemplo",
+            "direccion": "Calle Ejemplo 456",
+            "codpostal": "54321",
+            "fecha": "08-06-2023",
+            "estatus": "Activo",
+            "actions": [
+                "Acción 1",
+                "Acción 2",
+                "Acción 3"
+            ]
+        },
+        {
+            "nombre": "Pedro",
+            "razon": "Particular",
+            "dni": "54321098P",
+            "email": "pedro@example.com",
+            "telefono": "987654321",
+            "ciudad": "Otra Ciudad",
+            "provincia": "Otra Provincia",
+            "direccion": "Calle Otra 654",
+            "codpostal": "09876",
+            "fecha": "08-06-2023",
+            "estatus": "Activo",
+            "actions": [
+                "Acción 1",
+                "Acción 2",
+                "Acción 3"
+            ]
+        },
+        {
+            "nombre": "Lucía",
+            "razon": "Particular",
+            "dni": "98765432L",
+            "email": "lucia@example.com",
+            "telefono": "123456789",
+            "ciudad": "Ciudad Ejemplo",
+            "provincia": "Provincia Ejemplo",
+            "direccion": "Calle Ejemplo 123",
+            "codpostal": "12345",
+            "fecha": "08-06-2023",
+            "estatus": "Activo",
+            "actions": [
+                "Acción 1",
+                "Acción 2",
+                "Acción 3"
+            ]
+        },
+        {
+            "ciudad": "Otra Ciudad",
+            "provincia": "Otra Provincia",
+            "direccion": "Calle Otra 987",
+            "codpostal": "54321",
+            "fecha": "08-06-2023",
+            "estatus": "Activo",
+            "actions": [
+                "Acción 1",
+                "Acción 2",
+                "Acción 3"
+            ]
+        },
+        {
+            "nombre": "Raúl",
+            "razon": "Empresa PQR",
+            "dni": "10987654R",
+            "email": "raul@example.com",
+            "telefono": "654321987",
+            "ciudad": "Ciudad Nueva",
+            "provincia": "Provincia Nueva",
+            "direccion": "Calle Nueva 456",
+            "codpostal": "67890",
+            "fecha": "08-06-2023",
+            "estatus": "Activo",
+            "actions": [
+                "Acción 1",
+                "Acción 2",
+                "Acción 3"
+            ]
+        },
+        {
+            "nombre": "Lucas",
+            "razon": "Particular",
+            "dni": "54321098L",
+            "email": "lucas@example.com",
+            "telefono": "987654321",
+            "ciudad": "Otra Ciudad",
+            "provincia": "Otra Provincia",
+            "direccion": "Calle Otra 654",
+            "codpostal": "09876",
+            "fecha": "08-06-2023",
+            "estatus": "Activo",
+            "actions": [
+                "Acción 1",
+                "Acción 2",
+                "Acción 3"
+            ]
+        }, {
+            "nombre": "Juan",
+            "razon": "Particular",
+            "dni": "87654321B",
+            "email": "juan@example.com",
+            "telefono": "987654321",
+            "ciudad": "Otra Ciudad",
+            "provincia": "Otra Provincia",
+            "direccion": "Calle Otra 987",
+            "codpostal": "54321",
+            "fecha": "08-06-2023",
+            "estatus": "Activo",
+            "actions": [
+              "Acción 1",
+              "Acción 2",
+              "Acción 3"
+            ]
+          },
+          {
+            "nombre": "María",
+            "razon": "Empresa ABC",
+            "dni": "12345678A",
+            "email": "maria@example.com",
+            "telefono": "123456789",
+            "ciudad": "Ciudad Ejemplo",
+            "provincia": "Provincia Ejemplo",
+            "direccion": "Calle Ejemplo 123",
+            "codpostal": "12345",
+            "fecha": "08-06-2023",
+            "estatus": "Activo",
+            "actions": [
+              "Acción 1",
+              "Acción 2",
+              "Acción 3"
+            ]
+          },
+          {
+            "nombre": "Pedro",
+            "razon": "Empresa XYZ",
+            "dni": "98765432C",
+            "email": "pedro@example.com",
+            "telefono": "987654321",
+            "ciudad": "Otra Ciudad",
+            "provincia": "Otra Provincia",
+            "direccion": "Calle Otra 123",
+            "codpostal": "54321",
+            "fecha": "08-06-2023",
+            "estatus": "Activo",
+            "actions": [
+              "Acción 1",
+              "Acción 2",
+              "Acción 3"
+            ]
+          },
+          {
+            "nombre": "Roberta",
+            "razon": "Particular",
+            "dni": "65432109D",
+            "email": "roberta@example.com",
+            "telefono": "987654321",
+            "ciudad": "Otra Ciudad",
+            "provincia": "Otra Provincia",
+            "direccion": "Calle Otra 987",
+            "codpostal": "54321",
+            "fecha": "08-06-2023",
+            "estatus": "Activo",
+            "actions": [
+              "Acción 1",
+              "Acción 2",
+              "Acción 3"
+            ]
+          }
+    ]

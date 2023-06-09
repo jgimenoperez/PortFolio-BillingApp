@@ -1,7 +1,4 @@
-import {
-  customerFields,
-  firebaseGetCustomers,
-} from "../firebase/firebase";
+import { customerFields, firebaseGetCustomers } from "../firebase/firebase";
 import { Layout } from "../components/navbar/layout";
 import {
   Table,
@@ -24,7 +21,7 @@ import { EyeIcon, EditIcon, DeleteIcon } from "../components/icons";
 export const Customers = () => {
   const dispatch = useDispatch();
   const [customers, setCustomers] = useState([]);
-  const [nameFields, setNameFields] = useState([{ name: '', uid: '' }]);
+  const [nameFields, setNameFields] = useState([{ name: "", uid: "" }]);
 
   const [directionSort, setDirectionSort] = useState(true);
 
@@ -34,12 +31,9 @@ export const Customers = () => {
     firebaseGetCustomers(email).then((data) => {
       setCustomers(data);
     });
-    
   }, []);
 
   useEffect(() => {
-
-
     const data = customerFields.map((item) => {
       return {
         name: item.toUpperCase(),
@@ -49,12 +43,18 @@ export const Customers = () => {
     setNameFields(data);
   }, []);
 
-  async function sort({ column, direction }) {
+  async function sort({ column }) {
     setDirectionSort(!directionSort);
-    console.log(column, direction);
     const data = customers.sort((a, b) => {
-      a[column] < b[column];
-      return -1;
+      if (a[column] < b[column] && !directionSort) {
+        return -1;
+      }
+
+      if (a[column] > b[column] && !directionSort) {
+        return 1;
+      }
+
+      // return 0;
     });
     setCustomers(data);
   }
@@ -149,9 +149,7 @@ export const Customers = () => {
               sort(e);
             }}
           >
-            <Table.Header 
-              columns={nameFields}
-            >
+            <Table.Header columns={nameFields}>
               {(column) => (
                 <Table.Column
                   key={column.uid}
@@ -172,6 +170,13 @@ export const Customers = () => {
                 </Table.Row>
               )}
             </Table.Body>
+            <Table.Pagination
+              shadow
+              noMargin
+              align="center"
+              rowsPerPage={15}
+              // onPageChange={(page) => console.log({ page })}
+            />
           </Table>
         </Container>
       </div>
