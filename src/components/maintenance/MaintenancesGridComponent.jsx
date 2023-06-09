@@ -6,6 +6,8 @@ import {
   User,
   Text,
   Container,
+  Input,
+  styled,
 } from "@nextui-org/react";
 import { useState } from "react";
 import { IconButton, StyledBadge } from "../utils";
@@ -14,23 +16,26 @@ import { EyeIcon, EditIcon, DeleteIcon } from "../icons";
 // eslint-disable-next-line react/prop-types
 export const MaintenancesGridComponent = ({ dataGrid, nameFields }) => {
   const [directionSort, setDirectionSort] = useState(true);
+  const [dataGridFiltered, setDataGridFiltered] = useState(dataGrid);
 
   async function sort({ column }) {
     setDirectionSort(!directionSort);
-    dataGrid = dataGrid.sort((a, b) => {
-      if (directionSort) {
-        if (a[column] < b[column]) {
-          return -1;
+    setDataGridFiltered(
+      dataGridFiltered.sort((a, b) => {
+        if (directionSort) {
+          if (a[column] < b[column]) {
+            return -1;
+          }
         }
-      }
 
-      if (!directionSort) {
-        if (a[column] > b[column]) {
-          return -1;
+        if (!directionSort) {
+          if (a[column] > b[column]) {
+            return -1;
+          }
         }
-      }
-      return 0;
-    });
+        return 0;
+      })
+    );
   }
 
   const renderCell = (user, columnKey) => {
@@ -97,9 +102,38 @@ export const MaintenancesGridComponent = ({ dataGrid, nameFields }) => {
     }
   };
 
+  const filterData = (e) => {
+    if (e.target.value.length > 0) {
+      const data = dataGrid.filter((row) => {
+        return Object.values(row).some((valor) => {
+          if (typeof valor === "string") {
+            return valor.toLowerCase().includes(e.target.value.toLowerCase());
+          }
+        });
+      });
+      setDataGridFiltered(data);
+    } else {
+      setDataGridFiltered(dataGrid);
+    }
+  };
+
   return (
     <div className="mantenimientos">
       <Container>
+        <Input
+          clearable
+          contentRightStyling={false}
+          onChange={filterData}
+          // labelPlaceholder="Buscar"
+          contentRight={
+            <SendButton>
+              <EyeIcon fill="currentColor" size="18" />
+            </SendButton>
+          }
+          labelPlaceholder="Buscar"
+          css={{ marginTop: "25px" }}
+        />
+
         <Table
           aria-label="Example table with custom cells"
           css={{
@@ -134,7 +168,7 @@ export const MaintenancesGridComponent = ({ dataGrid, nameFields }) => {
               </Table.Column>
             )}
           </Table.Header>
-          <Table.Body items={dataGrid}>
+          <Table.Body items={dataGridFiltered}>
             {(item) => (
               <Table.Row>
                 {(columnKey) => (
@@ -147,7 +181,7 @@ export const MaintenancesGridComponent = ({ dataGrid, nameFields }) => {
             shadow
             noMargin
             align="center"
-            rowsPerPage={15}
+            rowsPerPage={10}
             // onPageChange={(page) => console.log({ page })}
           />
         </Table>
@@ -155,3 +189,35 @@ export const MaintenancesGridComponent = ({ dataGrid, nameFields }) => {
     </div>
   );
 };
+
+export const SendButton = styled("button", {
+  // reset button styles
+  background: "transparent",
+  border: "none",
+  padding: 0,
+
+  // styles
+  width: "24px",
+  margin: "0 10px",
+  dflex: "center",
+  // bg: "$primary",
+  borderRadius: "$rounded",
+  cursor: "pointer",
+  transition: "opacity 0.25s ease 0s, transform 0.25s ease 0s",
+  svg: {
+    size: "100%",
+    padding: "4px",
+    transition: "transform 0.25s ease 0s, opacity 200ms ease-in-out 50ms",
+    boxShadow: "0 5px 20px -5px rgba(0, 0, 0, 0.1)",
+  },
+  "&:hover": {
+    opacity: 0.8,
+  },
+  "&:active": {
+    transform: "scale(0.9)",
+    svg: {
+      transform: "translate(24px, -24px)",
+      opacity: 0,
+    },
+  },
+});
