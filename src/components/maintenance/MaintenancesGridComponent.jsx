@@ -13,17 +13,7 @@ import { EyeIcon, EditIcon, DeleteIcon } from "../icons";
 
 // eslint-disable-next-line react/prop-types
 export const MaintenancesGridComponent = ({ dataGrid, nameFields }) => {
-  // const [dataOrder, setdataOrder] = useState(dataGrid);
   const [directionSort, setDirectionSort] = useState(true);
-
-  //  useEffect(() => {
-  //   console.log(1,dataGrid)
-  //   setdataOrder(111)
-  //  }, [])
-
-  //  useEffect(() => {
-  //   console.log(dataOrder)
-  //  }, [dataOrder])
 
   async function sort({ column }) {
     setDirectionSort(!directionSort);
@@ -39,7 +29,6 @@ export const MaintenancesGridComponent = ({ dataGrid, nameFields }) => {
           return -1;
         }
       }
-
       return 0;
     });
   }
@@ -76,24 +65,24 @@ export const MaintenancesGridComponent = ({ dataGrid, nameFields }) => {
           <div className="card-body">
             <Row justify="center" align="center">
               <Col css={{ d: "flex" }}>
-                <Tooltip content="Details">
-                  <IconButton onClick={() => console.log("View user", user.id)}>
+                <Tooltip content="Detalles">
+                  <IconButton onClick={() => console.log("Ver", user.id)}>
                     <EyeIcon size={20} fill="#979797" />
                   </IconButton>
                 </Tooltip>
               </Col>
               <Col css={{ d: "flex" }}>
-                <Tooltip content="Edit user">
-                  <IconButton onClick={() => console.log("Edit user", user.id)}>
+                <Tooltip content="Editar">
+                  <IconButton onClick={() => console.log("Editar", user.id)}>
                     <EditIcon size={20} fill="#979797" />
                   </IconButton>
                 </Tooltip>
               </Col>
               <Col css={{ d: "flex" }}>
                 <Tooltip
-                  content="Delete user"
+                  content="Eliminar"
                   color="error"
-                  onClick={() => console.log("Delete user", user.id)}
+                  onClick={() => console.log("Borrar", user.id)}
                 >
                   <IconButton>
                     <DeleteIcon size={20} fill="#FF0080" />
