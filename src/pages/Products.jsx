@@ -1,5 +1,5 @@
 // import { MaintenancesGridComponent } from "../components/maintenance/MaintenancesGridComponent";
-import { ProductFields, firebaseGetCustomers } from "../firebase/firebase";
+import { ProductFields, firebaseGetProducts } from "../firebase/firebase";
 import { useEffect, useState } from "react";
 import {  useSelector } from "react-redux";
 import { MaintenancesGridComponent } from "../components/maintenance/MaintenancesGridComponent";
@@ -14,7 +14,7 @@ export const Products = () => {
   const { email } = useSelector((state) => state.user.user);
 
   useEffect(() => {
-    firebaseGetCustomers(email).then((data) => {
+    firebaseGetProducts(email).then((data) => {
       setProducts(data);
       setIsLoading(false);
     });
