@@ -14,13 +14,17 @@ import { GithubIcon } from "../icons";
 import { ModalLogin, ModalRegister, ModalResetPass } from "../auth";
 import { setTheme } from "../../reducers/themeReducer";
 import { useDispatch } from "react-redux";
-import { Link as Enlace } from "react-router-dom";
+import { Link as Enlace,useNavigate   } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useTheme } from "@nextui-org/react";
 import { Troll, icons } from "./icons";
 import { setAuth } from "../../reducers/userReducer";
+
+
 export const Nav = ({ isLogin, isRegister, isResetPass }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const { isDark, theme } = useTheme();
   const { logged, user } = useSelector((state) => state.user);
 
@@ -98,6 +102,9 @@ export const Nav = ({ isLogin, isRegister, isResetPass }) => {
               </Navbar.Item>
 
               <Dropdown.Menu
+                onAction={(e)=>{
+                  navigate(`/${e}`)
+                }}
                 aria-label="aaa"
                 css={{
                   $$dropdownMenuWidth: "340px",
@@ -114,9 +121,9 @@ export const Nav = ({ isLogin, isRegister, isResetPass }) => {
                     },
                   },
                 }}
-              >
+              > 
                 <Dropdown.Item
-                  key="autoscaling"
+                  key="customers"
                   showFullDescription
                   description="Mantenimiento de clientes"
                   icon={icons.user}
@@ -124,10 +131,11 @@ export const Nav = ({ isLogin, isRegister, isResetPass }) => {
                   <Navbar.Link isActive color="inherit" href="/customers">
                     Clientes
                   </Navbar.Link>
+                  
                 </Dropdown.Item>
 
                 <Dropdown.Item
-                  key="Articulos"
+                  key="products"
                   showFullDescription
                   description="Mantenimiento de artículos"
                   icon={icons.article}

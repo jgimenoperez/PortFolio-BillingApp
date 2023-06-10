@@ -8,13 +8,18 @@ import {
   Container,
   Input,
   styled,
+  Button,
 } from "@nextui-org/react";
 import { useEffect, useState } from "react";
 import { IconButton, StyledBadge } from "../utils";
-import { EyeIcon, EditIcon, DeleteIcon } from "../icons";
+import { EyeIcon, EditIcon, DeleteIcon, AddIcon } from "../icons";
 
 // eslint-disable-next-line react/prop-types
-export const MaintenancesGridComponent = ({ dataGrid, nameFields }) => {
+export const MaintenancesGridComponent = ({
+  dataGrid,
+  nameFields,
+  children,
+}) => {
   const [directionSort, setDirectionSort] = useState(true);
   const [dataGridFiltered, setDataGridFiltered] = useState(dataGrid);
   const [debouncedTerm, setDebouncedTerm] = useState("");
@@ -136,22 +141,43 @@ export const MaintenancesGridComponent = ({ dataGrid, nameFields }) => {
   return (
     <div className="mantenimientos">
       <Container>
-        <Input
-          clearable
-          contentRightStyling={false}
-          onChange={handleInputChange}
-          // labelPlaceholder="Buscar"
-          contentRight={
-            <SendButton>
-              <EyeIcon fill="currentColor" size="18" />
-            </SendButton>
-          }
-          labelPlaceholder="Buscar"
-          css={{ marginTop: "25px" }}
-        />
-
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
+          <Input
+            clearable
+            contentRightStyling={false}
+            onChange={handleInputChange}
+            // labelPlaceholder="Buscar"
+            contentRight={
+              <SendButton>
+                <EyeIcon fill="currentColor" size="18" />
+              </SendButton>
+            }
+            labelPlaceholder="Buscar"
+            css={{ marginTop: "25px" }}
+          />
+          <Button
+            auto
+            flat
+            color="gradient"
+            onClick={() => {
+              // navigate("/");
+            }}
+            css={{ marginTop: "25px" }}
+            icon={<AddIcon size={20} fill="#FF0080" />}
+          >
+            Nuevo
+          </Button>
+        </div>
         <Table
-          aria-label="Example table with custom cells"
+          lined
+          headerLined
+          aria-label="Example static collection table"
           css={{
             height: "150px",
             minWidth: "8%",
@@ -161,10 +187,10 @@ export const MaintenancesGridComponent = ({ dataGrid, nameFields }) => {
             boxShadow: "inset 0 2px 4px rgba(0, 0, 0, 0.1)",
             border: "1px solid rgba(0, 0, 0, 0.1)",
           }}
-          bordered
-          shadow={false}
+          // bordered
+          shadow={true}
           striped
-          fixed
+          // fixed
           color="primary"
           selectionMode="single"
           hoverable={true}
@@ -198,7 +224,6 @@ export const MaintenancesGridComponent = ({ dataGrid, nameFields }) => {
             noMargin
             align="center"
             rowsPerPage={10}
-
 
             // onPageChange={(page) => console.log({ page })}
           />

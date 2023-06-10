@@ -258,27 +258,7 @@ export const firebaseUpdateUser = (docId, data) => {
       throw error;
     });
 };
-// export const firebaseGetCustomers = (email) => {
-//   return firebase
-//     .firestore()
-//     .collection("users")
-//     .doc(email)
-//     .collection("customers")
-//     .get()
-//     .then((querySnapshot) => {
-//       let customers = [];
-//       querySnapshot.forEach((docs) => {
-//         // console.log( docs.data());
-//         customers.push({ id: docs.id, ...docs.data() });
-//         // console.log(customers)
-//       });
-//       return customers;
-//     })
-//     .catch((error) => {
-//       console.log("Error al obtener los documentos: ", error);
-//       return null;
-//     });
-// };
+
 
 export const firebaseAddCustomers = (email, customers) => {
   const customersCollection = firebase
@@ -317,28 +297,6 @@ export const firebaseAddProducts = (email, products) => {
       });
   });
 };
-
-// export const firebaseGetProducts = (email) => {
-//   return firebase
-//     .firestore()
-//     .collection("users")
-//     .doc(email)
-//     .collection("products")
-//     .get()
-//     .then((querySnapshot) => {
-//       let products = [];
-//       querySnapshot.forEach((docs) => {
-//         // console.log( docs.data());
-//         products.push({ id: docs.id, ...docs.data() });
-//         // console.log(customers)
-//       });
-//       return products;
-//     })
-//     .catch((error) => {
-//       console.log("Error al obtener los documentos: ", error);
-//       return null;
-//     });
-// };
 
 
 export const firebaseGetData = (email,collection) => {

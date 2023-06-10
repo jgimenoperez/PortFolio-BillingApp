@@ -73,13 +73,7 @@ export const BoxIcon = () => {
   );
 };
 
-export const EyeIcon = ({
-  fill,
-  size,
-  height,
-  width,
-  ...props
-}) => {
+export const EyeIcon = ({ fill, size, height, width, ...props }) => {
   return (
     <svg
       width={size || width || 24}
@@ -107,13 +101,7 @@ export const EyeIcon = ({
   );
 };
 
-export const EditIcon = ({
-  fill,
-  size,
-  height,
-  width,
-  ...props
-}) => {
+export const EditIcon = ({ fill, size, height, width, ...props }) => {
   return (
     <svg
       width={size || width || 24}
@@ -151,13 +139,7 @@ export const EditIcon = ({
   );
 };
 
-export const DeleteIcon = ({
-  fill,
-  size,
-  height,
-  width,
-  ...props
-}) => {
+export const DeleteIcon = ({ fill, size, height, width, ...props }) => {
   return (
     <svg
       width={size || width || 24}
@@ -202,6 +184,24 @@ export const DeleteIcon = ({
         strokeLinecap="round"
         strokeLinejoin="round"
       />
+    </svg>
+  );
+};
+export const AddIcon = ({ fill, size, height, width, ...props }) => {
+  return (
+    <svg
+      width={size || width || 24}
+      height={size || height || 24}
+      viewBox="0 0 20 20"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+
+    >
+      <line x1="12" y1="5" x2="12" y2="19"></line>
+      <line x1="5" y1="12" x2="19" y2="12"></line>
     </svg>
   );
 };

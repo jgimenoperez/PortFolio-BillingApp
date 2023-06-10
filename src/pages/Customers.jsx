@@ -46,7 +46,8 @@ export const Customers = () => {
 
   return (
     <Layout>
-      <MaintenancesGridComponent dataGrid={customers} nameFields={nameFields}/>
+      <MaintenancesGridComponent dataGrid={customers} nameFields={nameFields}>
+      </MaintenancesGridComponent>
     </Layout>
   )
 };

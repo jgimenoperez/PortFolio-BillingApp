@@ -126,7 +126,7 @@ export const Profile = () => {
             {/* <Text span css={{ color: "$blue600" }}>
               Mi perfil
             </Text> */}
-            <Text h3>{`Bienvenido ${user.name ? user.name : user.email}`}</Text>
+            <Text h3>{`Bienvenido/a ${user.name ? user.name : user.email}`}</Text>
             <Text
               span
               css={{
