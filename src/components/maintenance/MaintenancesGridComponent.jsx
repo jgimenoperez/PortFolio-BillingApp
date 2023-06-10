@@ -9,21 +9,30 @@ import {
   Input,
   styled,
   Button,
+  Loading,
 } from "@nextui-org/react";
-import { useEffect, useState } from "react";
-import { IconButton, StyledBadge } from "../utils";
 import { EyeIcon, EditIcon, DeleteIcon, AddIcon } from "../icons";
+import { IconButton, StyledBadge } from "../utils";
+import { useEffect, useState } from "react";
+import swal from "sweetalert";
+import { firebaseDeleteData } from "../../firebase/firebase";
+import { useSelector } from "react-redux";
+import { ModalCustomers } from "./ModalCustomers";
 
 // eslint-disable-next-line react/prop-types
 export const MaintenancesGridComponent = ({
   dataGrid,
   nameFields,
   children,
+  title,
+  collection,
+  setRecordModified,
+  recordModified,
 }) => {
   const [directionSort, setDirectionSort] = useState(true);
-  const [dataGridFiltered, setDataGridFiltered] = useState(dataGrid);
-  const [debouncedTerm, setDebouncedTerm] = useState("");
+  const [dataGridFiltered, setDataGridFiltered] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
+  const { email } = useSelector((state) => state.user.user);
 
   useEffect(() => {
     const timerId = setTimeout(() => {
@@ -34,6 +43,15 @@ export const MaintenancesGridComponent = ({
       clearTimeout(timerId);
     };
   }, [searchTerm]);
+
+  useEffect(() => {
+    console.log(dataGrid)
+    setDataGridFiltered(dataGrid);
+  }, []);
+
+  useEffect(() => {
+    setDataGridFiltered(dataGrid);
+  }, [dataGrid, recordModified]);
 
   async function sort({ column }) {
     setDirectionSort(!directionSort);
@@ -55,15 +73,16 @@ export const MaintenancesGridComponent = ({
     );
   }
 
-  const renderCell = (user, columnKey) => {
-    const cellValue = user[columnKey];
+  const renderCell = (item, columnKey) => {
+    const cellValue = item[columnKey];
     switch (columnKey) {
       case "name":
         return (
-          <User squared src={user.avatar} name={cellValue} css={{ p: 0 }}>
-            {user.email}
+          <User squared src={item.avatar} name={cellValue} css={{ p: 0 }}>
+            {item.email}
           </User>
         );
+
       case "role":
         return (
           <Col>
@@ -74,13 +93,13 @@ export const MaintenancesGridComponent = ({
             </Row>
             <Row>
               <Text b size={13} css={{ tt: "capitalize", color: "$accents7" }}>
-                {user.team}
+                {item.team}
               </Text>
             </Row>
           </Col>
         );
       case "estatus":
-        return <StyledBadge type={user.status}>{cellValue}</StyledBadge>;
+        return <StyledBadge type={item.status}>{cellValue}</StyledBadge>;
 
       case "actions":
         return (
@@ -88,14 +107,14 @@ export const MaintenancesGridComponent = ({
             <Row justify="center" align="center">
               <Col css={{ d: "flex" }}>
                 <Tooltip content="Detalles">
-                  <IconButton onClick={() => console.log("Ver", user.id)}>
+                  <IconButton onClick={() => console.log("Ver", item.id)}>
                     <EyeIcon size={20} fill="#979797" />
                   </IconButton>
                 </Tooltip>
               </Col>
               <Col css={{ d: "flex" }}>
                 <Tooltip content="Editar">
-                  <IconButton onClick={() => console.log("Editar", user.id)}>
+                  <IconButton onClick={() => console.log("Editar", item.id)}>
                     <EditIcon size={20} fill="#979797" />
                   </IconButton>
                 </Tooltip>
@@ -104,7 +123,7 @@ export const MaintenancesGridComponent = ({
                 <Tooltip
                   content="Eliminar"
                   color="error"
-                  onClick={() => console.log("Borrar", user.id)}
+                  onClick={() => deleteRecord(item.id)}
                 >
                   <IconButton>
                     <DeleteIcon size={20} fill="#FF0080" />
@@ -138,6 +157,36 @@ export const MaintenancesGridComponent = ({
     setSearchTerm(event.target.value);
   };
 
+  const deleteRecord = (recordId) => {
+    swal({
+      title: "¿Estás seguro?",
+      text: "El registro será eliminado permanentemente.",
+      icon: "warning",
+      buttons: ["No", true],
+    }).then(async (response) => {
+      if (response) {
+        await firebaseDeleteData(email, collection, recordId);
+        setRecordModified((prevValue) => !prevValue);
+        swal("Registro eliminado");
+      }
+    });
+  };
+
+  if (dataGridFiltered === null) {
+    return (
+      <Loading
+        css={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        Loading
+      </Loading>
+    );
+  }
+
   return (
     <div className="mantenimientos">
       <Container>
@@ -161,7 +210,19 @@ export const MaintenancesGridComponent = ({
             labelPlaceholder="Buscar"
             css={{ marginTop: "25px" }}
           />
-          <Button
+          <Text
+            h2
+            size={60}
+            css={{
+              textGradient: "45deg, $blue600 -20%, $pink600 50%",
+            }}
+            weight="bold"
+          >
+            <strong>{title}</strong>
+          </Text>
+          <ModalCustomers title={title}/>
+
+          {/* <Button
             auto
             flat
             color="gradient"
@@ -172,12 +233,12 @@ export const MaintenancesGridComponent = ({
             icon={<AddIcon size={20} fill="#FF0080" />}
           >
             Nuevo
-          </Button>
+          </Button> */}
         </div>
         <Table
           lined
           headerLined
-          aria-label="Example static collection table"
+          aria-label="estatic collection table"
           css={{
             height: "150px",
             minWidth: "8%",

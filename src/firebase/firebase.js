@@ -320,6 +320,23 @@ export const firebaseGetData = (email,collection) => {
       return null;
     });
 };
+export const firebaseDeleteData = (email,collection,id) => {
+  console.log(id)
+  return firebase
+    .firestore()
+    .collection("users")
+    .doc(email)
+    .collection(collection)
+    .doc(id)
+    .delete()
+    .then(console.log("registro eliminado"))
+    .catch((error) => {
+      console.log("Error al obtener los documentos: ", error);
+      return null;
+    });
+};
+
+
 
 // export const customerFields22 = [
 //   { name: "NOMBRE", uid: "nombre" },
@@ -352,11 +369,12 @@ export const customerFields = [
 ];
 
 export const ProductFields = [
-  "id",
+  "código",
   "nombre",
   "descripcion",
   "precio",
-  "cantidad_stock",
+  "stock",
   "categoria",
   "proveedor",
+  "actions",
 ];

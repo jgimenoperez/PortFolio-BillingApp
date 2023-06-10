@@ -49,11 +49,6 @@ export const Section3 = () => {
     };
   }, [inView]);
 
-  
-  
-  useEffect(() => {
-    console.log(1, inView);
-  }, [inView]);
 
   return (
     <section className="section3" >

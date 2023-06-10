@@ -1,24 +1,25 @@
 // import { MaintenancesGridComponent } from "../components/maintenance/MaintenancesGridComponent";
 import { ProductFields, firebaseGetData } from "../firebase/firebase";
 import { useEffect, useState } from "react";
-import {  useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { MaintenancesGridComponent } from "../components/maintenance/MaintenancesGridComponent";
 import { Layout } from "../components/navbar/layout";
-import {  Loading } from "@nextui-org/react";
+import { Loading } from "@nextui-org/react";
 
 export const Products = () => {
   const [products, setProducts] = useState([]);
   const [nameFields, setNameFields] = useState([{ name: "", uid: "" }]);
   const [isLoading, setIsLoading] = useState(true);
-
+  const [recordModified, setRecordModified] = useState(false);
   const { email } = useSelector((state) => state.user.user);
 
   useEffect(() => {
-    firebaseGetData(email,"products").then((data) => {
+    firebaseGetData(email, "products").then((data) => {
       setProducts(data);
       setIsLoading(false);
+      console.log(data)
     });
-  }, []);
+  }, [recordModified]);
 
   useEffect(() => {
     const data = ProductFields.map((item) => {
@@ -28,25 +29,32 @@ export const Products = () => {
       };
     });
     setNameFields(data);
-  }, [])
+  }, []);
 
   if (isLoading)
-  return (
-    <Loading
-      css={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "100vh",
-      }}
-    >
-      Loading
-    </Loading>
-  );
+    return (
+      <Loading
+        css={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        Loading
+      </Loading>
+    );
 
   return (
     <Layout>
-      <MaintenancesGridComponent dataGrid={products} nameFields={nameFields}/>
+      <MaintenancesGridComponent
+        dataGrid={products}
+        nameFields={nameFields}
+        title="Articulos"
+        collection="products"
+        recordModified={recordModified}
+        setRecordModified={setRecordModified}        
+      />
     </Layout>
-  )
+  );
 };

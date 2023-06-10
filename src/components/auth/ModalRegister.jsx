@@ -91,6 +91,7 @@ export const ModalRegister = () => {
   };
 
   const helper = useMemo(() => {
+    console.log(111)
     if (!email.value)
       return {
         text: "",
@@ -98,8 +99,8 @@ export const ModalRegister = () => {
       };
     const isValid = validateEmail(email.value);
     return {
-      text: isValid ? "Correct email" : "Enter a valid email",
-      color: isValid ? "success" : "error",
+      text: isValid ? "Email correcto" : "Introduzca un email valido",
+      color: isValid ? "correcto" : "error",
     };
   }, [email.value]);
 

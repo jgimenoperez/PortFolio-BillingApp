@@ -4,7 +4,7 @@
       "nombre": "Producto 1",
       "descripcion": "Descripción del producto 1",
       "precio": 10.99,
-      "cantcódigoad_stock": 100,
+      "stock": 100,
       "categoria": "Categoría 1",
       "proveedor": "Proveedor 1"
     },
@@ -13,7 +13,7 @@
       "nombre": "Producto 2",
       "descripcion": "Descripción del producto 2",
       "precio": 19.99,
-      "cantcódigoad_stock": 50,
+      "stock": 50,
       "categoria": "Categoría 2",
       "proveedor": "Proveedor 2"
     },
@@ -22,7 +22,7 @@
       "nombre": "Producto 3",
       "descripcion": "Descripción del producto 3",
       "precio": 7.99,
-      "cantcódigoad_stock": 200,
+      "stock": 200,
       "categoria": "Categoría 1",
       "proveedor": "Proveedor 3"
     },
@@ -31,7 +31,7 @@
       "nombre": "Producto 4",
       "descripcion": "Descripción del producto 4",
       "precio": 14.99,
-      "cantcódigoad_stock": 80,
+      "stock": 80,
       "categoria": "Categoría 2",
       "proveedor": "Proveedor 4"
     },
@@ -40,7 +40,7 @@
         "nombre": "Producto 5",
         "descripcion": "Descripción del producto 5",
         "precio": 11.99,
-        "cantcódigoad_stock": 150,
+        "stock": 150,
         "categoria": "Categoría 1",
         "proveedor": "Proveedor 5"
       },
@@ -49,7 +49,7 @@
         "nombre": "Producto 6",
         "descripcion": "Descripción del producto 6",
         "precio": 9.99,
-        "cantcódigoad_stock": 70,
+        "stock": 70,
         "categoria": "Categoría 2",
         "proveedor": "Proveedor 6"
       },
@@ -58,7 +58,7 @@
         "nombre": "Producto 7",
         "descripcion": "Descripción del producto 7",
         "precio": 18.99,
-        "cantcódigoad_stock": 120,
+        "stock": 120,
         "categoria": "Categoría 1",
         "proveedor": "Proveedor 7"
       },
@@ -67,7 +67,7 @@
         "nombre": "Producto 8",
         "descripcion": "Descripción del producto 8",
         "precio": 13.99,
-        "cantcódigoad_stock": 90,
+        "stock": 90,
         "categoria": "Categoría 2",
         "proveedor": "Proveedor 8"
       },
@@ -76,7 +76,7 @@
         "nombre": "Producto 9",
         "descripcion": "Descripción del producto 9",
         "precio": 16.99,
-        "cantcódigoad_stock": 110,
+        "stock": 110,
         "categoria": "Categoría 1",
         "proveedor": "Proveedor 9"
       },
@@ -85,7 +85,7 @@
         "nombre": "Producto 10",
         "descripcion": "Descripción del producto 10",
         "precio": 21.99,
-        "cantcódigoad_stock": 60,
+        "stock": 60,
         "categoria": "Categoría 2",
         "proveedor": "Proveedor 10"
       },
@@ -94,7 +94,7 @@
         "nombre": "Producto 11",
         "descripcion": "Descripción del producto 11",
         "precio": 8.99,
-        "cantcódigoad_stock": 180,
+        "stock": 180,
         "categoria": "Categoría 1",
         "proveedor": "Proveedor 11"
       },
@@ -103,7 +103,7 @@
         "nombre": "Producto 12",
         "descripcion": "Descripción del producto 12",
         "precio": 17.99,
-        "cantcódigoad_stock": 100,
+        "stock": 100,
         "categoria": "Categoría 2",
         "proveedor": "Proveedor 12"
       },
@@ -112,7 +112,7 @@
         "nombre": "Producto 13",
         "descripcion": "Descripción del producto 13",
         "precio": 12.99,
-        "cantcódigoad_stock": 130,
+        "stock": 130,
         "categoria": "Categoría 1",
         "proveedor": "Proveedor 13"
       },
@@ -121,7 +121,7 @@
         "nombre": "Producto 14",
         "descripcion": "Descripción del producto 14",
         "precio": 15.99,
-        "cantcódigoad_stock": 80,
+        "stock": 80,
         "categoria": "Categoría 2",
         "proveedor": "Proveedor 14"
       },
@@ -130,7 +130,7 @@
         "nombre": "Producto 15",
         "descripcion": "Descripción del producto 15",
         "precio": 9.99,
-        "cantcódigoad_stock": 200,
+        "stock": 200,
         "categoria": "Categoría 1",
         "proveedor": "Proveedor 15"
       },
@@ -139,7 +139,7 @@
         "nombre": "Producto 16",
         "descripcion": "Descripción del producto 16",
         "precio": 13.99,
-        "cantcódigoad_stock": 90,
+        "stock": 90,
         "categoria": "Categoría 2",
         "proveedor": "Proveedor 16"
       },
@@ -148,7 +148,7 @@
         "nombre": "Producto 17",
         "descripcion": "Descripción del producto 17",
         "precio": 17.99,
-        "cantcódigoad_stock": 70,
+        "stock": 70,
         "categoria": "Categoría 1",
         "proveedor": "Proveedor 17"
       },
@@ -157,7 +157,7 @@
         "nombre": "Producto 18",
         "descripcion": "Descripción del producto 18",
         "precio": 14.99,
-        "cantcódigoad_stock": 120,
+        "stock": 120,
         "categoria": "Categoría 2",
         "proveedor": "Proveedor 18"
       },
@@ -166,7 +166,7 @@
         "nombre": "Producto 19",
         "descripcion": "Descripción del producto 19",
         "precio": 11.99,
-        "cantcódigoad_stock": 100,
+        "stock": 100,
         "categoria": "Categoría 1",
         "proveedor": "Proveedor 19"
       },
@@ -175,7 +175,7 @@
         "nombre": "Producto 20",
         "descripcion": "Descripción del producto 20",
         "precio": 16.99,
-        "cantcódigoad_stock": 150,
+        "stock": 150,
         "categoria": "Categoría 2",
         "proveedor": "Proveedor 20"
       }

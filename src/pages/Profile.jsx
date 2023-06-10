@@ -92,7 +92,6 @@ export const Profile = () => {
       province: inputProvince.value,
       phone: inputPhone.value,
     };
-    console.log(user);
     dispatch({
       type: actions.UPDATE_DATA_USER,
       payload: {

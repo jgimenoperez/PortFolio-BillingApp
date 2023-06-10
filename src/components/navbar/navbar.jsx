@@ -42,6 +42,7 @@ export const Nav = ({ isLogin, isRegister, isResetPass }) => {
       link: "invoices",
     },
   ];
+  
   const logoutClick = () => {
     firebaseLogout();
     dispatch(setAuth(false));

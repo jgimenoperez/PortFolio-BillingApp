@@ -266,7 +266,7 @@ export const Section1 = () => {
               style={{ transform: `translateY(${parallaxEffect}px)` }}
               className="inner aos-init img-fluid"
               data-aos="fade-up"
-              // data-aos-delay="1500"
+              data-aos-delay="1500"
               src="https://res.cloudinary.com/dxnwtmj3l/image/upload/v1685300806/BillingApp/Public/bill2_aq2pfs.png"
             />
             <svg data-aos="fade-up" className="circle" viewBox="0 0 100 100">

@@ -57,7 +57,6 @@ export const deleteAvatar = async (imageFolder, imageName,extension) => {
   )
     .then((response) => response.json())
     .then((data) => {
-      console.log("Respuesta:", data);
       return data;
       // Realiza acciones adicionales después de eliminar la imagen
     })
