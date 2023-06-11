@@ -18,6 +18,7 @@ import swal from "sweetalert";
 import { firebaseDeleteData } from "../../firebase/firebase";
 import { useSelector } from "react-redux";
 import { ModalCustomers } from "./ModalCustomers";
+import { useForm } from 'react-hook-form';
 
 // eslint-disable-next-line react/prop-types
 export const MaintenancesGridComponent = ({
