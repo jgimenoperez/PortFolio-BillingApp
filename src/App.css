@@ -612,7 +612,7 @@ html {
   font-size: 100%;
   padding: 0.8em;
   outline: none;
-  border: 2px solid rgb(200, 200, 200);
+  border: 2px solid  rgb(200, 200, 200);
   background-color: transparent;
   border-radius: 20px;
   width: 100%;
@@ -637,6 +637,11 @@ html {
   background-color: transaparent;
 }
 
-.inputGroup :is(input:focus, input:valid) {
+/* .inputGroup :is(input:focus, input:valid) {
   border-color: rgb(150, 150, 200);
+} */
+
+.error input  {
+  border: 2px solid red
 }
+

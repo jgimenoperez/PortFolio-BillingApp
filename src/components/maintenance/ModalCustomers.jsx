@@ -48,7 +48,8 @@ export const ModalCustomers = ({
   const onSubmit = (data) => {
     const dataArray = [];
     dataArray.push(data);
-    firebaseAddData(email, "customers", dataArray);
+    console.log(dataModal)
+    firebaseAddData(email, "customers", dataArray,dataModal?.id);
     setRecordModified((prevValue) => !prevValue);
     // reset();
   };
@@ -66,7 +67,7 @@ export const ModalCustomers = ({
         shadow
         color="gradient"
         onPress={() => {
-          setDataModal({estatus:"activo"});
+          setDataModal({ estatus: "activo" });
           setVisible(true);
         }}
         css={{ marginTop: "25px" }}
@@ -160,7 +161,7 @@ export const ModalCustomers = ({
                     })}
                   /> */}
 
-                  <div className="inputGroup">
+                  <div className={`inputGroup ${errors.nombre && "error"}`}>
                     <input
                       id="nombre"
                       type="text"
@@ -189,7 +190,7 @@ export const ModalCustomers = ({
                     width: "100%",
                   }}
                 >
-                  <div className="inputGroup">
+                  <div className={`inputGroup ${errors.dni && "error"}`}>
                     <input
                       id="nombre"
                       type="text"
@@ -231,7 +232,7 @@ export const ModalCustomers = ({
                       },
                     })}
                   /> */}
-                  <div className="inputGroup">
+                  <div className={`inputGroup ${errors.razon && "error"}`}>
                     <input
                       id="razon"
                       type="text"
@@ -277,7 +278,7 @@ export const ModalCustomers = ({
                       },
                     })}
                   /> */}
-                  <div className="inputGroup">
+                  <div className={`inputGroup ${errors.email && "error"}`}>
                     <input
                       id="email"
                       type="text"

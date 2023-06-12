@@ -259,7 +259,6 @@ export const firebaseUpdateUser = (docId, data) => {
     });
 };
 
-
 export const firebaseAddCustomers = (email, customers) => {
   const customersCollection = firebase
     .firestore()
@@ -286,7 +285,7 @@ export const firebaseAddProducts = (email, products) => {
     .doc(email)
     .collection("products");
 
-    products.forEach((product) => {
+  products.forEach((product) => {
     customersCollection
       .add(product)
       .then((docRef) => {
@@ -298,26 +297,42 @@ export const firebaseAddProducts = (email, products) => {
   });
 };
 
-export const firebaseAddData = (email,collection, data) => {
+export const firebaseAddData = (email, collection, data, id = null) => {
   const customersCollection = firebase
     .firestore()
     .collection("users")
     .doc(email)
     .collection(collection);
 
+  if (id) {
+    const documentRef = customersCollection.doc(id);
+
+    documentRef
+    .set(data[0])
+    .then(() => {
+      console.log(collection, "Registro actualizado con ID: ", id);
+    })
+    .catch((error) => {
+      console.log(collection, "Error al actualizar el registro: ", error);
+    });
+
+
+  } else {
+
     data.forEach((row) => {
-    customersCollection
-      .add(row)
-      .then((docRef) => {
-        console.log(collection,"Registro agregado con ID: ", docRef.id);
-      })
-      .catch((error) => {
-        console.log(collection,"Error al agregar el registro: ", error);
-      });
-  });
+      customersCollection
+        .add(row)
+        .then((docRef) => {
+          console.log(collection, "Registro agregado con ID: ", docRef.id);
+        })
+        .catch((error) => {
+          console.log(collection, "Error al agregar el registro: ", error);
+        });
+    });
+  }
 };
 
-export const firebaseGetData = (email,collection) => {
+export const firebaseGetData = (email, collection) => {
   return firebase
     .firestore()
     .collection("users")
@@ -339,8 +354,8 @@ export const firebaseGetData = (email,collection) => {
     });
 };
 
-export const firebaseDeleteData = (email,collection,id) => {
-  console.log(id)
+export const firebaseDeleteData = (email, collection, id) => {
+  console.log(id);
   return firebase
     .firestore()
     .collection("users")
@@ -354,8 +369,6 @@ export const firebaseDeleteData = (email,collection,id) => {
       return null;
     });
 };
-
-
 
 // export const customerFields22 = [
 //   { name: "NOMBRE", uid: "nombre" },
