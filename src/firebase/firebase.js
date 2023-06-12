@@ -298,6 +298,24 @@ export const firebaseAddProducts = (email, products) => {
   });
 };
 
+export const firebaseAddData = (email,collection, data) => {
+  const customersCollection = firebase
+    .firestore()
+    .collection("users")
+    .doc(email)
+    .collection(collection);
+
+    data.forEach((row) => {
+    customersCollection
+      .add(row)
+      .then((docRef) => {
+        console.log(collection,"Registro agregado con ID: ", docRef.id);
+      })
+      .catch((error) => {
+        console.log(collection,"Error al agregar el registro: ", error);
+      });
+  });
+};
 
 export const firebaseGetData = (email,collection) => {
   return firebase
@@ -320,6 +338,7 @@ export const firebaseGetData = (email,collection) => {
       return null;
     });
 };
+
 export const firebaseDeleteData = (email,collection,id) => {
   console.log(id)
   return firebase

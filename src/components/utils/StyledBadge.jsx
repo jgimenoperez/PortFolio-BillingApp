@@ -21,13 +21,9 @@ export const StyledBadge = styled('span', {
         bg: '$successLight',
         color: '$successLightContrast'
       },
-      paused: {
+      bloqueado: {
         bg: '$errorLight',
         color: '$errorLightContrast'
-      },
-      vacation: {
-        bg: '$warningLight',
-        color: '$warningLightContrast'
       }
     }
   },

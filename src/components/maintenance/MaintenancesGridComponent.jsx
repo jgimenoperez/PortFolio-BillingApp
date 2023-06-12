@@ -8,7 +8,8 @@ import {
   Container,
   Input,
   styled,
-  Button,
+  Modal,
+  useModal,
   Loading,
 } from "@nextui-org/react";
 import { EyeIcon, EditIcon, DeleteIcon, AddIcon } from "../icons";
@@ -30,11 +31,12 @@ export const MaintenancesGridComponent = ({
   setRecordModified,
   recordModified,
 }) => {
+  const { setVisible, bindings } = useModal();
   const [directionSort, setDirectionSort] = useState(true);
   const [dataGridFiltered, setDataGridFiltered] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const { email } = useSelector((state) => state.user.user);
-
+  const [dataModal, setDataModal] = useState({})
   useEffect(() => {
     const timerId = setTimeout(() => {
       filterData();
@@ -46,7 +48,6 @@ export const MaintenancesGridComponent = ({
   }, [searchTerm]);
 
   useEffect(() => {
-    console.log(dataGrid)
     setDataGridFiltered(dataGrid);
   }, []);
 
@@ -100,22 +101,25 @@ export const MaintenancesGridComponent = ({
           </Col>
         );
       case "estatus":
-        return <StyledBadge type={item.status}>{cellValue}</StyledBadge>;
+        return <StyledBadge type={item.estatus}>{cellValue}</StyledBadge>;
 
       case "actions":
         return (
           <div className="card-body">
             <Row justify="center" align="center">
-              <Col css={{ d: "flex" }}>
+              {/* <Col css={{ d: "flex" }}>
                 <Tooltip content="Detalles">
                   <IconButton onClick={() => console.log("Ver", item.id)}>
                     <EyeIcon size={20} fill="#979797" />
                   </IconButton>
                 </Tooltip>
-              </Col>
+              </Col> */}
               <Col css={{ d: "flex" }}>
                 <Tooltip content="Editar">
-                  <IconButton onClick={() => console.log("Editar", item.id)}>
+                  <IconButton onClick={() => {
+                      setDataModal(item)
+                      setVisible(true)
+                  }}>
                     <EditIcon size={20} fill="#979797" />
                   </IconButton>
                 </Tooltip>
@@ -221,7 +225,15 @@ export const MaintenancesGridComponent = ({
           >
             <strong>{title}</strong>
           </Text>
-          <ModalCustomers title={title}/>
+          <ModalCustomers 
+          setVisible={setVisible}
+          bindings={bindings}
+          dataModal={dataModal}
+          setDataModal={setDataModal}
+          title={title}
+          email={email}
+          setRecordModified={setRecordModified}
+          />
 
           {/* <Button
             auto

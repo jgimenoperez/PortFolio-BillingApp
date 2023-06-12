@@ -1,5 +1,6 @@
 import {
   Modal,
+  useModal,
   Button,
   Text,
   Input,
@@ -30,11 +31,16 @@ export const ModalCustomers = ({
   } = useForm();
 
   useEffect(() => {
-    reset();
-  }, []);
+    reset()
+  
+
+  }, [])
+  
+  // const { setVisible, bindings } = useModal();
+  const [selectedOption, setSelectedOption] = useState("activo");
 
   const handleOptionChange = (event) => {
-    setDataModal({ ...dataModal, estatus: event.target.value });
+    setSelectedOption(event.target.value);
   };
   // const nombreCustomer = useInput("");
   // const dniCustomer = useInput("");
@@ -50,7 +56,7 @@ export const ModalCustomers = ({
     dataArray.push(data);
     firebaseAddData(email, "customers", dataArray);
     setRecordModified((prevValue) => !prevValue);
-    // reset();
+    reset();
   };
 
   // const handleSubmit = (e) => {
@@ -66,9 +72,8 @@ export const ModalCustomers = ({
         shadow
         color="gradient"
         onPress={() => {
-          setDataModal({estatus:"activo"});
-          setVisible(true);
-        }}
+          setDataModal({})
+          setVisible(true)}}
         css={{ marginTop: "25px" }}
         icon={<AddIcon size={20} fill="#FF0080" />}
       >
@@ -121,7 +126,6 @@ export const ModalCustomers = ({
         aria-labelledby="modal-title"
         aria-describedby="modal-description"
         animated="true"
-        onOpen={reset}
         {...bindings}
       >
         {" "}
@@ -146,40 +150,24 @@ export const ModalCustomers = ({
                     width: "100%",
                   }}
                 >
-                  {/* <Input
+                  <Input
                     label="Nombre"
                     width="100%"
                     status={errors.nombre ? "error" : "default"}
                     type="text"
-                    defaultValue={dataModal?.nombre}
+                    value={dataModal?.nombre}
                     {...register("nombre", {
                       required: {
                         value: true,
                         message: "Por favor ingresa tu nombre.",
                       },
                     })}
-                  /> */}
-
-                  <div className="inputGroup">
-                    <input
-                      id="nombre"
-                      type="text"
-                      autoComplete="off"
-                      defaultValue={dataModal?.nombre}
-                      {...register("nombre", {
-                        required: {
-                          value: true,
-                          message: "Por favor ingresa tu nombre.",
-                        },
-                      })}
-                    />
-                    <label htmlFor="name">Nombre</label>
-                    {errors.nombre && (
-                      <Text color="#ff4ecd" size="$md">
-                        {errors.nombre.message}
-                      </Text>
-                    )}
-                  </div>
+                  />
+                  {errors.nombre && (
+                    <Text color="#ff4ecd" size="$md">
+                      {errors.nombre.message}
+                    </Text>
+                  )}
                 </div>
               </Grid>
 
@@ -189,26 +177,23 @@ export const ModalCustomers = ({
                     width: "100%",
                   }}
                 >
-                  <div className="inputGroup">
-                    <input
-                      id="nombre"
-                      type="text"
-                      autoComplete="off"
-                      defaultValue={dataModal?.dni}
-                      {...register("dni", {
-                        required: {
-                          value: true,
-                          message: "Por favor ingresa tu D.N.I.",
-                        },
-                      })}
-                    />
-                    <label htmlFor="name">D.N.I</label>
-                    {errors.dni && (
-                      <Text color="#ff4ecd" size="$md">
-                        {errors.dni.message}
-                      </Text>
-                    )}
-                  </div>
+                  <Input
+                    label="D.N.I"
+                    width="100%"
+                    status={errors.dni ? "error" : "default"}
+                    type="text"
+                    {...register("dni", {
+                      required: {
+                        value: true,
+                        message: "Por favor ingresa D.N.I",
+                      },
+                    })}
+                  />
+                  {errors.dni && (
+                    <Text color="#ff4ecd" size="$md">
+                      {errors.dni.message}
+                    </Text>
+                  )}
                 </div>
               </Grid>
 
@@ -218,39 +203,23 @@ export const ModalCustomers = ({
                     width: "100%",
                   }}
                 >
-                  {/* <Input
+                  <Input
                     label="Razón Social"
                     width="100%"
                     status={errors.razon ? "error" : "default"}
                     type="text"
-                    value={dataModal.razon}
                     {...register("razon", {
                       required: {
                         value: true,
                         message: "Por favor ingresa razón",
                       },
                     })}
-                  /> */}
-                  <div className="inputGroup">
-                    <input
-                      id="razon"
-                      type="text"
-                      autoComplete="off"
-                      defaultValue={dataModal?.razon}
-                      {...register("razon", {
-                        required: {
-                          value: true,
-                          message: "Por favor ingresa razón social",
-                        },
-                      })}
-                    />
-                    <label htmlFor="razon">Razón Social</label>
-                    {errors.razon && (
-                      <Text color="#ff4ecd" size="$md">
-                        {errors.razon.message}
-                      </Text>
-                    )}
-                  </div>
+                  />
+                  {errors.razon && (
+                    <Text color="#ff4ecd" size="$md">
+                      {errors.razon.message}
+                    </Text>
+                  )}
                 </div>
               </Grid>
 
@@ -260,12 +229,11 @@ export const ModalCustomers = ({
                     width: "100%",
                   }}
                 >
-                  {/* <Input
+                  <Input
                     label="Email"
                     width="100%"
                     status={errors.email ? "error" : "default"}
                     type="text"
-                    value={dataModal.email}
                     {...register("email", {
                       required: {
                         value: true,
@@ -276,31 +244,12 @@ export const ModalCustomers = ({
                         message: "Ingresa un correo electrónico válido.",
                       },
                     })}
-                  /> */}
-                  <div className="inputGroup">
-                    <input
-                      id="email"
-                      type="text"
-                      autoComplete="off"
-                      defaultValue={dataModal?.email}
-                      {...register("email", {
-                        required: {
-                          value: true,
-                          message: "Por favor ingresa Email",
-                        },
-                        pattern: {
-                          value: /^\S+@\S+$/i,
-                          message: "Ingresa un correo electrónico válido.",
-                        },
-                      })}
-                    />
-                    <label htmlFor="email">Email</label>
-                    {errors.email && (
-                      <Text color="#ff4ecd" size="$md">
-                        {errors.email.message}
-                      </Text>
-                    )}
-                  </div>
+                  />
+                  {errors.dni && (
+                    <Text color="#ff4ecd" size="$md">
+                      {errors.email.message}
+                    </Text>
+                  )}
                 </div>
               </Grid>
 
@@ -310,25 +259,13 @@ export const ModalCustomers = ({
                     width: "100%",
                   }}
                 >
-                  {/* <Input
+                  <Input
                     label="Dirección"
                     width="100%"
                     status={"default"}
                     type="text"
-                    value={dataModal.direccion}
                     {...register("direccion", {})}
-                  /> */}
-
-                  <div className="inputGroup">
-                    <input
-                      id="direccion"
-                      type="text"
-                      autoComplete="off"
-                      defaultValue={dataModal?.direccion}
-                      {...register("direccion", {})}
-                    />
-                    <label htmlFor="direccion">Dirección</label>
-                  </div>
+                  />
                 </div>
               </Grid>
 
@@ -338,25 +275,13 @@ export const ModalCustomers = ({
                     width: "100%",
                   }}
                 >
-                  {/* <Input
+                  <Input
                     label="Ciudad"
                     width="100%"
                     status={"default"}
                     type="text"
-                    value={dataModal.ciudad}
                     {...register("ciudad", {})}
-                  /> */}
-
-                  <div className="inputGroup">
-                    <input
-                      id="ciudad"
-                      type="text"
-                      autoComplete="off"
-                      defaultValue={dataModal?.ciudad}
-                      {...register("ciudad", {})}
-                    />
-                    <label htmlFor="ciudad">Ciudad</label>
-                  </div>
+                  />
                 </div>
               </Grid>
 
@@ -366,24 +291,13 @@ export const ModalCustomers = ({
                     width: "100%",
                   }}
                 >
-                  {/* <Input
+                  <Input
                     label="Cod Postal"
                     width="100%"
                     status={"default"}
                     type="text"
-                    value={dataModal.codpostal}
                     {...register("codpostal", {})}
-                  /> */}
-                  <div className="inputGroup">
-                    <input
-                      id="codpostal"
-                      type="text"
-                      autoComplete="off"
-                      defaultValue={dataModal?.codpostal}
-                      {...register("codpostal", {})}
-                    />
-                    <label htmlFor="codpostal">Codigo postal</label>
-                  </div>
+                  />
                 </div>
               </Grid>
 
@@ -393,24 +307,13 @@ export const ModalCustomers = ({
                     width: "100%",
                   }}
                 >
-                  {/* <Input
+                  <Input
                     label="Provincia"
                     width="100%"
                     status={"default"}
                     type="text"
-                    value={dataModal.provincia}
                     {...register("provincia", {})}
-                  /> */}
-                  <div className="inputGroup">
-                    <input
-                      id="provincia"
-                      type="text"
-                      autoComplete="off"
-                      defaultValue={dataModal?.provincia}
-                      {...register("provincia", {})}
-                    />
-                    <label htmlFor="provincia">Provincia</label>
-                  </div>
+                  />
                 </div>
               </Grid>
 
@@ -420,24 +323,13 @@ export const ModalCustomers = ({
                     width: "100%",
                   }}
                 >
-                  {/* <Input
+                  <Input
                     label="Teléfono"
                     width="100%"
                     status={"default"}
                     type="text"
-                    value={dataModal.telefono}
                     {...register("telefono", {})}
-                  /> */}
-                  <div className="inputGroup">
-                    <input
-                      id="telefono"
-                      type="text"
-                      autoComplete="off"
-                      defaultValue={dataModal?.telefono}
-                      {...register("telefono", {})}
-                    />
-                    <label htmlFor="telefono">Teléfono</label>
-                  </div>
+                  />
                 </div>
               </Grid>
 
@@ -447,25 +339,13 @@ export const ModalCustomers = ({
                     width: "100%",
                   }}
                 >
-                  {/* <Input
+                  <Input
                     label="Fecha de alta"
                     width="100%"
                     status={"default"}
                     type="date"
-                    value={dataModal.fecha}
                     {...register("fecha", {})}
-                  /> */}
-
-                  <div className="inputGroup">
-                    <input
-                      id="fecha"
-                      type="date"
-                      autoComplete="off"
-                      defaultValue={dataModal?.fecha}
-                      {...register("fecha", {})}
-                    />
-                    <label htmlFor="fecha">Fecha</label>
-                  </div>
+                  />
                 </div>
               </Grid>
 
@@ -489,13 +369,13 @@ export const ModalCustomers = ({
                 <label>
                   <input
                     type="radio"
-                    name="estatus"
                     value="activo"
+                    name="estatus"
                     style={{
                       marginRight: "8px",
                     }}
-                    {...register("estatus")}
-                    checked={dataModal.estatus === "activo"}
+                    {...register("estatus", { required: true })}
+                    checked={selectedOption === "activo"}
                     onChange={handleOptionChange}
                   />
                   Activo
@@ -513,8 +393,8 @@ export const ModalCustomers = ({
                     style={{
                       marginRight: "8px",
                     }}
-                    {...register("estatus")}
-                    checked={dataModal.estatus === "bloqueado"}
+                    {...register("estatus", { required: true })}
+                    checked={selectedOption === "bloqueado"}
                     onChange={handleOptionChange}
                   />
                   Bloqueado
