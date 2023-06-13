@@ -1,10 +1,12 @@
 import {
+  firebaseGetData,
   firebaseLoginWithEmail,
   firebaseLoginWithEmailNotPersistence,
   firebaseLoginWithGoogle,
   firebaseLoginWithGoogleNoPersistence,
   firebaseUpdateUser,
 } from "../firebase/firebase";
+import { setDataMaintenance } from "../reducers/dataMaintenanceReducer";
 import { getUser, setErrorLogin } from "../reducers/userReducer";
 import { actions } from "../types/types";
 
@@ -23,7 +25,7 @@ export const customMiddleware = (store) => (next) => async (action) => {
       break;
 
     case actions.LOGIN_GOOGLE:
-      store.dispatch(setErrorLogin(null))
+      store.dispatch(setErrorLogin(null));
       try {
         if (action.payload.remenberSession) {
           user = await firebaseLoginWithGoogle();
@@ -32,13 +34,13 @@ export const customMiddleware = (store) => (next) => async (action) => {
         }
       } catch (error) {
         store.dispatch(setErrorLogin(error.message));
-        console.log('Ocurrió un error:', error.message);
+        console.log("Ocurrió un error:", error.message);
       }
       store.dispatch(getUser(user));
       break;
 
     case actions.LOGIN_MAIL:
-      store.dispatch(setErrorLogin(null))
+      store.dispatch(setErrorLogin(null));
       try {
         if (action.payload.remenberSession) {
           user = await firebaseLoginWithEmail(
@@ -53,7 +55,7 @@ export const customMiddleware = (store) => (next) => async (action) => {
         }
       } catch (error) {
         store.dispatch(setErrorLogin(error.message));
-        console.log('Ocurrió un error:', error.message);
+        console.log("Ocurrió un error:", error.message);
       }
 
       // dispatch(getUser(user));
@@ -62,12 +64,22 @@ export const customMiddleware = (store) => (next) => async (action) => {
     case actions.UPDATE_DATA_USER:
       user = state.user;
       firebaseUpdateUser(user.user.docId, {
-         ...action.payload,
+        ...action.payload,
       }).then(() => {
         return next(action);
       });
-      break;    
-    
+      break;
+
+    case actions.UPATE_DATA_MAINTENANCE:
+      // eslint-disable-next-line no-case-declarations
+      const email = state.user.user.email;
+      // eslint-disable-next-line no-case-declarations
+      const { table } = action.payload;
+      firebaseGetData(email, table).then((data) => {
+        store.dispatch(setDataMaintenance(data));
+        return next(action);
+      });
+      break;
     default:
       return next(action);
   }

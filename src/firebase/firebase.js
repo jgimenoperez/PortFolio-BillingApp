@@ -307,7 +307,7 @@ export const firebaseAddData = (email, collection, data, id = null) => {
   if (id) {
     const documentRef = customersCollection.doc(id);
 
-    documentRef
+    return documentRef
     .set(data[0])
     .then(() => {
       console.log(collection, "Registro actualizado con ID: ", id);
@@ -322,19 +322,20 @@ export const firebaseAddData = (email, collection, data, id = null) => {
 
   } else {
 
-    data.forEach((row) => {
-      customersCollection
+    const promises = data.map((row) => {
+      return customersCollection
         .add(row)
         .then((docRef) => {
           console.log(collection, "Registro agregado con ID: ", docRef.id);
-          return docRef.id
+          return docRef.id;
         })
         .catch((error) => {
           console.warn(collection, "Error al agregar el registro: ", error);
           throw new Error("Error al agregar los registros");
-
         });
     });
+    return Promise.all(promises);
+
   }
 };
 

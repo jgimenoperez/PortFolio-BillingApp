@@ -2,17 +2,15 @@ import {
   Modal,
   Button,
   Text,
-  Input,
-  // useInput,
   Grid,
-  Radio,
 } from "@nextui-org/react";
 import { AddIcon } from "../icons";
 import { firebaseAddData } from "../../firebase/firebase";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { useState } from "react";
 import Swal from "sweetalert2";
+import { useDispatch } from "react-redux";
+import { actions } from "../../types/types";
 
 export const ModalCustomers = ({
   setVisible,
@@ -21,8 +19,8 @@ export const ModalCustomers = ({
   setDataModal,
   title,
   email,
-  setRecordModified,
 }) => {
+  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
@@ -37,27 +35,27 @@ export const ModalCustomers = ({
   const handleOptionChange = (event) => {
     setDataModal({ ...dataModal, estatus: event.target.value });
   };
-  // const nombreCustomer = useInput("");
-  // const dniCustomer = useInput("");
-  // const razonSocialCustomer = useInput("");
-  // const email = useInput("");
-  // const ciudadCustomer = useInput("");
-  // const codPostalCustomer = useInput("");
-  // const provinciaCustomer = useInput("");
-  // const telefonoCustomer = useInput("");
-  // const fechaAltaCustomer = useInput("");
+
   const onSubmit = async (data) => {
     const dataArray = [];
     dataArray.push(data);
     try {
-      firebaseAddData(email, "customers", dataArray, dataModal?.id);
-      await setRecordModified((prevValue) => !prevValue);
+      console.log(1)
+      await firebaseAddData(email, "customers", dataArray, dataModal?.id);
+      console.log(2)
+      await dispatch({
+        type: actions.UPATE_DATA_MAINTENANCE,
+        payload: {
+          table: "customers",
+        },
+      });
+      console.log(3)
+
       setVisible(false);
       Swal.fire({
         title: "Operación realizada",
         text: "Datos actualizados",
         icon: "success",
-        button: "Iniciar sesión",
       });
     } catch (error) {
       Swal.fire({

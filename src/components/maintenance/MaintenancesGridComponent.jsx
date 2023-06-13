@@ -13,31 +13,51 @@ import {
   Loading,
 } from "@nextui-org/react";
 import { EyeIcon, EditIcon, DeleteIcon, AddIcon } from "../icons";
-import { IconButton, StyledBadge } from "../utils";
-import { useEffect, useState } from "react";
-import Swal from 'sweetalert2'
 import { firebaseDeleteData } from "../../firebase/firebase";
-import { useSelector } from "react-redux";
+import { IconButton, StyledBadge } from "../utils";
 import { ModalCustomers } from "./ModalCustomers";
-import { useForm } from 'react-hook-form';
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import Swal from "sweetalert2";
+import { actions } from "../../types/types";
 
 // eslint-disable-next-line react/prop-types
 export const MaintenancesGridComponent = ({
-  dataGrid,
   nameFields,
-  children,
   title,
   collection,
-  setRecordModified,
-  recordModified,
 }) => {
+  const dispatch = useDispatch();
+  const { email } = useSelector((state) => state.user.user);
+  const dataGrid = useSelector((state) => state.data.dataMaintenance);
   const { setVisible, bindings } = useModal();
   const [directionSort, setDirectionSort] = useState(true);
-  const [dataGridFiltered, setDataGridFiltered] = useState(null);
+  const [dataGridFiltered, setDataGridFiltered] = useState({});
   const [searchTerm, setSearchTerm] = useState("");
-  const { email } = useSelector((state) => state.user.user);
-  const [dataModal, setDataModal] = useState({})
-  
+  const [dataModal, setDataModal] = useState({});
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        await dispatch({
+          type: actions.UPATE_DATA_MAINTENANCE,
+          payload: {
+            table: "customers",
+          },
+        });
+      } catch (error) {
+        console.warn("Error al obtener o actualizar los datos:", error);
+      }
+    };
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    setDataGridFiltered(dataGrid);
+  }, [dataGrid]);
+
   useEffect(() => {
     const timerId = setTimeout(() => {
       filterData();
@@ -49,12 +69,8 @@ export const MaintenancesGridComponent = ({
   }, [searchTerm]);
 
   useEffect(() => {
-    setDataGridFiltered(dataGrid);
-  }, []);
-
-  useEffect(() => {
-    setDataGridFiltered(dataGrid);
-  }, [dataGrid, recordModified]);
+    dataGridFiltered.length>0 && setLoading(false)
+  }, [dataGridFiltered]);
 
   async function sort({ column }) {
     setDirectionSort(!directionSort);
@@ -117,10 +133,12 @@ export const MaintenancesGridComponent = ({
               </Col> */}
               <Col css={{ d: "flex" }}>
                 <Tooltip content="Editar">
-                  <IconButton onClick={() => {
-                      setDataModal(item)
-                      setVisible(true)
-                  }}>
+                  <IconButton
+                    onClick={() => {
+                      setDataModal(item);
+                      setVisible(true);
+                    }}
+                  >
                     <EditIcon size={20} fill="#979797" />
                   </IconButton>
                 </Tooltip>
@@ -145,6 +163,7 @@ export const MaintenancesGridComponent = ({
   };
 
   const filterData = () => {
+
     if (searchTerm.length > 0) {
       const data = dataGrid.filter((row) => {
         return Object.values(row).some((valor) => {
@@ -155,7 +174,7 @@ export const MaintenancesGridComponent = ({
       });
       setDataGridFiltered(data);
     } else {
-      setDataGridFiltered(dataGrid);
+      dataGrid.length>0 && setDataGridFiltered(dataGrid);
     }
   };
 
@@ -171,14 +190,23 @@ export const MaintenancesGridComponent = ({
       buttons: ["No", true],
     }).then(async (response) => {
       if (response) {
-        await firebaseDeleteData(email, collection, recordId);
-        setRecordModified((prevValue) => !prevValue);
-        Swal.fire('Eliminado', '', 'success')
+        try {
+          await firebaseDeleteData(email, collection, recordId);
+          await dispatch({
+            type: actions.UPATE_DATA_MAINTENANCE,
+            payload: {
+              table: "customers",
+            },
+          });
+          Swal.fire("Eliminado", "", "success");
+        } catch (error) {
+          console.warn(error);
+        }
       }
     });
   };
 
-  if (dataGridFiltered === null) {
+  if (loading) {
     return (
       <Loading
         css={{
@@ -191,121 +219,110 @@ export const MaintenancesGridComponent = ({
         Loading
       </Loading>
     );
+  }else{
+    return (
+      // <h1>{dataGridFiltered.length}</h1>
+      <div className="mantenimientos">
+        <Container>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            <Input
+              clearable
+              contentRightStyling={false}
+              onChange={handleInputChange}
+              // labelPlaceholder="Buscar"
+              contentRight={
+                <SendButton>
+                  <EyeIcon fill="currentColor" size="18" />
+                </SendButton>
+              }
+              labelPlaceholder="Buscar"
+              css={{ marginTop: "25px" }}
+            />
+            <Text
+              h2
+              size={60}
+              css={{
+                textGradient: "45deg, $blue600 -20%, $pink600 50%",
+              }}
+              weight="bold"
+            >
+              <strong>{title}</strong>
+            </Text>
+            <ModalCustomers
+              setVisible={setVisible}
+              bindings={bindings}
+              dataModal={dataModal}
+              setDataModal={setDataModal}
+              title={title}
+              email={email}
+            />
+          </div>
+          <Table
+            lined
+            headerLined
+            aria-label="estatic collection table"
+            css={{
+              height: "150px",
+              minWidth: "8%",
+              backgroundColor: "$gray200",
+              marginTop: "15px",
+              borderRadius: "10px",
+              boxShadow: "inset 0 2px 4px rgba(0, 0, 0, 0.1)",
+              border: "1px solid rgba(0, 0, 0, 0.1)",
+            }}
+            // bordered
+            shadow={true}
+            striped
+            // fixed
+            color="primary"
+            selectionMode="single"
+            hoverable={true}
+            onSortChange={(e) => {
+              sort(e);
+            }}
+          >
+            <Table.Header columns={nameFields}>
+              {(column) => (
+                <Table.Column
+                  key={column.uid}
+                  hideHeader={column.uid === "actions"}
+                  align={column.uid === "actions" ? "center" : "start"}
+                  allowsSorting
+                >
+                  {column.name}
+                </Table.Column>
+              )}
+            </Table.Header>
+            <Table.Body items={dataGridFiltered}>
+              {(item) => (
+                <Table.Row>
+                  {(columnKey) => (
+                    <Table.Cell>{renderCell(item, columnKey)}</Table.Cell>
+                  )}
+                </Table.Row>
+              )}
+            </Table.Body>
+            <Table.Pagination
+              shadow
+              noMargin
+              align="center"
+              rowsPerPage={10}
+  
+              // onPageChange={(page) => console.log({ page })}
+            />
+          </Table>
+        </Container>
+      </div>
+    )
   }
 
-  return (
-    <div className="mantenimientos">
-      <Container>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-        >
-          <Input
-            clearable
-            contentRightStyling={false}
-            onChange={handleInputChange}
-            // labelPlaceholder="Buscar"
-            contentRight={
-              <SendButton>
-                <EyeIcon fill="currentColor" size="18" />
-              </SendButton>
-            }
-            labelPlaceholder="Buscar"
-            css={{ marginTop: "25px" }}
-          />
-          <Text
-            h2
-            size={60}
-            css={{
-              textGradient: "45deg, $blue600 -20%, $pink600 50%",
-            }}
-            weight="bold"
-          >
-            <strong>{title}</strong>
-          </Text>
-          <ModalCustomers 
-          setVisible={setVisible}
-          bindings={bindings}
-          dataModal={dataModal}
-          setDataModal={setDataModal}
-          title={title}
-          email={email}
-          setRecordModified={setRecordModified}
-          />
 
-          {/* <Button
-            auto
-            flat
-            color="gradient"
-            onClick={() => {
-              // navigate("/");
-            }}
-            css={{ marginTop: "25px" }}
-            icon={<AddIcon size={20} fill="#FF0080" />}
-          >
-            Nuevo
-          </Button> */}
-        </div>
-        <Table
-          lined
-          headerLined
-          aria-label="estatic collection table"
-          css={{
-            height: "150px",
-            minWidth: "8%",
-            backgroundColor: "$gray200",
-            marginTop: "15px",
-            borderRadius: "10px",
-            boxShadow: "inset 0 2px 4px rgba(0, 0, 0, 0.1)",
-            border: "1px solid rgba(0, 0, 0, 0.1)",
-          }}
-          // bordered
-          shadow={true}
-          striped
-          // fixed
-          color="primary"
-          selectionMode="single"
-          hoverable={true}
-          onSortChange={(e) => {
-            sort(e);
-          }}
-        >
-          <Table.Header columns={nameFields}>
-            {(column) => (
-              <Table.Column
-                key={column.uid}
-                hideHeader={column.uid === "actions"}
-                align={column.uid === "actions" ? "center" : "start"}
-                allowsSorting
-              >
-                {column.name}
-              </Table.Column>
-            )}
-          </Table.Header>
-          <Table.Body items={dataGridFiltered}>
-            {(item) => (
-              <Table.Row>
-                {(columnKey) => (
-                  <Table.Cell>{renderCell(item, columnKey)}</Table.Cell>
-                )}
-              </Table.Row>
-            )}
-          </Table.Body>
-          <Table.Pagination
-            shadow
-            noMargin
-            align="center"
-            rowsPerPage={10}
-
-            // onPageChange={(page) => console.log({ page })}
-          />
-        </Table>
-      </Container>
-    </div>
-  );
 };
 
 export const SendButton = styled("button", {
