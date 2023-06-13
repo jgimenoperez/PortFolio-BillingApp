@@ -8,10 +8,11 @@ import {
   Radio,
 } from "@nextui-org/react";
 import { AddIcon } from "../icons";
-import { useForm } from "react-hook-form";
 import { firebaseAddData } from "../../firebase/firebase";
-import { useState } from "react";
 import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { useState } from "react";
+import Swal from "sweetalert2";
 
 export const ModalCustomers = ({
   setVisible,
@@ -45,13 +46,29 @@ export const ModalCustomers = ({
   // const provinciaCustomer = useInput("");
   // const telefonoCustomer = useInput("");
   // const fechaAltaCustomer = useInput("");
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     const dataArray = [];
     dataArray.push(data);
-    console.log(dataModal)
-    firebaseAddData(email, "customers", dataArray,dataModal?.id);
-    setRecordModified((prevValue) => !prevValue);
-    // reset();
+    try {
+      firebaseAddData(email, "customers", dataArray, dataModal?.id);
+      await setRecordModified((prevValue) => !prevValue);
+      setVisible(false);
+      Swal.fire({
+        title: "Operación realizada",
+        text: "Datos actualizados",
+        icon: "success",
+        button: "Iniciar sesión",
+      });
+    } catch (error) {
+      Swal.fire({
+        title: "Error",
+        text: error.message,
+        icon: "error",
+        button: "Ok",
+      });
+    }
+
+    
   };
 
   // const handleSubmit = (e) => {

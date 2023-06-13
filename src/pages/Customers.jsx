@@ -15,11 +15,13 @@ export const Customers = () => {
   const { email } = useSelector((state) => state.user.user);
 
   useEffect(() => {
+    console.log(1111)
     firebaseGetData(email, "customers").then((data) => {
+      console.log(data)
       setCustomers(data);
       setIsLoading(false);
     });
-  }, [recordModified]);
+  }, [email, recordModified]);
 
   useEffect(() => {
     const data = customerFields.map((item) => {

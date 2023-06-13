@@ -14,7 +14,7 @@ import { setAuth, setErrorLogin } from "../../reducers/userReducer";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState, useRef, useMemo } from "react";
 import { validateEmail, passwordValidator } from "../../utils/utils";
-import swal from "sweetalert";
+import Swal from 'sweetalert2'
 
 export const ModalRegister = () => {
   const dispatch = useDispatch();
@@ -68,7 +68,7 @@ export const ModalRegister = () => {
 
     firebaseAddUser(email, password)
     .then(() => {
-      swal({
+      Swal.fire({
         title: "Usuario creado",
         text: "Enviado correo de confirmación",
         icon: "success",
@@ -76,11 +76,11 @@ export const ModalRegister = () => {
       }).then(() => {
         firebaseLogout();
         dispatch(setAuth(false));
-        navigate("/login");
+        navigate("/");
       })
     })
     .catch((error) => {
-      swal({
+      Swal.fire({
         title: "Error",
         text: error.message,
         icon: "error",

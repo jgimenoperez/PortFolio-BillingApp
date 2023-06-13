@@ -15,7 +15,7 @@ import {
 import { EyeIcon, EditIcon, DeleteIcon, AddIcon } from "../icons";
 import { IconButton, StyledBadge } from "../utils";
 import { useEffect, useState } from "react";
-import swal from "sweetalert";
+import Swal from 'sweetalert2'
 import { firebaseDeleteData } from "../../firebase/firebase";
 import { useSelector } from "react-redux";
 import { ModalCustomers } from "./ModalCustomers";
@@ -37,6 +37,7 @@ export const MaintenancesGridComponent = ({
   const [searchTerm, setSearchTerm] = useState("");
   const { email } = useSelector((state) => state.user.user);
   const [dataModal, setDataModal] = useState({})
+  
   useEffect(() => {
     const timerId = setTimeout(() => {
       filterData();
@@ -163,7 +164,7 @@ export const MaintenancesGridComponent = ({
   };
 
   const deleteRecord = (recordId) => {
-    swal({
+    Swal.fire({
       title: "¿Estás seguro?",
       text: "El registro será eliminado permanentemente.",
       icon: "warning",
@@ -172,7 +173,7 @@ export const MaintenancesGridComponent = ({
       if (response) {
         await firebaseDeleteData(email, collection, recordId);
         setRecordModified((prevValue) => !prevValue);
-        swal("Registro eliminado");
+        Swal.fire('Eliminado', '', 'success')
       }
     });
   };

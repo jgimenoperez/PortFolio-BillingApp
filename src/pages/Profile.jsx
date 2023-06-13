@@ -19,6 +19,7 @@ import { useInput } from "../hooks/useImputjs";
 import { useSelector, useDispatch } from "react-redux";
 import { useState } from "react";
 import swal from "sweetalert";
+import Swal from 'sweetalert2'
 
 export const Profile = () => {
   const dispatch = useDispatch();
@@ -98,7 +99,7 @@ export const Profile = () => {
         ...user,
       },
     });
-    swal({
+    Swal.fire({
       title: "Datos actualizados",
       icon: "success",
     });

@@ -311,9 +311,12 @@ export const firebaseAddData = (email, collection, data, id = null) => {
     .set(data[0])
     .then(() => {
       console.log(collection, "Registro actualizado con ID: ", id);
+      return id
     })
     .catch((error) => {
-      console.log(collection, "Error al actualizar el registro: ", error);
+      console.warn(collection, "Error al actualizar el registro: ", error);
+      throw new Error("Error al actualizar el registro");
+
     });
 
 
@@ -324,9 +327,12 @@ export const firebaseAddData = (email, collection, data, id = null) => {
         .add(row)
         .then((docRef) => {
           console.log(collection, "Registro agregado con ID: ", docRef.id);
+          return docRef.id
         })
         .catch((error) => {
-          console.log(collection, "Error al agregar el registro: ", error);
+          console.warn(collection, "Error al agregar el registro: ", error);
+          throw new Error("Error al agregar los registros");
+
         });
     });
   }
