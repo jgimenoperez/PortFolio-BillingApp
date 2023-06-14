@@ -91,7 +91,6 @@ export const ModalRegister = () => {
   };
 
   const helper = useMemo(() => {
-    console.log(111)
     if (!email.value)
       return {
         text: "",

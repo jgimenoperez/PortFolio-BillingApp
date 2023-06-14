@@ -114,13 +114,13 @@ export const ModalProducts = ({
                   }}
                 >
 
-                  <div className={`inputGroup ${errors.codigoProducto && "error"}`}>
+                  <div className={`inputGroup ${errors.codigo && "error"}`}>
                     <input
-                      id="nombre"
+                      id="codigo"
                       type="text"
                       autoComplete="off"
-                      defaultValue={dataModal?.codigoProducto}
-                      {...register("codigoProducto", {
+                      defaultValue={dataModal?.codigo}
+                      {...register("codigo", {
                         required: {
                           value: true,
                           message: "Por favor ingresa el código del producto.",
@@ -128,9 +128,9 @@ export const ModalProducts = ({
                       })}
                     />
                     <label htmlFor="name">Código</label>
-                    {errors.nombre && (
+                    {errors.codigo && (
                       <Text color="#ff4ecd" size="$md">
-                        {errors.codigoProducto.message}
+                        {errors.codigo.message}
                       </Text>
                     )}
                   </div>
@@ -204,7 +204,7 @@ export const ModalProducts = ({
                   <div className={`inputGroup ${errors.precio && "error"}`}>
                     <input
                       id="precio"
-                      type="number"
+                      type="number" step="0.01" min="0" 
                       autoComplete="off"
                       defaultValue={dataModal?.precio}
                       {...register("precio", {

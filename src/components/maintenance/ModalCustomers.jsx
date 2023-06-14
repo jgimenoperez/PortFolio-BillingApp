@@ -40,16 +40,13 @@ export const ModalCustomers = ({
     const dataArray = [];
     dataArray.push(data);
     try {
-      console.log(1)
       await firebaseAddData(email, "customers", dataArray, dataModal?.id);
-      console.log(2)
       await dispatch({
         type: actions.UPATE_DATA_MAINTENANCE,
         payload: {
           table: "customers",
         },
       });
-      console.log(3)
 
       setVisible(false);
       Swal.fire({

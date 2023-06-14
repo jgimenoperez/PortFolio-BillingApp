@@ -408,7 +408,7 @@ export const customerFields = [
 ];
 
 export const ProductFields = [
-  "código",
+  "codigo",
   "nombre",
   "descripcion",
   "precio",

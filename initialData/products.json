@@ -1,6 +1,6 @@
 [
     {
-      "código": "0001",
+      "codigo": "0001",
       "nombre": "Producto 1",
       "descripcion": "Descripción del producto 1",
       "precio": 10.99,
@@ -9,7 +9,7 @@
       "proveedor": "Proveedor 1"
     },
     {
-      "código": "0002",
+      "codigo": "0002",
       "nombre": "Producto 2",
       "descripcion": "Descripción del producto 2",
       "precio": 19.99,
@@ -18,7 +18,7 @@
       "proveedor": "Proveedor 2"
     },
     {
-      "código": "0003",
+      "codigo": "0003",
       "nombre": "Producto 3",
       "descripcion": "Descripción del producto 3",
       "precio": 7.99,
@@ -27,7 +27,7 @@
       "proveedor": "Proveedor 3"
     },
     {
-      "código": "0004",
+      "codigo": "0004",
       "nombre": "Producto 4",
       "descripcion": "Descripción del producto 4",
       "precio": 14.99,
@@ -36,7 +36,7 @@
       "proveedor": "Proveedor 4"
     },
     {
-        "código": "0005",
+        "codigo": "0005",
         "nombre": "Producto 5",
         "descripcion": "Descripción del producto 5",
         "precio": 11.99,
@@ -45,7 +45,7 @@
         "proveedor": "Proveedor 5"
       },
       {
-        "código": "0006",
+        "codigo": "0006",
         "nombre": "Producto 6",
         "descripcion": "Descripción del producto 6",
         "precio": 9.99,
@@ -54,7 +54,7 @@
         "proveedor": "Proveedor 6"
       },
       {
-        "código": "0007",
+        "codigo": "0007",
         "nombre": "Producto 7",
         "descripcion": "Descripción del producto 7",
         "precio": 18.99,
@@ -63,7 +63,7 @@
         "proveedor": "Proveedor 7"
       },
       {
-        "código": "0008",
+        "codigo": "0008",
         "nombre": "Producto 8",
         "descripcion": "Descripción del producto 8",
         "precio": 13.99,
@@ -72,7 +72,7 @@
         "proveedor": "Proveedor 8"
       },
       {
-        "código": "0009",
+        "codigo": "0009",
         "nombre": "Producto 9",
         "descripcion": "Descripción del producto 9",
         "precio": 16.99,
@@ -81,7 +81,7 @@
         "proveedor": "Proveedor 9"
       },
       {
-        "código": "0010",
+        "codigo": "0010",
         "nombre": "Producto 10",
         "descripcion": "Descripción del producto 10",
         "precio": 21.99,
@@ -90,7 +90,7 @@
         "proveedor": "Proveedor 10"
       },
       {
-        "código": "0011",
+        "codigo": "0011",
         "nombre": "Producto 11",
         "descripcion": "Descripción del producto 11",
         "precio": 8.99,
@@ -99,7 +99,7 @@
         "proveedor": "Proveedor 11"
       },
       {
-        "código": "0012",
+        "codigo": "0012",
         "nombre": "Producto 12",
         "descripcion": "Descripción del producto 12",
         "precio": 17.99,
@@ -108,7 +108,7 @@
         "proveedor": "Proveedor 12"
       },
       {
-        "código": "0013",
+        "codigo": "0013",
         "nombre": "Producto 13",
         "descripcion": "Descripción del producto 13",
         "precio": 12.99,
@@ -117,7 +117,7 @@
         "proveedor": "Proveedor 13"
       },
       {
-        "código": "0014",
+        "codigo": "0014",
         "nombre": "Producto 14",
         "descripcion": "Descripción del producto 14",
         "precio": 15.99,
@@ -126,7 +126,7 @@
         "proveedor": "Proveedor 14"
       },
       {
-        "código": "0015",
+        "codigo": "0015",
         "nombre": "Producto 15",
         "descripcion": "Descripción del producto 15",
         "precio": 9.99,
@@ -135,7 +135,7 @@
         "proveedor": "Proveedor 15"
       },
       {
-        "código": "0016",
+        "codigo": "0016",
         "nombre": "Producto 16",
         "descripcion": "Descripción del producto 16",
         "precio": 13.99,
@@ -144,7 +144,7 @@
         "proveedor": "Proveedor 16"
       },
       {
-        "código": "0017",
+        "codigo": "0017",
         "nombre": "Producto 17",
         "descripcion": "Descripción del producto 17",
         "precio": 17.99,
@@ -153,7 +153,7 @@
         "proveedor": "Proveedor 17"
       },
       {
-        "código": "0018",
+        "codigo": "0018",
         "nombre": "Producto 18",
         "descripcion": "Descripción del producto 18",
         "precio": 14.99,
@@ -162,7 +162,7 @@
         "proveedor": "Proveedor 18"
       },
       {
-        "código": "0019",
+        "codigo": "0019",
         "nombre": "Producto 19",
         "descripcion": "Descripción del producto 19",
         "precio": 11.99,
@@ -171,7 +171,7 @@
         "proveedor": "Proveedor 19"
       },
       {
-        "código": "0020",
+        "codigo": "0020",
         "nombre": "Producto 20",
         "descripcion": "Descripción del producto 20",
         "precio": 16.99,

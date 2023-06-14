@@ -18,9 +18,9 @@ import { IconButton, StyledBadge } from "../utils";
 import { ModalCustomers } from "./ModalCustomers";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import { actions } from "../../types/types";
+import { ModalProducts } from "./ModalProducts";
 
 // eslint-disable-next-line react/prop-types
 export const MaintenancesGridComponent = ({
@@ -34,9 +34,9 @@ export const MaintenancesGridComponent = ({
   const { setVisible, bindings } = useModal();
   const [directionSort, setDirectionSort] = useState(true);
   const [dataGridFiltered, setDataGridFiltered] = useState({});
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState(null);
   const [dataModal, setDataModal] = useState({});
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -60,7 +60,8 @@ export const MaintenancesGridComponent = ({
 
   useEffect(() => {
     const timerId = setTimeout(() => {
-      filterData();
+      setLoading(false)
+      searchTerm != null && filterData();
     }, 500);
 
     return () => {
@@ -68,9 +69,9 @@ export const MaintenancesGridComponent = ({
     };
   }, [searchTerm]);
 
-  useEffect(() => {
-    dataGridFiltered.length>0 && setLoading(false)
-  }, [dataGridFiltered]);
+  // useEffect(() => {
+  //   dataGridFiltered.length > 0 && ;
+  // }, [dataGridFiltered]);
 
   async function sort({ column }) {
     setDirectionSort(!directionSort);
@@ -163,7 +164,6 @@ export const MaintenancesGridComponent = ({
   };
 
   const filterData = () => {
-
     if (searchTerm.length > 0) {
       const data = dataGrid.filter((row) => {
         return Object.values(row).some((valor) => {
@@ -174,7 +174,7 @@ export const MaintenancesGridComponent = ({
       });
       setDataGridFiltered(data);
     } else {
-      dataGrid.length>0 && setDataGridFiltered(dataGrid);
+      dataGrid.length > 0 && setDataGridFiltered(dataGrid);
     }
   };
 
@@ -187,20 +187,22 @@ export const MaintenancesGridComponent = ({
       title: "¿Estás seguro?",
       text: "El registro será eliminado permanentemente.",
       icon: "warning",
-      buttons: ["No", true],
+      showCancelButton: true,
     }).then(async (response) => {
       if (response) {
-        try {
-          await firebaseDeleteData(email, collection, recordId);
-          await dispatch({
-            type: actions.UPATE_DATA_MAINTENANCE,
-            payload: {
-              table: "customers",
-            },
-          });
-          Swal.fire("Eliminado", "", "success");
-        } catch (error) {
-          console.warn(error);
+        if (response.isConfirmed) {
+          try {
+            await firebaseDeleteData(email, collection, recordId);
+            await dispatch({
+              type: actions.UPATE_DATA_MAINTENANCE,
+              payload: {
+                table: collection,
+              },
+            });
+            Swal.fire("Eliminado", "", "success");
+          } catch (error) {
+            console.warn(error);
+          }
         }
       }
     });
@@ -219,7 +221,7 @@ export const MaintenancesGridComponent = ({
         Loading
       </Loading>
     );
-  }else{
+  } else {
     return (
       // <h1>{dataGridFiltered.length}</h1>
       <div className="mantenimientos">
@@ -254,15 +256,30 @@ export const MaintenancesGridComponent = ({
             >
               <strong>{title}</strong>
             </Text>
-            <ModalCustomers
-              setVisible={setVisible}
-              bindings={bindings}
-              dataModal={dataModal}
-              setDataModal={setDataModal}
-              title={title}
-              email={email}
-            />
+
+            {collection === "customers" ? (
+              <ModalCustomers
+                setVisible={setVisible}
+                bindings={bindings}
+                dataModal={dataModal}
+                setDataModal={setDataModal}
+                title={title}
+                email={email}
+              />
+            ) : (
+              <ModalProducts
+                setVisible={setVisible}
+                bindings={bindings}
+                dataModal={dataModal}
+                setDataModal={setDataModal}
+                title={title}
+                email={email}
+              />
+            )}
           </div>
+
+
+          
           <Table
             lined
             headerLined
@@ -313,16 +330,14 @@ export const MaintenancesGridComponent = ({
               noMargin
               align="center"
               rowsPerPage={10}
-  
+
               // onPageChange={(page) => console.log({ page })}
             />
           </Table>
         </Container>
       </div>
-    )
+    );
   }
-
-
 };
 
 export const SendButton = styled("button", {
