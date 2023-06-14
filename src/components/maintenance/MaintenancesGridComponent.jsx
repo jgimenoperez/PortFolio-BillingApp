@@ -44,7 +44,7 @@ export const MaintenancesGridComponent = ({
         await dispatch({
           type: actions.UPATE_DATA_MAINTENANCE,
           payload: {
-            table: "customers",
+            table: collection,
           },
         });
       } catch (error) {

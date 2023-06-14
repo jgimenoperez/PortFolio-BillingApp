@@ -2,7 +2,6 @@
 import { customerFields,  } from "../firebase/firebase";
 import { Layout } from "../components/navbar/layout";
 import { MaintenancesGridComponent } from "../components/maintenance/MaintenancesGridComponent";
-import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 
 export const Customers = () => {
