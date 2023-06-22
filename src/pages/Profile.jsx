@@ -18,7 +18,6 @@ import { useEffect } from "react";
 import { useInput } from "../hooks/useImputjs";
 import { useSelector, useDispatch } from "react-redux";
 import { useState } from "react";
-import swal from "sweetalert";
 import Swal from 'sweetalert2'
 
 export const Profile = () => {

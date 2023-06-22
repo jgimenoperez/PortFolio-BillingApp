@@ -198,10 +198,80 @@ export const AddIcon = ({ fill, size, height, width, ...props }) => {
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
-
     >
       <line x1="12" y1="5" x2="12" y2="19"></line>
       <line x1="5" y1="12" x2="19" y2="12"></line>
+    </svg>
+  );
+};
+
+export const BillIcon = ({
+  fill = "currentColor",
+  filled,
+  size,
+  height,
+  width,
+  label,
+  ...props
+}) => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      className="icon icon-tabler icon-tabler-file-invoice"
+      width={size || width || 24}
+      height={size || height || 24}
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      fill="none"
+
+    >
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M14 3v4a1 1 0 0 0 1 1h4" />
+      <path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" />
+      <path d="M9 7l1 0" />
+      <path d="M9 13l6 0" />
+      <path d="M13 17l2 0" />
+    </svg>
+  );
+};
+export const UserIcon = ({
+  fill = "currentColor",
+  filled,
+  size,
+  height,
+  width,
+  label,
+  ...props
+}) => {
+  return (
+    <svg
+      data-name="Iconly/Curved/Profile"
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      width={size || width || 24}
+      height={size || height || 24}
+      {...props}
+    >
+      <g
+        fill="none"
+        stroke={fill}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeMiterlimit={10}
+        strokeWidth={1.5}
+      >
+        <path
+          data-name="Stroke 1"
+          d="M11.845 21.662C8.153 21.662 5 21.088 5 18.787s3.133-4.425 6.845-4.425c3.692 0 6.845 2.1 6.845 4.4s-3.134 2.9-6.845 2.9z"
+        />
+        <path
+          data-name="Stroke 3"
+          d="M11.837 11.174a4.372 4.372 0 10-.031 0z"
+        />
+      </g>
     </svg>
   );
 };

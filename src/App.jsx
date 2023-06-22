@@ -12,7 +12,16 @@ import { NextUIProvider, Loading } from "@nextui-org/react";
 import { setAuth, getUser } from "./reducers/userReducer";
 import { useEffect, useState } from "react";
 import { LoginRoute, PrivateRoute } from "./routes";
-import { Home, Login, Profile, Register, ResetPass, Customers,Products } from "./pages";
+import {
+  Home,
+  Login,
+  Profile,
+  Register,
+  ResetPass,
+  Customers,
+  Products,
+  Invoices
+} from "./pages";
 
 function App() {
   const dispatch = useDispatch();
@@ -103,7 +112,16 @@ function App() {
               }
               exact
             />
-            s
+            <Route
+              path="/invoices"
+              element={
+                <PrivateRoute>
+                  <Invoices />
+                </PrivateRoute>
+              }
+              exact
+            />
+
             <Route
               path="/login"
               element={

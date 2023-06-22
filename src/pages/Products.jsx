@@ -1,4 +1,3 @@
-// import { MaintenancesGridComponent } from "../components/maintenance/MaintenancesGridComponent";
 import { ProductFields } from "../firebase/firebase";
 import { MaintenancesGridComponent } from "../components/maintenance/MaintenancesGridComponent";
 import { Layout } from "../components/navbar/layout";

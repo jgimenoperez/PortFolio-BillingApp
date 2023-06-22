@@ -1,9 +1,4 @@
-import {
-  Modal,
-  Button,
-  Text,
-  Grid,
-} from "@nextui-org/react";
+import { Modal, Button, Text, Grid } from "@nextui-org/react";
 import { AddIcon } from "../icons";
 import { firebaseAddData } from "../../firebase/firebase";
 import { useEffect } from "react";
@@ -12,7 +7,7 @@ import Swal from "sweetalert2";
 import { useDispatch } from "react-redux";
 import { actions } from "../../types/types";
 
-export const ModalProducts = ({
+export const ModalProduct = ({
   setVisible,
   bindings,
   dataModal,
@@ -62,8 +57,6 @@ export const ModalProducts = ({
         button: "Ok",
       });
     }
-
-    
   };
 
   return (
@@ -81,7 +74,6 @@ export const ModalProducts = ({
       >
         Nuevo
       </Button>
-
 
       <Modal
         width="800px"
@@ -113,7 +105,6 @@ export const ModalProducts = ({
                     width: "100%",
                   }}
                 >
-
                   <div className={`inputGroup ${errors.codigo && "error"}`}>
                     <input
                       id="codigo"
@@ -172,7 +163,9 @@ export const ModalProducts = ({
                     width: "100%",
                   }}
                 >
-                  <div className={`inputGroup ${errors.descripcion && "error"}`}>
+                  <div
+                    className={`inputGroup ${errors.descripcion && "error"}`}
+                  >
                     <input
                       id="descripcion"
                       type="text"
@@ -181,7 +174,8 @@ export const ModalProducts = ({
                       {...register("descripcion", {
                         required: {
                           value: true,
-                          message: "Por favor ingresa la descripción del producto",
+                          message:
+                            "Por favor ingresa la descripción del producto",
                         },
                       })}
                     />
@@ -204,7 +198,9 @@ export const ModalProducts = ({
                   <div className={`inputGroup ${errors.precio && "error"}`}>
                     <input
                       id="precio"
-                      type="number" step="0.01" min="0" 
+                      type="number"
+                      step="0.01"
+                      min="0"
                       autoComplete="off"
                       defaultValue={dataModal?.precio}
                       {...register("precio", {
@@ -310,7 +306,6 @@ export const ModalProducts = ({
                   </div>
                 </div>
               </Grid>
-
             </Grid.Container>
           </Modal.Body>
           <Modal.Footer>

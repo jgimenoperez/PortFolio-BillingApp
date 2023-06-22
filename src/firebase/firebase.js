@@ -1,6 +1,7 @@
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 import "firebase/compat/firestore";
+import { getUser } from "../reducers/userReducer";
 
 const firebaseConfig = {
   apiKey: "AIzaSyA4ynNnLA92FIOQyJvGTAZ8ODEqgdzA1qo",
@@ -195,6 +196,7 @@ export const firebaseVerifyPassword = (code) => {
       throw error; // Opcionalmente, puedes lanzar el error para que sea manejado por la función que llama a esta función
     });
 };
+
 export const firebaseChangePassword = (code, password) => {
   return firebase
     .auth()
@@ -242,7 +244,7 @@ export const firebaseFindUser = (email) => {
       return null;
     });
 };
-//udpate user
+
 export const firebaseUpdateUser = (docId, data) => {
   return firebase
     .firestore()
@@ -308,20 +310,16 @@ export const firebaseAddData = (email, collection, data, id = null) => {
     const documentRef = customersCollection.doc(id);
 
     return documentRef
-    .set(data[0])
-    .then(() => {
-      console.log(collection, "Registro actualizado con ID: ", id);
-      return id
-    })
-    .catch((error) => {
-      console.warn(collection, "Error al actualizar el registro: ", error);
-      throw new Error("Error al actualizar el registro");
-
-    });
-
-
+      .set(data[0])
+      .then(() => {
+        console.log(collection, "Registro actualizado con ID: ", id);
+        return id;
+      })
+      .catch((error) => {
+        console.warn(collection, "Error al actualizar el registro: ", error);
+        throw new Error("Error al actualizar el registro");
+      });
   } else {
-
     const promises = data.map((row) => {
       return customersCollection
         .add(row)
@@ -335,7 +333,6 @@ export const firebaseAddData = (email, collection, data, id = null) => {
         });
     });
     return Promise.all(promises);
-
   }
 };
 
@@ -362,7 +359,6 @@ export const firebaseGetData = (email, collection) => {
 };
 
 export const firebaseDeleteData = (email, collection, id) => {
-  console.log(id);
   return firebase
     .firestore()
     .collection("users")
@@ -376,6 +372,22 @@ export const firebaseDeleteData = (email, collection, id) => {
       return null;
     });
 };
+
+export const getCounterBills = (dispatch) => {
+    firebase
+      .firestore()
+      .collection("users")
+      .doc("fiona@manosdehada.es")
+      .onSnapshot(
+        (response) => {
+          dispatch(getUser( response.data()));
+
+        },
+        (err) => {
+          console.log("error", err);
+        }
+      );
+}
 
 // export const customerFields22 = [
 //   { name: "NOMBRE", uid: "nombre" },

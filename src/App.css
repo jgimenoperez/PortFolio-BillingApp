@@ -145,6 +145,22 @@
   
 }
 
+.busquedas {
+  height: 95vh;
+  background-color: #20264c;
+
+  flex-direction: column;
+  align-items: center;
+  background-image: url(https://res.cloudinary.com/dxnwtmj3l/image/upload/v1685346952/BillingApp/Public/lines-map-2_Mesa-de-trabajo-1_tvrojo.svg);
+  background-size: 100%;
+  /* // alignItems: center; */
+  justify-content: center;
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  
+}
 
 
 .section3 p {
@@ -613,7 +629,7 @@ html {
   padding: 0.8em;
   outline: none;
   border: 2px solid  rgb(200, 200, 200);
-  background-color: transparent;
+  /* background-color: transparent; */
   border-radius: 20px;
   width: 100%;
 }
@@ -628,13 +644,22 @@ html {
   transition: all 0.3s ease;
   color: rgb(100, 100, 100);
 }
+.inputGroup select {
+  font-size: 100%;
+  padding: 0.8em;
+  outline: none;
+  border: 2px solid  rgb(200, 200, 200);
+  /* background-color: transparent; */
+  border-radius: 20px;
+  width: 100%;
+}
 
 .inputGroup :is(input:focus, input:valid)~label {
   transform: translateY(-90%) scale(.9);
   margin: 0em;
   /* margin-left: 1.3em; */
   padding: 0.4em;
-  background-color: transaparent;
+  /* background-color: transaparent; */
 }
 
 /* .inputGroup :is(input:focus, input:valid) {
@@ -645,3 +670,8 @@ html {
   border: 2px solid red
 }
 
+.linea-separadora {
+  border: none;
+  border-top: 1px dashed #000000; /* Color de la línea (en este caso, negro) y estilo discontinuo */
+  margin: 20px 0; /* Margen superior e inferior para separar las secciones */
+}

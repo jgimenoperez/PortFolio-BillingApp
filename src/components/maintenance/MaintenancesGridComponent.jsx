@@ -15,12 +15,12 @@ import {
 import { EyeIcon, EditIcon, DeleteIcon, AddIcon } from "../icons";
 import { firebaseDeleteData } from "../../firebase/firebase";
 import { IconButton, StyledBadge } from "../utils";
-import { ModalCustomers } from "./ModalCustomers";
+import { ModalCustomer } from "./ModalCustomer";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { actions } from "../../types/types";
-import { ModalProducts } from "./ModalProducts";
+import { ModalProduct } from "./ModalProduct";
 
 // eslint-disable-next-line react/prop-types
 export const MaintenancesGridComponent = ({
@@ -258,7 +258,7 @@ export const MaintenancesGridComponent = ({
             </Text>
 
             {collection === "customers" ? (
-              <ModalCustomers
+              <ModalCustomer
                 setVisible={setVisible}
                 bindings={bindings}
                 dataModal={dataModal}
@@ -267,7 +267,7 @@ export const MaintenancesGridComponent = ({
                 email={email}
               />
             ) : (
-              <ModalProducts
+              <ModalProduct
                 setVisible={setVisible}
                 bindings={bindings}
                 dataModal={dataModal}

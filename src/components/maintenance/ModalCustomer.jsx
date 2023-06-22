@@ -12,7 +12,7 @@ import Swal from "sweetalert2";
 import { useDispatch } from "react-redux";
 import { actions } from "../../types/types";
 
-export const ModalCustomers = ({
+export const ModalCustomer = ({
   setVisible,
   bindings,
   dataModal,
@@ -66,11 +66,6 @@ export const ModalCustomers = ({
     
   };
 
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   console.log(e);
-  //   // setVisible(false);
-  // };
 
   return (
     <div>
@@ -87,47 +82,6 @@ export const ModalCustomers = ({
       >
         Nuevo
       </Button>
-
-      {/* <form onSubmit={handleSubmit(onSubmit)}>
-        <input
-          type="text"
-          placeholder="Last name"
-          {...register("Last name", { required: true })}
-        />
-        <input
-          type="text"
-          placeholder="Email"
-          {...register("Email", { required: true, pattern: /^\S+@\S+$/i })}
-        />
-        <input
-          type="tel"
-          placeholder="Mobile number"
-          {...register("Mobile number", {
-            required: true,
-            minLength: 6,
-            maxLength: 12,
-          })}
-        />
-        <select {...register("Title", { required: true })}>
-          <option value="Mr">Mr</option>
-          <option value="Mrs">Mrs</option>
-          <option value="Miss">Miss</option>
-          <option value="Dr">Dr</option>
-        </select>
-
-        <input
-          {...register("Developer", { required: true })}
-          type="radio"
-          value="Yes"
-        />
-        <input
-          {...register("Developer", { required: true })}
-          type="radio"
-          value="No"
-        />
-
-        <input type="submit" />
-      </form> */}
 
       <Modal
         width="800px"
@@ -159,20 +113,7 @@ export const ModalCustomers = ({
                     width: "100%",
                   }}
                 >
-                  {/* <Input
-                    label="Nombre"
-                    width="100%"
-                    status={errors.nombre ? "error" : "default"}
-                    type="text"
-                    defaultValue={dataModal?.nombre}
-                    {...register("nombre", {
-                      required: {
-                        value: true,
-                        message: "Por favor ingresa tu nombre.",
-                      },
-                    })}
-                  /> */}
-
+ 
                   <div className={`inputGroup ${errors.nombre && "error"}`}>
                     <input
                       id="nombre"
