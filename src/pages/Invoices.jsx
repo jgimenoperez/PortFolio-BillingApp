@@ -252,10 +252,13 @@ export const Invoices = () => {
               </div>
             </Grid>
           </Grid.Container>
+
           <hr className="linea-separadora" />
+
           <Text style={{ marginLeft: "8px" }} h2>
             {"Datos de facturación"}
           </Text>
+
           <Grid.Container gap={2} justify="space-between">
             <Grid xs={12} sm={4}>
               <div
@@ -356,10 +359,13 @@ export const Invoices = () => {
               </div>
             </Grid>
           </Grid.Container>
+
           <hr className="linea-separadora" />
+
           <Text style={{ marginLeft: "8px" }} h2>
             {"Facturar a:"}
           </Text>
+
           <Grid.Container gap={1}>
             <Grid xs={12} sm={6}>
               <div style={{ display: "block", width: "100%" }}>
@@ -634,6 +640,7 @@ export const Invoices = () => {
           <Text style={{ marginLeft: "8px" }} h2>
             {"Líneas factura"}
           </Text>
+
           <Grid.Container
             gap={0}
             style={{
@@ -915,6 +922,7 @@ export const Invoices = () => {
               </div>
             );
           })}
+
           <Grid.Container gap={1}>
             <Button
               auto
@@ -930,6 +938,7 @@ export const Invoices = () => {
               + Agregar Producto
             </Button>
           </Grid.Container>
+
           <hr className="linea-separadora" />
 
           <div
@@ -1050,6 +1059,7 @@ export const Invoices = () => {
                       Send Invoice
                     </Link> */}
           </div>
+          
         </Container>
       </form>
     </Layout>
