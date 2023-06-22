@@ -11,7 +11,7 @@ import {
 import { useEffect, useRef, useState } from "react";
 import { ModalGridTableComponent } from "../components/maintenance/ModalGridTableComponent";
 import { useForm } from "react-hook-form";
-import { useSelector,useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { getCounterBills } from "../firebase/firebase";
 
 export const Invoices = () => {
@@ -27,6 +27,16 @@ export const Invoices = () => {
     },
   ]);
 
+  const styleInputLines = {
+    height: "35px",
+    borderRadius: "7px",
+    border: 0,
+    outline: "auto grey",
+    paddingInline: "15px",
+    fontSize: "16px",
+    transform: "all 200ms",
+    width: "100%",
+  };
   const { user } = useSelector((state) => state.user);
   const { currentCustomer } = useSelector((state) => state.data);
   const [toggleState, setToggleState] = useState(false);
@@ -48,12 +58,10 @@ export const Invoices = () => {
     setValue,
     watch,
   } = useForm({});
- 
-  useEffect(() => {
-    getCounterBills(dispatch)
-  }, [])
-  
 
+  useEffect(() => {
+    getCounterBills(dispatch);
+  }, []);
 
   // getCounterBills()
   // .then((contador) => {
@@ -727,7 +735,7 @@ export const Invoices = () => {
               </div>
             </Grid>
 
-            <Grid xs={12} sm={4}>
+            <Grid xs={12} sm={2}>
               <div
                 style={{
                   width: "100%",
@@ -754,7 +762,7 @@ export const Invoices = () => {
               </div>
             </Grid>
 
-            <Grid xs={12} sm={2}>
+            <Grid xs={12} sm={4}>
               <div
                 style={{
                   width: "100%",
@@ -803,7 +811,7 @@ export const Invoices = () => {
                             textIndent: "10px",
                             height: "35px",
                             borderRadius: "10px",
-                            border: "0px solid  rgb(200, 200, 200)",
+                            // border: "0px solid  rgb(200, 200, 200)",
                             width: "100%",
                           }}
                         >
@@ -814,30 +822,19 @@ export const Invoices = () => {
                   </Grid>
 
                   <Grid xs={12} sm={3}>
-                    <StyledInput
+                    <input
                       {...register(`linea.${index}.producto`)}
+                      className=""
                       type="text"
                       autoComplete="off"
                       placeholder="Producto / Servicio"
-                      style={{
-                        textIndent: "10px",
-                        width: "100%",
-                        height: "35px",
-                        borderRadius: "10px",
-                        border: "0px solid  rgb(200, 200, 200)",
-                      }}
+                      style={styleInputLines}
                     />
                   </Grid>
 
                   <Grid xs={12} sm={2}>
-                    <StyledInput
-                      style={{
-                        textIndent: "10px",
-                        width: "100%",
-                        height: "35px",
-                        borderRadius: "10px",
-                        border: "0px solid  rgb(200, 200, 200)",
-                      }}
+                    <input
+                      style={styleInputLines}
                       key={index}
                       type="number"
                       autoComplete="off"
@@ -847,15 +844,9 @@ export const Invoices = () => {
                     />
                   </Grid>
 
-                  <Grid xs={12} sm={4}>
-                    <StyledInput
-                      style={{
-                        textIndent: "10px",
-                        width: "100%",
-                        height: "35px",
-                        borderRadius: "10px",
-                        border: "0px solid  rgb(200, 200, 200)",
-                      }}
+                  <Grid xs={12} sm={2}>
+                    <input
+                      style={styleInputLines}
                       type="number"
                       autoComplete="off"
                       placeholder="Cantidad"
@@ -863,17 +854,11 @@ export const Invoices = () => {
                     />
                   </Grid>
 
-                  <Grid xs={12} sm={2}>
+                  <Grid xs={12} sm={4}>
                     <Grid.Container justify="space-between">
                       <Grid xs={12} sm={12}>
                         <StyledInput
-                          style={{
-                            textIndent: "10px",
-                            width: "100%",
-                            height: "35px",
-                            borderRadius: "10px",
-                            border: "0px solid  rgb(200, 200, 200)",
-                          }}
+                          style={styleInputLines}
                           type="number"
                           autoComplete="off"
                           placeholder="Total"
@@ -904,14 +889,8 @@ export const Invoices = () => {
 
                 <Grid.Container gap={1}>
                   <Grid xs={12} sm={6}>
-                    <StyledTextArea
-                      style={{
-                        textIndent: "10px",
-                        width: "100%",
-                        height: "100px",
-                        borderRadius: "10px",
-                        border: "0px solid  rgb(200, 200, 200)",
-                      }}
+                    <textarea
+                      style={{...styleInputLines,height:"120px"}}
                       type="number"
                       autoComplete="off"
                       placeholder="Descripción"
@@ -1059,7 +1038,6 @@ export const Invoices = () => {
                       Send Invoice
                     </Link> */}
           </div>
-          
         </Container>
       </form>
     </Layout>
