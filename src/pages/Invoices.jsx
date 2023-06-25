@@ -8,25 +8,20 @@ import {
   Avatar,
   styled,
 } from "@nextui-org/react";
-import { firebaseAddData, firebaseUpdateUser, getCounterBills } from "../firebase/firebase";
+import {
+  firebaseAddData,
+  firebaseAddInvoice,
+  firebaseUpdateUser,
+  getCounterBills,
+} from "../firebase/firebase";
 import { ModalGridTableComponent } from "../components/maintenance/ModalGridTableComponent";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useFieldArray } from "react-hook-form";
 import { useSelector, useDispatch } from "react-redux";
 import Swal from "sweetalert2";
 
 export const Invoices = () => {
   const dispatch = useDispatch();
-
-  const camposLineasRef = useRef([
-    {
-      numfactura: "",
-      producto: "",
-      descripcion: "",
-      precio: 0,
-      cantidad: null,
-    },
-  ]);
 
   const styleInputLines = {
     height: "35px",
@@ -36,9 +31,9 @@ export const Invoices = () => {
     fontSize: "16px",
     width: "100%",
   };
+
   const { user } = useSelector((state) => state.user);
   const { currentCustomer } = useSelector((state) => state.data);
-  const [toggleState, setToggleState] = useState(false);
   const [nameCustomersFields, setCustomersNameFields] = useState([
     { name: "NOMBRE", uid: "nombre" },
     { name: "RÁZON SOCIAL", uid: "razon" },
@@ -48,24 +43,28 @@ export const Invoices = () => {
     { name: "ACTIONS", uid: "actions" },
   ]);
 
-
   const {
     register,
     handleSubmit,
     formState: { errors },
     setValue,
     watch,
+    reset,
+    control,
   } = useForm({});
+
+  const { fields, remove, append } = useFieldArray({
+    control,
+    name: "lineas", // Nombre del campo dinámico
+  });
 
   useEffect(() => {
     getCounterBills(dispatch);
   }, []);
 
-
   useEffect(() => {
-      setValue("numfactura",user.nextNumBill)
+    setValue("numfactura", user.nextNumBill);
   }, [user.nextNumBill]);
-
 
   useEffect(() => {
     setValue("nombreCliente", currentCustomer.nombre);
@@ -90,27 +89,18 @@ export const Invoices = () => {
     backgroundColor: "$gray100",
   });
 
-
   const agregarLinea = () => {
-    camposLineasRef.current = [
-      ...camposLineasRef.current,
-      {
-        numfactura: "",
-        producto: "",
-        descripcion: "",
-        precio: 0,
-        cantidad: null,
-      },
-    ];
-
-    setToggleState(!toggleState);
+    append({
+      numfactura: "",
+      producto: "",
+      descripcion: "",
+      precio: 0,
+      cantidad: null,
+    });
   };
 
   const borrarLinea = (e, index) => {
-    const lineasFacturasAux = [...camposLineasRef.current];
-    lineasFacturasAux.splice(index, 1);
-    camposLineasRef.current = lineasFacturasAux;
-    setToggleState(!toggleState);
+    remove(index);
   };
 
   const lineas = watch("lineas") || []; // Obtener los valores de las líneas
@@ -131,10 +121,11 @@ export const Invoices = () => {
 
   const onSubmit = async (data) => {
     try {
-      const arrayData = []
-      arrayData.push(data)
-      await firebaseAddData(user.email, "invoices", arrayData, data.numfactura);
-      await firebaseUpdateUser(user.email, {nextNumBill:parseInt(data.numfactura)+1});
+      await firebaseAddInvoice(user.email, data);
+      reset();
+      await firebaseUpdateUser(user.email, {
+        nextNumBill: parseInt(data.numfactura) + 1,
+      });
 
       Swal.fire({
         title: "Operación realizada",
@@ -811,7 +802,7 @@ export const Invoices = () => {
             </Grid>
           </Grid.Container>
 
-          {camposLineasRef.current.map((linea, index) => {
+          {fields.map((linea, index) => {
             return (
               <div key={index}>
                 <Grid.Container gap={1}>
@@ -990,7 +981,6 @@ export const Invoices = () => {
                           border: "0px solid  rgb(200, 200, 200)",
                           width: "100%",
                         }}
-                        
                       />
                     </td>
                   </tr>
@@ -1026,7 +1016,6 @@ export const Invoices = () => {
                           width: "100%",
                         }}
                         {...register(`impuestos`)}
-
                       />
                     </td>
                   </tr>

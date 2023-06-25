@@ -246,16 +246,16 @@ export const firebaseFindUser = (email) => {
 };
 
 export const firebaseUpdateUser = (docId, data) => {
-  console.log(docId,data)
+  console.log(docId, data);
   return firebase
     .firestore()
     .collection("users")
     .doc(docId)
     .update(data)
-    .then(() => {
-      console.log("Usuario actualizado");
-      return data;
-    })
+    // .then(() => {
+    //   console.log("Usuario actualizado");
+    //   return data;
+    // })
     .catch((error) => {
       console.error("Error al actualizar el usuario:", error);
       throw error;
@@ -301,8 +301,7 @@ export const firebaseAddProducts = (email, products) => {
 };
 
 export const firebaseAddData = (email, collection, data, id = null) => {
-
-  console.log(data)
+  console.log(data);
 
   const customersCollection = firebase
     .firestore()
@@ -311,6 +310,7 @@ export const firebaseAddData = (email, collection, data, id = null) => {
     .collection(collection);
 
   if (id) {
+    console.log(id);
     const documentRef = customersCollection.doc(id);
 
     return documentRef
@@ -378,20 +378,46 @@ export const firebaseDeleteData = (email, collection, id) => {
 };
 
 export const getCounterBills = (dispatch) => {
-    firebase
-      .firestore()
-      .collection("users")
-      .doc("fiona@manosdehada.es")
-      .onSnapshot(
-        (response) => {
-          dispatch(getUser( response.data()));
+  firebase
+    .firestore()
+    .collection("users")
+    .doc("fiona@manosdehada.es")
+    .onSnapshot(
+      (response) => {
+        dispatch(getUser(response.data()));
+      },
+      (err) => {
+        console.log("error", err);
+      }
+    );
+};
 
-        },
-        (err) => {
-          console.log("error", err);
-        }
-      );
-}
+export const firebaseAddInvoice = (email, data) => {
+  console.log(data);
+  const numFactura = data.numfactura.toString(); // Convertir a cadena de texto si es necesario
+
+  const invoiceRef = firebase
+    .firestore()
+    .collection("users")
+    .doc(email)
+    .collection("invoices")
+    .doc(numFactura);
+
+  return invoiceRef
+    .delete() // Eliminar el documento existente, si existe
+    .then(() => {
+      console.log(data)
+      return invoiceRef.set(data); // Insertar un nuevo documento con los datos proporcionados
+    })
+    .then(() => {
+      console.log('Invoices', "Registro actualizado con ID: ", numFactura);
+      return numFactura;
+    })
+    .catch((error) => {
+      console.warn('Invoices', "Error al actualizar el registro: ", error);
+      throw new Error("Error al actualizar el registro");
+    });
+};
 
 // export const customerFields22 = [
 //   { name: "NOMBRE", uid: "nombre" },
