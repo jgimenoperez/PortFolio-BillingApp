@@ -246,6 +246,7 @@ export const firebaseFindUser = (email) => {
 };
 
 export const firebaseUpdateUser = (docId, data) => {
+  console.log(docId,data)
   return firebase
     .firestore()
     .collection("users")

@@ -8,7 +8,7 @@ import {
   Avatar,
   styled,
 } from "@nextui-org/react";
-import { firebaseAddData, getCounterBills } from "../firebase/firebase";
+import { firebaseAddData, firebaseUpdateUser, getCounterBills } from "../firebase/firebase";
 import { ModalGridTableComponent } from "../components/maintenance/ModalGridTableComponent";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -60,6 +60,12 @@ export const Invoices = () => {
   useEffect(() => {
     getCounterBills(dispatch);
   }, []);
+
+
+  useEffect(() => {
+      setValue("numfactura",user.nextNumBill)
+  }, [user.nextNumBill]);
+
 
   useEffect(() => {
     setValue("nombreCliente", currentCustomer.nombre);
@@ -127,7 +133,9 @@ export const Invoices = () => {
     try {
       const arrayData = []
       arrayData.push(data)
-      await firebaseAddData(user.email, "invoice", arrayData, data.numfactura);
+      await firebaseAddData(user.email, "invoices", arrayData, data.numfactura);
+      await firebaseUpdateUser(user.email, {nextNumBill:parseInt(data.numfactura)+1});
+
       Swal.fire({
         title: "Operación realizada",
         text: "Datos actualizados",
@@ -298,7 +306,6 @@ export const Invoices = () => {
                     })}
                     type="text"
                     autoComplete="off"
-                    value={user?.nextNumBill}
                     style={{
                       height: "35px",
                       borderRadius: "0px",
