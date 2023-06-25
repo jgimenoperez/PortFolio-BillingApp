@@ -300,6 +300,9 @@ export const firebaseAddProducts = (email, products) => {
 };
 
 export const firebaseAddData = (email, collection, data, id = null) => {
+
+  console.log(data)
+
   const customersCollection = firebase
     .firestore()
     .collection("users")

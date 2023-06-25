@@ -8,11 +8,12 @@ import {
   Avatar,
   styled,
 } from "@nextui-org/react";
-import { useEffect, useRef, useState } from "react";
+import { firebaseAddData, getCounterBills } from "../firebase/firebase";
 import { ModalGridTableComponent } from "../components/maintenance/ModalGridTableComponent";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useSelector, useDispatch } from "react-redux";
-import { getCounterBills } from "../firebase/firebase";
+import Swal from "sweetalert2";
 
 export const Invoices = () => {
   const dispatch = useDispatch();
@@ -30,11 +31,9 @@ export const Invoices = () => {
   const styleInputLines = {
     height: "35px",
     borderRadius: "7px",
-    border: 0,
     outline: "auto grey",
     paddingInline: "15px",
     fontSize: "16px",
-    transform: "all 200ms",
     width: "100%",
   };
   const { user } = useSelector((state) => state.user);
@@ -49,7 +48,6 @@ export const Invoices = () => {
     { name: "ACTIONS", uid: "actions" },
   ]);
 
-  const [numFactura, setNunFactura] = useState(0);
 
   const {
     register,
@@ -62,20 +60,6 @@ export const Invoices = () => {
   useEffect(() => {
     getCounterBills(dispatch);
   }, []);
-
-  // getCounterBills()
-  // .then((contador) => {
-  //   console.log("Valor del contador:", contador);
-  //   // Puedes realizar acciones con el valor del contador aquí
-  // })
-  // .catch((error) => {
-  //   console.error("Error:", error);
-  //   // Manejar el error si ocurre
-  // });
-
-  // useEffect(() => {
-  //   console.log(111,numFactura)
-  // }, [numFactura])
 
   useEffect(() => {
     setValue("nombreCliente", currentCustomer.nombre);
@@ -100,9 +84,6 @@ export const Invoices = () => {
     backgroundColor: "$gray100",
   });
 
-  const StyledTextArea = styled("textarea", {
-    backgroundColor: "$gray100",
-  });
 
   const agregarLinea = () => {
     camposLineasRef.current = [
@@ -126,13 +107,40 @@ export const Invoices = () => {
     setToggleState(!toggleState);
   };
 
-  const lineas = watch("linea") || []; // Obtener los valores de las líneas
+  const lineas = watch("lineas") || []; // Obtener los valores de las líneas
 
-  const calcularTotal = (index) =>
+  const calcularTotalLinea = (index) =>
     lineas[index]?.precio * lineas[index]?.cantidad;
 
+  // const calculaSubtoTotalFactura = () => lineas.reduce((acumulador, elemento) => acumulador + (elemento.cantidad * elemento.precio), 0);
+
+  const calculaSubtoTotalFactura = () => {
+    const totales = lineas.reduce((acumulador, elemento) => {
+      return acumulador + elemento.cantidad * elemento.precio;
+    }, 0);
+    setValue("subtotal", totales);
+    setValue("impuestos", (totales * 0.21).toFixed(2));
+    setValue("total", (totales * 1.21).toFixed(2));
+  };
+
   const onSubmit = async (data) => {
-    console.log(data);
+    try {
+      const arrayData = []
+      arrayData.push(data)
+      await firebaseAddData(user.email, "invoice", arrayData, data.numfactura);
+      Swal.fire({
+        title: "Operación realizada",
+        text: "Datos actualizados",
+        icon: "success",
+      });
+    } catch (error) {
+      Swal.fire({
+        title: "Error",
+        text: error.message,
+        icon: "error",
+        button: "Ok",
+      });
+    }
   };
 
   return (
@@ -175,7 +183,7 @@ export const Invoices = () => {
                     readOnly
                     type="text"
                     autoComplete="off"
-                    defaultValue={`${user.address}`}
+                    defaultValue={`${user?.address}`}
                   />
                 </div>
                 <div className="inputGroup">
@@ -189,7 +197,7 @@ export const Invoices = () => {
                     readOnly
                     type="text"
                     autoComplete="off"
-                    defaultValue={`${user.village} (${user.province})  ${user.postalCode}`}
+                    defaultValue={`${user?.village} (${user?.province})  ${user?.postalCode}`}
                   />
                 </div>
                 <div className="inputGroup">
@@ -203,7 +211,7 @@ export const Invoices = () => {
                     readOnly
                     type="text"
                     autoComplete="off"
-                    defaultValue={`Teléfono: ${user.phone}`}
+                    defaultValue={`Teléfono: ${user?.phone}`}
                   />
                 </div>
               </div>
@@ -226,7 +234,7 @@ export const Invoices = () => {
                     readOnly
                     type="text"
                     autoComplete="off"
-                    defaultValue={`D.N.I: ${user.dni}`}
+                    defaultValue={`D.N.I: ${user?.dni}`}
                   />
                 </div>
                 <div className="inputGroup">
@@ -240,7 +248,7 @@ export const Invoices = () => {
                     readOnly
                     type="text"
                     autoComplete="off"
-                    defaultValue={` ${user.name}`}
+                    defaultValue={` ${user?.name}`}
                   />
                 </div>
                 <div className="inputGroup">
@@ -254,7 +262,7 @@ export const Invoices = () => {
                     readOnly
                     type="text"
                     autoComplete="off"
-                    defaultValue={`${user.email}`}
+                    defaultValue={`${user?.email}`}
                   />
                 </div>
               </div>
@@ -282,9 +290,15 @@ export const Invoices = () => {
                   }}
                 >
                   <StyledInput
+                    {...register("numfactura", {
+                      required: {
+                        value: true,
+                        message: "Por favor ingrese Nº de factura",
+                      },
+                    })}
                     type="text"
                     autoComplete="off"
-                    value={user.nextNumBill}
+                    value={user?.nextNumBill}
                     style={{
                       height: "35px",
                       borderRadius: "0px",
@@ -458,10 +472,10 @@ export const Invoices = () => {
                 >
                   <StyledInput
                     {...register("direccion", {
-                      required: {
-                        value: true,
-                        message: "Por favor ingrese direccion",
-                      },
+                      // required: {
+                      //   value: true,
+                      //   message: "Por favor ingrese direccion",
+                      // },
                     })}
                     type="text"
                     autoComplete="off"
@@ -490,10 +504,10 @@ export const Invoices = () => {
                 >
                   <StyledInput
                     {...register("ciudad", {
-                      required: {
-                        value: true,
-                        message: "Por favor ingrese ciudad",
-                      },
+                      // required: {
+                      //   value: true,
+                      //   message: "Por favor ingrese ciudad",
+                      // },
                     })}
                     autoComplete="off"
                     placeholder="Ciudad"
@@ -522,10 +536,10 @@ export const Invoices = () => {
                 >
                   <StyledInput
                     {...register("codpostal", {
-                      required: {
-                        value: true,
-                        message: "Por favor ingrese codpostal",
-                      },
+                      // required: {
+                      //   value: true,
+                      //   message: "Por favor ingrese codpostal",
+                      // },
                     })}
                     autoComplete="off"
                     type="text"
@@ -554,10 +568,10 @@ export const Invoices = () => {
                 >
                   <StyledInput
                     {...register("provincia", {
-                      required: {
-                        value: true,
-                        message: "Por favor ingrese provincia",
-                      },
+                      // required: {
+                      //   value: true,
+                      //   message: "Por favor ingrese provincia",
+                      // },
                     })}
                     autoComplete="off"
                     type="text"
@@ -623,10 +637,10 @@ export const Invoices = () => {
                 >
                   <StyledInput
                     {...register("telefono", {
-                      required: {
-                        value: true,
-                        message: "Por favor ingrese telefono",
-                      },
+                      // required: {
+                      //   value: true,
+                      //   message: "Por favor ingrese telefono",
+                      // },
                     })}
                     autoComplete="off"
                     type="text"
@@ -823,7 +837,7 @@ export const Invoices = () => {
 
                   <Grid xs={12} sm={3}>
                     <input
-                      {...register(`linea.${index}.producto`)}
+                      {...register(`lineas.${index}.producto`)}
                       className=""
                       type="text"
                       autoComplete="off"
@@ -839,8 +853,10 @@ export const Invoices = () => {
                       type="number"
                       autoComplete="off"
                       placeholder="Precio"
-                      // {...register(`linea[${index}].precio`)}
-                      {...register(`linea.${index}.precio`)}
+                      {...register(`lineas.${index}.precio`)}
+                      onBlur={() => {
+                        calculaSubtoTotalFactura();
+                      }}
                     />
                   </Grid>
 
@@ -849,8 +865,12 @@ export const Invoices = () => {
                       style={styleInputLines}
                       type="number"
                       autoComplete="off"
+                      step="any"
                       placeholder="Cantidad"
-                      {...register(`linea.${index}.cantidad`)}
+                      {...register(`lineas.${index}.cantidad`)}
+                      onBlur={() => {
+                        calculaSubtoTotalFactura();
+                      }}
                     />
                   </Grid>
 
@@ -862,8 +882,9 @@ export const Invoices = () => {
                           type="number"
                           autoComplete="off"
                           placeholder="Total"
+                          step="any"
                           readOnly
-                          value={calcularTotal(index)}
+                          value={calcularTotalLinea(index)}
                         />
                       </Grid>
                     </Grid.Container>
@@ -890,11 +911,11 @@ export const Invoices = () => {
                 <Grid.Container gap={1}>
                   <Grid xs={12} sm={6}>
                     <textarea
-                      style={{...styleInputLines,height:"120px"}}
+                      style={{ ...styleInputLines, height: "120px" }}
                       type="number"
                       autoComplete="off"
                       placeholder="Descripción"
-                      {...register(`linea.${index}.descripcion`)}
+                      {...register(`lineas.${index}.descripcion`)}
                     />
                   </Grid>
                 </Grid.Container>
@@ -942,7 +963,8 @@ export const Invoices = () => {
                           border: "0px solid  rgb(200, 200, 200)",
                           width: "100%",
                         }}
-                        // value={totales.subtotal + "€"}
+                        {...register(`subtotal`)}
+                        // value={calculaSubtoTotalFactura.subTotal}
                       />
                     </td>
                   </tr>
@@ -954,12 +976,14 @@ export const Invoices = () => {
                         placeholder="21%"
                         readOnly
                         value="21%"
+                        {...register(`tipoiva`)}
                         style={{
                           height: "35px",
                           borderRadius: "0px",
                           border: "0px solid  rgb(200, 200, 200)",
                           width: "100%",
                         }}
+                        
                       />
                     </td>
                   </tr>
@@ -970,6 +994,7 @@ export const Invoices = () => {
                         type="text"
                         placeholder="0.00€"
                         readOnly
+                        {...register(`descuentos`)}
                         style={{
                           height: "35px",
                           borderRadius: "0px",
@@ -993,7 +1018,8 @@ export const Invoices = () => {
                           border: "0px solid  rgb(200, 200, 200)",
                           width: "100%",
                         }}
-                        // value={totales.impuesto + "€"}
+                        {...register(`impuestos`)}
+
                       />
                     </td>
                   </tr>
@@ -1010,7 +1036,7 @@ export const Invoices = () => {
                           border: "0px solid  rgb(200, 200, 200)",
                           width: "100%",
                         }}
-                        // value={totales.total + "€"}
+                        {...register(`total`)}
                       />
                     </td>
                   </tr>
