@@ -234,7 +234,6 @@ export const firebaseFindUser = (email) => {
     .then((querySnapshot) => {
       let user = null;
       querySnapshot.forEach((doc) => {
-        // console.log(doc.id, " => ", doc.data());
         user = { docId: doc.id, ...doc.data() };
       });
       return user;
@@ -247,7 +246,6 @@ export const firebaseFindUser = (email) => {
 
 
 export const firebaseUpdateUser = (docId, data) => {
-  console.log(docId, data);
   return firebase
     .firestore()
     .collection("users")
@@ -302,8 +300,6 @@ export const firebaseAddProducts = (email, products) => {
 };
 
 export const firebaseAddData = (email, collection, data, id = null) => {
-  console.log(data);
-
   const customersCollection = firebase
     .firestore()
     .collection("users")
@@ -411,7 +407,6 @@ export const getCounterBills = (dispatch) => {
 };
 
 export const firebaseAddInvoice = (email, data) => {
-  console.log(data);
   const numFactura = data.numfactura.toString(); // Convertir a cadena de texto si es necesario
 
   const invoiceRef = firebase
@@ -424,7 +419,6 @@ export const firebaseAddInvoice = (email, data) => {
   return invoiceRef
     .delete() // Eliminar el documento existente, si existe
     .then(() => {
-      console.log(data)
       return invoiceRef.set(data); // Insertar un nuevo documento con los datos proporcionados
     })
     .then(() => {
