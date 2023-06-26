@@ -19,6 +19,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 import { useSelector, useDispatch } from "react-redux";
 import Swal from "sweetalert2";
+import { BillIcon, UserIcon } from "../components/icons";
 
 export const Invoices = () => {
   const dispatch = useDispatch();
@@ -34,13 +35,23 @@ export const Invoices = () => {
 
   const { user } = useSelector((state) => state.user);
   const { currentCustomer } = useSelector((state) => state.data);
-  const [nameCustomersFields, setCustomersNameFields] = useState([
+  const [customersFields, setCustomerFields] = useState([
     { name: "NOMBRE", uid: "nombre" },
     { name: "RÁZON SOCIAL", uid: "razon" },
     { name: "D.N.I", uid: "dni" },
     { name: "TELÉFONO", uid: "telefono" },
     { name: "CIUDAD", uid: "ciudad" },
     { name: "ACTIONS", uid: "actions" },
+  ]);
+
+  const [invoiceFields, setInvoiceFields] = useState([
+    { name: "Nº FACTURA", uid: "numfactura" },
+    { name: "CLIENTE", uid: "nombreCliente" },
+    { name: "D.N.I", uid: "dni" },
+    { name: "FECHA", uid: "fechaFactura" },
+    { name: "TOTAL", uid: "total" },
+    { name: "ACTIONS", uid: "actions" },
+
   ]);
 
   const {
@@ -306,9 +317,10 @@ export const Invoices = () => {
                   />
                   {/* <Spacer x={0.5} /> */}
                   <ModalGridTableComponent
-                    nameFields={nameCustomersFields}
-                    title="Clientes"
-                    collection="customers"
+                    nameFields={invoiceFields}
+                    title="Facturas"
+                    collection="invoices"
+                    icon={<BillIcon width={55} fill="red" />}
                   />
                 </div>
               </div>
@@ -414,9 +426,10 @@ export const Invoices = () => {
               </div>
               <Spacer x={0.5} />
               <ModalGridTableComponent
-                nameFields={nameCustomersFields}
+                nameFields={customersFields}
                 title="Clientes"
                 collection="customers"
+                icon={<UserIcon width={55} />}                
               />
             </Grid>
             <Grid xs={12} sm={6}>

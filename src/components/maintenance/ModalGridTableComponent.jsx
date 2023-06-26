@@ -11,36 +11,42 @@ import {
   Loading,
   Modal,
 } from "@nextui-org/react";
-import { BillIcon, EyeIcon, UserIcon } from "../icons";
+import { EyeIcon, UserIcon } from "../icons";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { actions } from "../../types/types";
 import { setCurrenCustomer } from "../../reducers/dataMaintenanceReducer";
 // eslint-disable-next-line react/prop-types
-export const ModalGridTableComponent = ({ nameFields, title, collection }) => {
+export const ModalGridTableComponent = ({
+  nameFields,
+  title,
+  collection,
+  icon,
+}) => {
   const dispatch = useDispatch();
   const dataGrid = useSelector((state) => state.data.dataMaintenance);
   const { setVisible, bindings } = useModal();
   const [directionSort, setDirectionSort] = useState(true);
-  const [dataGridFiltered, setDataGridFiltered] = useState({});
+  const [dataGridFiltered, setDataGridFiltered] = useState([]);
   const [searchTerm, setSearchTerm] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        await dispatch({
-          type: actions.UPATE_DATA_MAINTENANCE,
-          payload: {
-            table: collection,
-          },
-        });
-      } catch (error) {
-        console.warn("Error al obtener o actualizar los datos:", error);
-      }
-    };
-    fetchData();
-  }, []);
+  // useEffect(() => {
+  const fetchData = async () => {
+    try {
+      await dispatch({
+        type: actions.UPATE_DATA_MAINTENANCE,
+        payload: {
+          table: collection,
+        },
+      });
+      setLoading(false);
+    } catch (error) {
+      console.warn("Error al obtener o actualizar los datos:", error);
+    }
+  };
+  //   fetchData();
+  // }, []);
 
   useEffect(() => {
     setDataGridFiltered(dataGrid);
@@ -59,8 +65,10 @@ export const ModalGridTableComponent = ({ nameFields, title, collection }) => {
 
   async function sort({ column }) {
     setDirectionSort(!directionSort);
+    let array = [...dataGridFiltered]
+
     setDataGridFiltered(
-      dataGridFiltered.sort((a, b) => {
+      array.sort((a, b) => {
         if (directionSort) {
           if (a[column] < b[column]) {
             return -1;
@@ -126,34 +134,34 @@ export const ModalGridTableComponent = ({ nameFields, title, collection }) => {
     setSearchTerm(event.target.value);
   };
 
-  if (loading) {
+
+  //   return (
+  //     <Loading
+  //       css={{
+  //         display: "flex",
+  //         justifyContent: "center",
+  //         alignItems: "center",
+  //         height: "100vh",
+  //       }}
+  //     >
+  //       Loading
+  //     </Loading>
+  //   );
+  // } else {
     return (
-      <Loading
-        css={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "100vh",
-        }}
-      >
-        Loading
-      </Loading>
-    );
-  } else {
-    return (
-      // <h1>{dataGridFiltered.length}</h1>
       <div>
         <Button
           bordered
           color="primary"
           auto
-          icon={<BillIcon width={55} fill="red" />}
+          icon={icon}
           style={{
             height: "35px",
             // borderRadius: "0px",
             // border: "0px solid  rgb(200, 200, 200)",
           }}
           onPress={() => {
+            setLoading(true);
             setVisible(true);
           }}
         ></Button>
@@ -164,7 +172,9 @@ export const ModalGridTableComponent = ({ nameFields, title, collection }) => {
           animated="true"
           {...bindings}
           onOpen={() => {
-            setDataGridFiltered(dataGrid);
+            setDataGridFiltered([])
+            setLoading(true);
+            fetchData();
           }}
         >
           <div className="busquedas">
@@ -200,66 +210,70 @@ export const ModalGridTableComponent = ({ nameFields, title, collection }) => {
                   css={{ marginTop: "25px" }}
                 />
               </div>
-              <Table
-                lined
-                headerLined
-                aria-label="estatic collection table"
-                css={{
-                  height: "150px",
-                  minWidth: "8%",
-                  backgroundColor: "$gray200",
-                  marginTop: "15px",
-                  borderRadius: "10px",
-                  boxShadow: "inset 0 2px 4px rgba(0, 0, 0, 0.1)",
-                  border: "1px solid rgba(0, 0, 0, 0.1)",
-                  textAlign: "left",
-                }}
-                // bordered
-                shadow={true}
-                striped
-                // fixed
-                color="primary"
-                selectionMode="single"
-                hoverable={true}
-                onSortChange={(e) => {
-                  sort(e);
-                }}
-              >
-                <Table.Header columns={nameFields}>
-                  {(column) => (
-                    <Table.Column
-                      key={column.uid}
-                      hideHeader={column.uid === "actions"}
-                      align={column.uid === "actions" ? "center" : "start"}
-                      allowsSorting
-                    >
-                      {column.name}
-                    </Table.Column>
-                  )}
-                </Table.Header>
-                <Table.Body items={dataGridFiltered}>
-                  {(item) => (
-                    <Table.Row>
-                      {(columnKey) => (
-                        <Table.Cell>{renderCell(item, columnKey)}</Table.Cell>
-                      )}
-                    </Table.Row>
-                  )}
-                </Table.Body>
-                <Table.Pagination
-                  shadow
-                  noMargin
-                  align="center"
-                  rowsPerPage={10}
-                />
-              </Table>
+
+
+              {dataGridFiltered.length > 0 ? (
+                <Table
+                  lined
+                  headerLined
+                  aria-label="estatic collection table"
+                  css={{
+                    height: "150px",
+                    minWidth: "8%",
+                    backgroundColor: "$gray200",
+                    marginTop: "15px",
+                    borderRadius: "10px",
+                    boxShadow: "inset 0 2px 4px rgba(0, 0, 0, 0.1)",
+                    border: "1px solid rgba(0, 0, 0, 0.1)",
+                    textAlign: "left",
+                  }}
+                  // bordered
+                  shadow={true}
+                  striped
+                  // fixed
+                  color="primary"
+                  selectionMode="single"
+                  hoverable={true}
+                  onSortChange={(e) => {
+                    console.log(1111)
+                    sort(e);
+                  }}
+                >
+                  <Table.Header columns={nameFields}>
+                    {(column) => (
+                      <Table.Column
+                        key={column.uid}
+                        hideHeader={column.uid === "actions"}
+                        align={column.uid === "actions" ? "center" : "start"}
+                        allowsSorting
+                      >
+                        {column.name}
+                      </Table.Column>
+                    )}
+                  </Table.Header>
+                  <Table.Body items={dataGridFiltered}>
+                    {(item) => (
+                      <Table.Row>
+                        {(columnKey) => (
+                          <Table.Cell>{renderCell(item, columnKey)}</Table.Cell>
+                        )}
+                      </Table.Row>
+                    )}
+                  </Table.Body>
+                  <Table.Pagination
+                    shadow
+                    noMargin
+                    align="center"
+                    rowsPerPage={10}
+                  />
+                </Table>
+              ) : <Loading/>}
             </Container>
           </div>
         </Modal>
       </div>
     );
   }
-};
 
 export const SendButton = styled("button", {
   // reset button styles
