@@ -1,18 +1,22 @@
 import {
   firebaseGetData,
+  firebaseGetDataByID,
   firebaseLoginWithEmail,
   firebaseLoginWithEmailNotPersistence,
   firebaseLoginWithGoogle,
   firebaseLoginWithGoogleNoPersistence,
   firebaseUpdateUser,
 } from "../firebase/firebase";
-import { setDataMaintenance } from "../reducers/dataMaintenanceReducer";
+import { setCurrenInvoice, setDataMaintenance } from "../reducers/dataMaintenanceReducer";
 import { getUser, setErrorLogin } from "../reducers/userReducer";
 import { actions } from "../types/types";
 
 export const customMiddleware = (store) => (next) => async (action) => {
   const state = store.getState();
   let user = null;
+  let email = "";
+  let table = "";
+  let idDoc=";"
   switch (action.type) {
     case actions.UPDATE_AVATAR:
       // eslint-disable-next-line no-case-declarations
@@ -72,14 +76,25 @@ export const customMiddleware = (store) => (next) => async (action) => {
 
     case actions.UPATE_DATA_MAINTENANCE:
       // eslint-disable-next-line no-case-declarations
-      const email = state.user.user.email;
+      email = state.user.user.email;
       // eslint-disable-next-line no-case-declarations
-      const { table } = action.payload;
+       table = action.payload.table;
       firebaseGetData(email, table).then((data) => {
         store.dispatch(setDataMaintenance(data));
         return next(action);
       });
       break;
+
+    case actions.UPATE_DATA_INVOICE:
+      email = state.user.user.email;
+      table  = action.payload.table;
+      idDoc = action.payload.idDoc;
+      firebaseGetDataByID(email, table,idDoc).then((data) => {
+        store.dispatch(setCurrenInvoice(data));
+        return next(action);
+      });
+      break;
+
     default:
       return next(action);
   }

@@ -16,6 +16,9 @@ export const DataMaintenance = createSlice({
     setCurrenCustomer: (state, action) => {
       state.currentCustomer = action.payload;
     },
+    setCurrenInvoice: (state, action) => {
+      state.currentInvoice = action.payload;
+    },
     upateCurrenCustomer: (state, action) => {
       const {currentCustomer}=state
       // console.log(action.payload)
@@ -24,5 +27,5 @@ export const DataMaintenance = createSlice({
   },
 });
 
-export const { setDataMaintenance,setCurrenCustomer,upateCurrenCustomer } = DataMaintenance.actions;
+export const { setDataMaintenance,setCurrenCustomer,setCurrenInvoice,upateCurrenCustomer } = DataMaintenance.actions;
 export default DataMaintenance.reducer;

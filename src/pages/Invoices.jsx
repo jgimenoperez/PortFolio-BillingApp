@@ -9,17 +9,20 @@ import {
   styled,
 } from "@nextui-org/react";
 import {
-  firebaseAddData,
   firebaseAddInvoice,
   firebaseUpdateUser,
   getCounterBills,
 } from "../firebase/firebase";
 import { ModalGridTableComponent } from "../components/maintenance/ModalGridTableComponent";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 import { useSelector, useDispatch } from "react-redux";
 import Swal from "sweetalert2";
 import { BillIcon, UserIcon } from "../components/icons";
+import {
+  setCurrenInvoice,
+  upateCurrenCustomer,
+} from "../reducers/dataMaintenanceReducer";
 
 export const Invoices = () => {
   const dispatch = useDispatch();
@@ -34,7 +37,10 @@ export const Invoices = () => {
   };
 
   const { user } = useSelector((state) => state.user);
-  const { currentCustomer } = useSelector((state) => state.data);
+  const { currentCustomer, currentInvoice } = useSelector(
+    (state) => state.data
+  );
+
   const [customersFields, setCustomerFields] = useState([
     { name: "NOMBRE", uid: "nombre" },
     { name: "RÁZON SOCIAL", uid: "razon" },
@@ -51,7 +57,6 @@ export const Invoices = () => {
     { name: "FECHA", uid: "fechaFactura" },
     { name: "TOTAL", uid: "total" },
     { name: "ACTIONS", uid: "actions" },
-
   ]);
 
   const {
@@ -71,11 +76,12 @@ export const Invoices = () => {
 
   useEffect(() => {
     getCounterBills(dispatch);
+    dispatch(setCurrenInvoice({ numfactura: user.nextNumBill }));
   }, []);
 
-  useEffect(() => {
-    setValue("numfactura", user.nextNumBill);
-  }, [user.nextNumBill]);
+  // useEffect(() => {
+  //   setValue("numfactura", user.nextNumBill);
+  // }, [user.nextNumBill]);
 
   useEffect(() => {
     setValue("nombreCliente", currentCustomer.nombre);
@@ -87,6 +93,24 @@ export const Invoices = () => {
     setValue("email", currentCustomer.email);
     setValue("telefono", currentCustomer.telefono);
   }, [currentCustomer]);
+
+  useEffect(() => {
+    setValue("numfactura", currentInvoice.numfactura);
+    setValue("fechaFactura", currentInvoice.fechaFactura);
+    setValue("formapago", currentInvoice.formapago);
+    setValue("nombreCliente", currentInvoice.nombreCliente);
+    setValue("dni", currentInvoice.dni);
+    setValue("direccion", currentInvoice.direccion);
+    setValue("ciudad", currentInvoice.ciudad);
+    setValue("codpostal", currentInvoice.codpostal);
+    setValue("provincia", currentInvoice.provincia);
+    setValue("email", currentInvoice.email);
+    setValue("telefono", currentInvoice.telefono);
+    setValue("subtotal", currentInvoice.subtotal);
+    setValue("impuestos", currentInvoice.impuestos);
+    setValue("total", currentInvoice.total);
+    setValue("lineas", currentInvoice.lineas);
+  }, [currentInvoice]);
 
   const StyledInput = styled("input", {
     backgroundColor: "$gray100",
@@ -133,7 +157,7 @@ export const Invoices = () => {
   const onSubmit = async (data) => {
     try {
       await firebaseAddInvoice(user.email, data);
-      reset();
+      resetForm()
       await firebaseUpdateUser(user.email, {
         nextNumBill: parseInt(data.numfactura) + 1,
       });
@@ -151,6 +175,13 @@ export const Invoices = () => {
         button: "Ok",
       });
     }
+  };
+
+  const resetForm = () => {
+    dispatch(setCurrenInvoice({ numfactura: user.nextNumBill }));
+    dispatch(upateCurrenCustomer({}));
+    reset();
+    reset({ lineas: [] });
   };
 
   return (
@@ -381,6 +412,7 @@ export const Invoices = () => {
                       borderRadius: "0px",
                       border: "0px solid  rgb(200, 200, 200)",
                     }}
+                    {...register("formapago")}
                   >
                     <option value="contado">contado</option>
                     <option value="transferencia">transferencia</option>
@@ -429,7 +461,7 @@ export const Invoices = () => {
                 nameFields={customersFields}
                 title="Clientes"
                 collection="customers"
-                icon={<UserIcon width={55} />}                
+                icon={<UserIcon width={55} />}
               />
             </Grid>
             <Grid xs={12} sm={6}>
@@ -554,7 +586,7 @@ export const Invoices = () => {
                     })}
                     autoComplete="off"
                     type="text"
-                    placeholder="Cóodigo postal"
+                    placeholder="Código postal"
                     style={{
                       height: "35px",
                       borderRadius: "0px",
@@ -934,7 +966,7 @@ export const Invoices = () => {
             );
           })}
 
-          <Grid.Container gap={1}>
+          <Grid.Container gap={1} css={{ marginTop: "15px" }}>
             <Button
               auto
               bordered
@@ -1059,12 +1091,19 @@ export const Invoices = () => {
               <i className="ri-save-line align-bottom me-1"></i> Guardar
             </button>
 
-            <button to="#" className="btn btn-danger">
+            <button
+              to="#"
+              type="button"
+              className="btn btn-danger"
+              onClick={() => {
+                resetForm();
+              }}
+            >
               <i className="ri-newspaper-line align-bottom me-1"></i> Nueva
               Factura
             </button>
 
-            <button to="#" className="btn btn-secondary">
+            <button type="button" to="#" className="btn btn-secondary">
               <i className="ri-printer-line align-bottom me-1"></i> Imprimir
             </button>
 

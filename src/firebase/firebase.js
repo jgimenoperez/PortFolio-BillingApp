@@ -245,6 +245,7 @@ export const firebaseFindUser = (email) => {
     });
 };
 
+
 export const firebaseUpdateUser = (docId, data) => {
   console.log(docId, data);
   return firebase
@@ -348,16 +349,33 @@ export const firebaseGetData = (email, collection) => {
     .collection(collection)
     .get()
     .then((querySnapshot) => {
-      let products = [];
+      let data = [];
       querySnapshot.forEach((docs) => {
         // console.log( docs.data());
-        products.push({ id: docs.id, ...docs.data() });
+        data.push({ id: docs.id, ...docs.data() });
         // console.log(customers)
       });
-      return products;
+      return data;
     })
     .catch((error) => {
       console.log("Error al obtener los documentos: ", error);
+      return null;
+    });
+};
+
+export const firebaseGetDataByID = (email, collection, id) => {
+  return firebase
+    .firestore()
+    .collection("users")
+    .doc(email)
+    .collection(collection)
+    .doc(id)
+    .get()
+    .then((doc) => {
+      return doc.data();
+    })
+    .catch((error) => {
+      console.log("Error al obtener el documento:", collection, error);
       return null;
     });
 };

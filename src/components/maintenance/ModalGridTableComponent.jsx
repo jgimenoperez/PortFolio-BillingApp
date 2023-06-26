@@ -15,7 +15,8 @@ import { EyeIcon, UserIcon } from "../icons";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { actions } from "../../types/types";
-import { setCurrenCustomer } from "../../reducers/dataMaintenanceReducer";
+import { setCurrenCustomer, setCurrenInvoice } from "../../reducers/dataMaintenanceReducer";
+import { firebaseGetData } from "../../firebase/firebase";
 // eslint-disable-next-line react/prop-types
 export const ModalGridTableComponent = ({
   nameFields,
@@ -65,7 +66,7 @@ export const ModalGridTableComponent = ({
 
   async function sort({ column }) {
     setDirectionSort(!directionSort);
-    let array = [...dataGridFiltered]
+    let array = [...dataGridFiltered];
 
     setDataGridFiltered(
       array.sort((a, b) => {
@@ -99,8 +100,23 @@ export const ModalGridTableComponent = ({
                   css={{
                     backgroundColor: "#B97509",
                   }}
-                  onPress={() => {
-                    dispatch(setCurrenCustomer(item));
+                  onPress={async() => {
+                    switch (collection) {
+                      case "customers":
+                        dispatch(setCurrenCustomer(item));
+                        break;
+                      case "invoices":
+                        console.log(item.id)
+                        await dispatch({
+                          type: actions.UPATE_DATA_INVOICE,
+                          payload: {
+                            table: collection,
+                            idDoc:item.id
+                          },
+                        });
+
+                        break;
+                    }
                     setVisible(false);
                   }}
                 >
@@ -134,7 +150,6 @@ export const ModalGridTableComponent = ({
     setSearchTerm(event.target.value);
   };
 
-
   //   return (
   //     <Loading
   //       css={{
@@ -148,132 +163,133 @@ export const ModalGridTableComponent = ({
   //     </Loading>
   //   );
   // } else {
-    return (
-      <div>
-        <Button
-          bordered
-          color="primary"
-          auto
-          icon={icon}
-          style={{
-            height: "35px",
-            // borderRadius: "0px",
-            // border: "0px solid  rgb(200, 200, 200)",
-          }}
-          onPress={() => {
-            setLoading(true);
-            setVisible(true);
-          }}
-        ></Button>
-        <Modal
-          width="1300px"
-          aria-labelledby="modal-title"
-          aria-describedby="modal-description"
-          animated="true"
-          {...bindings}
-          onOpen={() => {
-            setDataGridFiltered([])
-            setLoading(true);
-            fetchData();
-          }}
-        >
-          <div className="busquedas">
-            <Container>
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
+  return (
+    <div>
+      <Button
+        bordered
+        color="primary"
+        auto
+        icon={icon}
+        style={{
+          height: "35px",
+          // borderRadius: "0px",
+          // border: "0px solid  rgb(200, 200, 200)",
+        }}
+        onPress={() => {
+          setLoading(true);
+          setVisible(true);
+        }}
+      ></Button>
+      <Modal
+        width="1300px"
+        aria-labelledby="modal-title"
+        aria-describedby="modal-description"
+        animated="true"
+        {...bindings}
+        onOpen={() => {
+          setDataGridFiltered([]);
+          setLoading(true);
+          fetchData();
+        }}
+      >
+        <div className="busquedas">
+          <Container>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
+            >
+              <Text
+                h3
+                size={40}
+                css={{
+                  textGradient: "45deg, $blue600 -20%, $pink600 50%",
+                }}
+                weight="bold"
+              >
+                <strong>{`Seleccion ${title}`}</strong>
+              </Text>
+              <Input
+                clearable
+                contentRightStyling={false}
+                onChange={handleInputChange}
+                // labelPlaceholder="Buscar"
+                contentRight={
+                  <SendButton>
+                    <EyeIcon fill="currentColor" size="18" />
+                  </SendButton>
+                }
+                labelPlaceholder="Buscar"
+                css={{ marginTop: "25px" }}
+              />
+            </div>
+
+            {dataGridFiltered.length > 0 ? (
+              <Table
+                lined
+                headerLined
+                aria-label="estatic collection table"
+                css={{
+                  height: "150px",
+                  minWidth: "8%",
+                  backgroundColor: "$gray200",
+                  marginTop: "15px",
+                  borderRadius: "10px",
+                  boxShadow: "inset 0 2px 4px rgba(0, 0, 0, 0.1)",
+                  border: "1px solid rgba(0, 0, 0, 0.1)",
+                  textAlign: "left",
+                }}
+                // bordered
+                shadow={true}
+                striped
+                // fixed
+                color="primary"
+                selectionMode="single"
+                hoverable={true}
+                onSortChange={(e) => {
+                  console.log(1111);
+                  sort(e);
                 }}
               >
-                <Text
-                  h3
-                  size={40}
-                  css={{
-                    textGradient: "45deg, $blue600 -20%, $pink600 50%",
-                  }}
-                  weight="bold"
-                >
-                  <strong>{`Seleccion ${title}`}</strong>
-                </Text>
-                <Input
-                  clearable
-                  contentRightStyling={false}
-                  onChange={handleInputChange}
-                  // labelPlaceholder="Buscar"
-                  contentRight={
-                    <SendButton>
-                      <EyeIcon fill="currentColor" size="18" />
-                    </SendButton>
-                  }
-                  labelPlaceholder="Buscar"
-                  css={{ marginTop: "25px" }}
+                <Table.Header columns={nameFields}>
+                  {(column) => (
+                    <Table.Column
+                      key={column.uid}
+                      hideHeader={column.uid === "actions"}
+                      align={column.uid === "actions" ? "center" : "start"}
+                      allowsSorting
+                    >
+                      {column.name}
+                    </Table.Column>
+                  )}
+                </Table.Header>
+                <Table.Body items={dataGridFiltered}>
+                  {(item) => (
+                    <Table.Row>
+                      {(columnKey) => (
+                        <Table.Cell>{renderCell(item, columnKey)}</Table.Cell>
+                      )}
+                    </Table.Row>
+                  )}
+                </Table.Body>
+                <Table.Pagination
+                  shadow
+                  noMargin
+                  align="center"
+                  rowsPerPage={10}
                 />
-              </div>
-
-
-              {dataGridFiltered.length > 0 ? (
-                <Table
-                  lined
-                  headerLined
-                  aria-label="estatic collection table"
-                  css={{
-                    height: "150px",
-                    minWidth: "8%",
-                    backgroundColor: "$gray200",
-                    marginTop: "15px",
-                    borderRadius: "10px",
-                    boxShadow: "inset 0 2px 4px rgba(0, 0, 0, 0.1)",
-                    border: "1px solid rgba(0, 0, 0, 0.1)",
-                    textAlign: "left",
-                  }}
-                  // bordered
-                  shadow={true}
-                  striped
-                  // fixed
-                  color="primary"
-                  selectionMode="single"
-                  hoverable={true}
-                  onSortChange={(e) => {
-                    console.log(1111)
-                    sort(e);
-                  }}
-                >
-                  <Table.Header columns={nameFields}>
-                    {(column) => (
-                      <Table.Column
-                        key={column.uid}
-                        hideHeader={column.uid === "actions"}
-                        align={column.uid === "actions" ? "center" : "start"}
-                        allowsSorting
-                      >
-                        {column.name}
-                      </Table.Column>
-                    )}
-                  </Table.Header>
-                  <Table.Body items={dataGridFiltered}>
-                    {(item) => (
-                      <Table.Row>
-                        {(columnKey) => (
-                          <Table.Cell>{renderCell(item, columnKey)}</Table.Cell>
-                        )}
-                      </Table.Row>
-                    )}
-                  </Table.Body>
-                  <Table.Pagination
-                    shadow
-                    noMargin
-                    align="center"
-                    rowsPerPage={10}
-                  />
-                </Table>
-              ) : <Loading/>}
-            </Container>
-          </div>
-        </Modal>
-      </div>
-    );
-  }
+              </Table>
+            ) : (
+              <Loading />
+            )}
+          </Container>
+        </div>
+      </Modal>
+    </div>
+  );
+};
 
 export const SendButton = styled("button", {
   // reset button styles
