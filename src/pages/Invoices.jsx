@@ -14,7 +14,7 @@ import {
   getCounterBills,
 } from "../firebase/firebase";
 import { ModalGridTableComponent } from "../components/maintenance/ModalGridTableComponent";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 import { useSelector, useDispatch } from "react-redux";
 import Swal from "sweetalert2";
@@ -23,9 +23,256 @@ import {
   setCurrenInvoice,
   upateCurrenCustomer,
 } from "../reducers/dataMaintenanceReducer";
+import pdfMake from "pdfmake/build/pdfmake";
+import pdfFonts from "pdfmake/build/vfs_fonts";
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 export const Invoices = () => {
   const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.user);
+  const { currentCustomer, currentInvoice } = useSelector(
+    (state) => state.data
+  );
+
+  const aplanaLineasFactura = useCallback(() => {
+    console.log(currentInvoice)
+    if (currentInvoice.lineas === undefined) return [];
+
+    const arrayPlanoLineas = [];
+    currentInvoice.lineas.map(function (linea) {
+      arrayPlanoLineas.push([
+        { text: linea.producto + "\n" + linea.descripcion },
+        { text: linea.cantidad },
+        { text: linea.precio },
+        { text: linea.total, alignment: "right", fillColor: "#e0e0e0" },
+      ]);
+    });
+
+    return [
+      [
+        { text: "DESCRIPCION", fillColor: "#e0e0e0" },
+        { text: "CANTIDAD", fillColor: "#e0e0e0" },
+        { text: "DESCRIPCION", fillColor: "#e0e0e0" },
+        { text: "IMPORTE", fillColor: "#e0e0e0" },
+      ],
+      ...arrayPlanoLineas,
+      [
+        "",
+        "",
+        "",
+        {
+          text: `Subtotal: ${currentInvoice?.subtotal}\n
+          Tipo IVA: 21 \n
+          Impuestos: ${currentInvoice?.impuestos}\n
+          Total Factura: ${currentInvoice?.total}\n
+          `,
+          fillColor: "#e0e0e0",
+          alignment: "right",
+        },
+      ],
+    ];
+  }, [currentInvoice]);
+
+  const aplanaLineasFactura2 = () => {
+    if (currentInvoice.lineas === undefined) return [];
+
+    const arrayPlanoLineas = [];
+    currentInvoice.lineas.map(function (linea) {
+      arrayPlanoLineas.push([
+        { text: linea.producto + "\n" + linea.descripcion },
+        { text: linea.cantidad },
+        { text: linea.precio },
+        { text: linea.total, alignment: "right", fillColor: "#e0e0e0" },
+      ]);
+    });
+
+    return [
+      [
+        { text: "DESCRIPCION", fillColor: "#e0e0e0" },
+        { text: "CANTIDAD", fillColor: "#e0e0e0" },
+        { text: "DESCRIPCION", fillColor: "#e0e0e0" },
+        { text: "IMPORTE", fillColor: "#e0e0e0" },
+      ],
+      ...arrayPlanoLineas,
+      [
+        "",
+        "",
+        "",
+        {
+          text: `Subtotal: ${currentInvoice?.subtotal}\n
+        Tipo IVA: 21 \n
+        Impuestos: ${currentInvoice?.impuestos}\n
+        Total Factura: ${currentInvoice?.total}\n
+        `,
+          fillColor: "#e0e0e0",
+          alignment: "right",
+        },
+      ],
+    ];
+  };
+
+  const docDefinition = {
+    pageMargins: [80, 60, 80, 60], // Márgenes en puntos [izquierdo, superior, derecho, inferior]
+    content: [
+      {
+        margin: [0, 20, 0, 0],
+        alignment: "justify",
+        columns: [
+          // Columna 1: Imagen
+          {
+            image: "logo",
+            fit: [100, 100],
+          },
+          // Columna 2: Texto alineado a la derecha
+          {
+            text: "FACTURA",
+            alignment: "right",
+            fontSize: 34,
+          },
+        ],
+      },
+
+      {
+        margin: [0, 20, 0, 0],
+        alignment: "justify",
+        columns: [
+          { text: "DIRECCIÓN", style: "header" },
+          { text: `D.N.I: ${user?.dni}`, style: "header", alignment: "right" },
+        ],
+      },
+      {
+        alignment: "justify",
+        style: "anotherStyle",
+        columns: [
+          { text: user?.address, margin: [0, 5, 0, 0] },
+          { text: user?.name, alignment: "right", margin: [0, 5, 0, 0] },
+        ],
+      },
+      {
+        alignment: "justify",
+        style: "anotherStyle",
+        columns: [
+          {
+            text: `${user?.villaege} (${user?.province})`,
+            margin: [0, 5, 0, 0],
+          },
+          { text: user?.email, alignment: "right" },
+        ],
+      },
+      {
+        alignment: "justify",
+        style: "anotherStyle",
+        columns: [
+          { text: `Código postal: ${user?.postalCode}`, margin: [0, 5, 0, 0] },
+          { text: user?.phone, alignment: "right" },
+        ],
+      },
+      {
+        svg: '<svg width="600" height="25" viewBox="0 0 1200 5">    <line x1="0" y1="0" x2="900" y2="0" style="stroke:#000000; stroke-width:1"></line> </svg>',
+      },
+      {
+        table: {
+          // headers are automatically repeated if the table spans over multiple pages
+          // you can declare how many rows should be treated as headers
+          headerRows: 1,
+          widths: ["*", "*", "*", "*"],
+
+          body: [
+            [
+              "FACTURA Nº",
+              "FECHA",
+              "FORMA DE PAGO",
+              {
+                text: "TOTAL FACTURA",
+                style: "tableHeader",
+                alignment: "right",
+              },
+            ],
+            [
+              currentInvoice?.numfactura,
+              currentInvoice?.fechaFactura,
+              currentInvoice?.formapago,
+              {
+                text: currentInvoice?.total,
+                style: "tableHeader",
+                alignment: "right",
+              },
+            ],
+          ],
+        },
+        layout: "noBorders",
+      },
+      {
+        svg: '<svg width="600" height="15" viewBox="0 0 1200 15">    <line x1="0" y1="0" x2="900" y2="0" style="stroke:#000000; stroke-width:1"></line> </svg>',
+      },
+      { text: `FACTURAR A:`, style: "header" },
+      {
+        text: currentInvoice.nombreCliente,
+        style: "header",
+        margin: [0, 5, 0, 0],
+      },
+      { text: currentInvoice.dni, style: "header", margin: [0, 5, 0, 0] },
+      { text: currentInvoice.direccion, style: "header", margin: [0, 5, 0, 0] },
+      {
+        text: `${currentInvoice.ciudad} (${currentInvoice.provincia}) ${currentInvoice.codpostal}`,
+        style: "header",
+        margin: [0, 5, 0, 0],
+      },
+      { text: currentInvoice.telefono, style: "header", margin: [0, 5, 0, 0] },
+      { text: currentInvoice.email, style: "header", margin: [0, 5, 0, 0] },
+      {
+        svg: '<svg width="600" height="50" viewBox="0 0 1200 15">    <line x1="0" y1="0" x2="900" y2="0" style="stroke:#000000; stroke-width:1"></line> </svg>',
+      },
+      {
+        // layout: "lightHorizontalLines", // optional
+        margin: [0, 5, 0, 0],
+        table: {
+          // headers are automatically repeated if the table spans over multiple pages
+          // you can declare how many rows should be treated as headers
+          headerRows: 1,
+          widths: ["*", "auto", 100, "*"],
+
+          body: aplanaLineasFactura(),
+        },
+      },
+      // {
+      //   margin: [0, 20, 0, 0],
+      //   alignment: "justify",
+      //   columns: [
+      //     { text: `SUBTOTAL: ${currentInvoice?.subtotal}`, style: "header", alignment: "right", fillColor: "#e0e0e0" },
+      //   ],
+      // },
+    ],
+
+    images: {
+      logo: {
+        url: user?.image,
+        headers: {
+          myheader: "123",
+          myotherheader: "abc",
+        },
+      },
+    },
+    styles: {
+      header: {
+        fontSize: 12,
+        bold: true,
+      },
+      anotherStyle: {
+        italics: true,
+      },
+    },
+  };
+  const [url, setUrl] = useState(null);
+
+  const createPdf = () => {
+    const pdfGenerator = pdfMake.createPdf(docDefinition);
+    pdfGenerator.getBlob((blob) => {
+      const url = URL.createObjectURL(blob);
+      setUrl(url);
+    });
+    pdfGenerator.download();
+  };
 
   const styleInputLines = {
     height: "35px",
@@ -35,11 +282,6 @@ export const Invoices = () => {
     fontSize: "16px",
     width: "100%",
   };
-
-  const { user } = useSelector((state) => state.user);
-  const { currentCustomer, currentInvoice } = useSelector(
-    (state) => state.data
-  );
 
   const [customersFields, setCustomerFields] = useState([
     { name: "NOMBRE", uid: "nombre" },
@@ -64,6 +306,7 @@ export const Invoices = () => {
     handleSubmit,
     formState: { errors },
     setValue,
+    getValues,
     watch,
     reset,
     control,
@@ -78,10 +321,6 @@ export const Invoices = () => {
     getCounterBills(dispatch);
     dispatch(setCurrenInvoice({ numfactura: user.nextNumBill }));
   }, []);
-
-  // useEffect(() => {
-  //   setValue("numfactura", user.nextNumBill);
-  // }, [user.nextNumBill]);
 
   useEffect(() => {
     setValue("nombreCliente", currentCustomer.nombre);
@@ -140,24 +379,28 @@ export const Invoices = () => {
 
   const lineas = watch("lineas") || []; // Obtener los valores de las líneas
 
-  const calcularTotalLinea = (index) =>
-    lineas[index]?.precio * lineas[index]?.cantidad;
+  // const calcularTotalLinea = (index) =>
+  //   lineas[index]?.precio * lineas[index]?.cantidad;
 
   // const calculaSubtoTotalFactura = () => lineas.reduce((acumulador, elemento) => acumulador + (elemento.cantidad * elemento.precio), 0);
 
-  const calculaSubtoTotalFactura = () => {
+  const calculaSubtoTotalFactura = (index) => {
     const totales = lineas.reduce((acumulador, elemento) => {
       return acumulador + elemento.cantidad * elemento.precio;
     }, 0);
     setValue("subtotal", totales);
     setValue("impuestos", (totales * 0.21).toFixed(2));
     setValue("total", (totales * 1.21).toFixed(2));
+    setValue(
+      `lineas.${index}.total`,
+      lineas[index]?.precio * lineas[index]?.cantidad
+    );
   };
 
   const onSubmit = async (data) => {
     try {
       await firebaseAddInvoice(user.email, data);
-      resetForm()
+      resetForm();
       await firebaseUpdateUser(user.email, {
         nextNumBill: parseInt(data.numfactura) + 1,
       });
@@ -186,6 +429,11 @@ export const Invoices = () => {
 
   return (
     <Layout>
+      <div className="App">
+        <button onClick={createPdf}>Generate PDF</button>
+        {url && <div>{url}</div>}
+      </div>
+
       <form onSubmit={handleSubmit(onSubmit)}>
         <Container
           lg
@@ -898,7 +1146,7 @@ export const Invoices = () => {
                       placeholder="Precio"
                       {...register(`lineas.${index}.precio`)}
                       onBlur={() => {
-                        calculaSubtoTotalFactura();
+                        calculaSubtoTotalFactura(index);
                       }}
                     />
                   </Grid>
@@ -912,7 +1160,7 @@ export const Invoices = () => {
                       placeholder="Cantidad"
                       {...register(`lineas.${index}.cantidad`)}
                       onBlur={() => {
-                        calculaSubtoTotalFactura();
+                        calculaSubtoTotalFactura(index);
                       }}
                     />
                   </Grid>
@@ -920,14 +1168,15 @@ export const Invoices = () => {
                   <Grid xs={12} sm={4}>
                     <Grid.Container justify="space-between">
                       <Grid xs={12} sm={12}>
-                        <StyledInput
+                        <input
                           style={styleInputLines}
+                          {...register(`lineas.${index}.total`)}
                           type="number"
                           autoComplete="off"
                           placeholder="Total"
                           step="any"
                           readOnly
-                          value={calcularTotalLinea(index)}
+                          // defaultvalue={calcularTotalLinea(index)}
                         />
                       </Grid>
                     </Grid.Container>
