@@ -301,7 +301,7 @@ export const Invoices = () => {
   });
 
   useEffect(() => {
-    getCounterBills(dispatch);
+    getCounterBills(dispatch,user.email);
     dispatch(setCurrenInvoice({ numfactura: user.nextNumBill }));
   }, []);
 

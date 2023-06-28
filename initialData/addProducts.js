@@ -4,8 +4,8 @@ import { readFile } from "fs/promises";
 const customersInfo = JSON.parse(await readFile("./products.json"));
 
 async function  addCustomers()  {
-    await firebaseLoginWithEmail('fiona@manosdehada.es','961421180')
-    await firebaseAddProducts('fiona@manosdehada.es',customersInfo);
+    await firebaseLoginWithEmail('xxxx@xxx.es','xxxx')
+    await firebaseAddProducts('xxx@xxx.es',customersInfo);
  }
 
 addCustomers()

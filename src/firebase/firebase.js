@@ -391,11 +391,11 @@ export const firebaseDeleteData = (email, collection, id) => {
     });
 };
 
-export const getCounterBills = (dispatch) => {
+export const getCounterBills = (dispatch,email) => {
   firebase
     .firestore()
     .collection("users")
-    .doc("fiona@manosdehada.es")
+    .doc(email)
     .onSnapshot(
       (response) => {
         dispatch(getUser(response.data()));
