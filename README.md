@@ -15,10 +15,13 @@
 - PDFMAKE <br> Biblioteca para la generación de PDFS
 - REDUX-THUNK <br> Libreria para controlar el estado de la aplicación
 - REACT-ROUTER-DOM <br> Biblioteca de enrutamiento para aplicaciones web desarrolladas con React. Proporciona un enrutador que te permite gestionar la navegación entre diferentes componentes y páginas en una aplicación de React.
+-REACT-HOOCK-FROM
+ Biblioteca de validación y manejo de formularios para aplicaciones de React.
 ## Como hacer andar el proyecto.
 ### Descargar/clonar el proyectoy y ejecutar 
 npm run dev -- --host <br>
-Acceder a http://localhost:5173/
+Acceder a http://localhost:5173/ <br>
+https://portfoliobillingapp.pages.dev/
 
 
 
