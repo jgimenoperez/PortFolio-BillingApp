@@ -150,7 +150,7 @@ export const Nav = ({ isLogin, isRegister, isResetPass }) => {
           ) : null}
 
           {logged ? (
-            <Navbar.Link isActive color="inherit" href="#">
+            <Navbar.Link isActive color="inherit" href="/invoices">
               Facturación
             </Navbar.Link>
           ) : null}

@@ -675,3 +675,19 @@ html {
   border-top: 1px dashed #000000; /* Color de la línea (en este caso, negro) y estilo discontinuo */
   margin: 20px 0; /* Margen superior e inferior para separar las secciones */
 }
+
+
+
+.imagenBill {
+  opacity: 0;
+  animation: fade-in 3.5s ease forwards;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

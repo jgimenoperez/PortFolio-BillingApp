@@ -387,7 +387,7 @@ export const Invoices = () => {
       await firebaseUpdateUser(user.email, {
         nextNumBill: parseInt(data.numfactura) + 1,
       });
-
+      setValue("numfactura",parseInt(data.numfactura) + 1)
       Swal.fire({
         title: "Operación realizada",
         text: "Datos actualizados",
@@ -412,9 +412,6 @@ export const Invoices = () => {
 
   return (
     <Layout>
-      <div className="App">
-        <button onClick={createPdf}>Generate PDF</button>
-      </div>
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <Container
@@ -576,7 +573,7 @@ export const Invoices = () => {
                       width: "100%",
                     }}
                   />
-                  {/* <Spacer x={0.5} /> */}
+                  <Spacer x={0.5} />
                   <ModalGridTableComponent
                     nameFields={invoiceFields}
                     title="Facturas"
@@ -1334,7 +1331,7 @@ export const Invoices = () => {
               Factura
             </button>
 
-            <button type="button" to="#" className="btn btn-secondary">
+            <button type="button" to="#" className="btn btn-secondary" onClick={createPdf}>
               <i className="ri-printer-line align-bottom me-1"></i> Imprimir
             </button>
 

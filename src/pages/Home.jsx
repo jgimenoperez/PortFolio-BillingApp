@@ -104,24 +104,24 @@ export const Home = () => {
   //   };
   // }, []);
 
-  useEffect(() => {
-    const handleScroll = (e) => {
-      e.preventDefault();
+  // useEffect(() => {
+  //   const handleScroll = (e) => {
+  //     e.preventDefault();
 
-      const delta = Math.sign(e.deltaY);
-      const scrollDistance = 500; // Distancia de desplazamiento suave
-      window.scrollTo({
-        top: window.pageYOffset + delta * scrollDistance,
-        behavior: 'smooth'
-      });
+  //     const delta = Math.sign(e.deltaY);
+  //     const scrollDistance = 500; // Distancia de desplazamiento suave
+  //     window.scrollTo({
+  //       top: window.pageYOffset + delta * scrollDistance,
+  //       behavior: 'smooth'
+  //     });
 
-    };
+  //   };
 
-    document.addEventListener('wheel', handleScroll, { passive: false });
-    return () => {
-      document.removeEventListener('wheel', handleScroll);
-    };
-  }, []);
+  //   document.addEventListener('wheel', handleScroll, { passive: false });
+  //   return () => {
+  //     document.removeEventListener('wheel', handleScroll);
+  //   };
+  // }, []);
 
 
   // useEffect(() => {
