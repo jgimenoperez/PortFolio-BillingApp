@@ -14,12 +14,11 @@ import { GithubIcon } from "../icons";
 import { ModalLogin, ModalRegister, ModalResetPass } from "../auth";
 import { setTheme } from "../../reducers/themeReducer";
 import { useDispatch } from "react-redux";
-import { Link as Enlace,useNavigate   } from "react-router-dom";
+import { Link as Enlace, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useTheme } from "@nextui-org/react";
 import { Troll, icons } from "./icons";
 import { setAuth } from "../../reducers/userReducer";
-
 
 export const Nav = ({ isLogin, isRegister, isResetPass }) => {
   const dispatch = useDispatch();
@@ -42,7 +41,7 @@ export const Nav = ({ isLogin, isRegister, isResetPass }) => {
       link: "invoices",
     },
   ];
-  
+
   const logoutClick = () => {
     firebaseLogout();
     dispatch(setAuth(false));
@@ -103,8 +102,8 @@ export const Nav = ({ isLogin, isRegister, isResetPass }) => {
               </Navbar.Item>
 
               <Dropdown.Menu
-                onAction={(e)=>{
-                  navigate(`/${e}`)
+                onAction={(e) => {
+                  navigate(`/${e}`);
                 }}
                 aria-label="aaa"
                 css={{
@@ -122,17 +121,19 @@ export const Nav = ({ isLogin, isRegister, isResetPass }) => {
                     },
                   },
                 }}
-              > 
+              >
                 <Dropdown.Item
                   key="customers"
                   showFullDescription
-                  description="Mantenimiento de clientes"
+                  description="Mantenimiento de cliente555s"
                   icon={icons.user}
                 >
-                  <Navbar.Link isActive color="inherit" href="/customers">
+                  {/* <Navbar.Link isActive color="inherit" href="/customers">
                     Clientes
-                  </Navbar.Link>
-                  
+                  </Navbar.Link> */}
+                  <Enlace className="ManosDevTrollText" to="/customers">
+                    Clientes
+                  </Enlace>
                 </Dropdown.Item>
 
                 <Dropdown.Item
@@ -141,18 +142,25 @@ export const Nav = ({ isLogin, isRegister, isResetPass }) => {
                   description="Mantenimiento de artículos"
                   icon={icons.article}
                 >
-                  <Navbar.Link isActive color="inherit" href="/products">
+                  {/* <Navbar.Link isActive color="inherit" href="/products">
                     Artículos
-                  </Navbar.Link>
+                  </Navbar.Link> */}
+                  <Enlace className="ManosDevTrollText" to="/products">
+                    Artículos
+                  </Enlace>
                 </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
           ) : null}
 
           {logged ? (
-            <Navbar.Link isActive color="inherit" href="/invoices">
+            // <Navbar.Link isActive color="inherit" href="/invoices">
+            //   Facturación
+            // </Navbar.Link>
+
+            <Enlace className="ManosDevTrollText" to="/invoices">
               Facturación
-            </Navbar.Link>
+            </Enlace>
           ) : null}
         </Navbar.Content>
       </Navbar.Brand>
@@ -160,7 +168,7 @@ export const Nav = ({ isLogin, isRegister, isResetPass }) => {
       <Navbar.Collapse>
         {collapseItems.map((item) => (
           <Navbar.CollapseItem key={item.name}>
-            <Link
+            {/* <Link
               color="inherit"
               css={{
                 minWidth: "100%",
@@ -168,7 +176,10 @@ export const Nav = ({ isLogin, isRegister, isResetPass }) => {
               href={`/${item.link}`}
             >
               {item.name}
-            </Link>
+            </Link> */}
+            <Enlace className="ManosDevTrollText" to={`/${item.link}`}>
+              {item.name}
+            </Enlace>
           </Navbar.CollapseItem>
         ))}
         <Navbar.CollapseItem>

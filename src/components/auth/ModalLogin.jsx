@@ -154,7 +154,7 @@ export const ModalLogin = () => {
             placeholder="Contraseña"
             ref={passwordRef}
             onChange={() => {
-              dispatch(setErrorLogin(null))
+              // dispatch(setErrorLogin(null))
             }}
             onKeyDown={handleKeyPress}
             // visibleIcon={<Troll fill="currentColor" />}
