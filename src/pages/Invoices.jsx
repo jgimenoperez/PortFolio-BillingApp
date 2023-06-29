@@ -24,8 +24,8 @@ import {
   upateCurrenCustomer,
 } from "../reducers/dataMaintenanceReducer";
 import pdfMake from "pdfmake/build/pdfmake";
-import pdfFonts from "pdfmake/build/vfs_fonts";
-pdfMake.vfs = pdfFonts.pdfMake.vfs;
+import pdfFonts from "../pdfmaker/vfs_fonts";
+pdfMake.vfs = pdfFonts;
 
 export const Invoices = () => {
   const dispatch = useDispatch();
@@ -35,7 +35,6 @@ export const Invoices = () => {
   );
 
   const aplanaLineasFactura = useMemo(() => {
-    console.log(1111);
     if (currentInvoice.lineas === undefined) return [];
 
     const arrayPlanoLineas = [];
@@ -247,15 +246,27 @@ export const Invoices = () => {
     });
   }, [currentCustomer, currentInvoice]);
 
-  const createPdf = () => {
+  // const createPdf = () => {
+  //   const pdfGenerator = pdfMake.createPdf(docDefinition);
+  //   // pdfGenerator.getBlob((blob) => {
+  //   //   const url = URL.createObjectURL(blob);
+  //   //   setUrl(url);
+  //   // });
+  //   pdfGenerator.download(`fac${currentInvoice.numfactura}.pdf`);
+  //   pdfGenerator.open()
+  // };
+
+  const createPdf = (preview) => {
     const pdfGenerator = pdfMake.createPdf(docDefinition);
     // pdfGenerator.getBlob((blob) => {
     //   const url = URL.createObjectURL(blob);
     //   setUrl(url);
     // });
-    pdfGenerator.download(`fac${currentInvoice.numfactura}.pdf`);
-    pdfGenerator.open()
+    !preview
+      ? pdfGenerator.download(`fac${currentInvoice.numfactura}.pdf`)
+      : pdfGenerator.open();
   };
+
 
   const styleInputLines = {
     height: "35px",
@@ -410,10 +421,64 @@ export const Invoices = () => {
     reset({ lineas: [] });
   };
 
+
+  const PrintInvoices = () => {
+    return (
+      <div>
+        {" "}
+        <div className="hstack gap-2 justify-content-end d-print-none mt-4">
+          <button type="submit" className="btn btn-success">
+            <i className="ri-save-line align-bottom me-1"></i> Guardar
+          </button>
+
+          <button
+            to="#"
+            type="button"
+            className="btn btn-danger"
+            onClick={() => {
+              resetForm();
+            }}
+          >
+            <i className="ri-newspaper-line align-bottom me-1"></i> Nueva
+          </button>
+
+          <button
+            type="button"
+            to="#"
+            className="btn btn-secondary"
+            onClick={() => {
+              createPdf(false);
+            }}
+          >
+            <i className="ri-printer-line align-bottom me-1"></i> Descargar</button>
+
+          <button
+            type="button"
+            to="#"
+            className="btn btn-secondary"
+            onClick={() => {
+              createPdf(true);
+            }}
+          >
+            <i className="ri-printer-line align-bottom me-1"></i> Previsualizar
+          </button>
+
+          {/* <Link to="#" className="btn btn-danger">
+              <i className="ri-send-plane-fill align-bottom me-1"></i>{" "}
+              Send Invoice
+            </Link> */}
+        </div>
+      </div>
+    );
+  };
+
+
   return (
     <Layout>
 
       <form onSubmit={handleSubmit(onSubmit)}>
+
+
         <Container
           lg
           gap={0}
@@ -424,6 +489,7 @@ export const Invoices = () => {
             boxShadow: "2px 2px 10px rgba(0, 0, 0, 0.4)",
           }}
         >
+                <PrintInvoices />
           <Grid.Container gap={2} justify="space-between">
             <Grid xs={12} sm={4}>
               <div
