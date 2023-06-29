@@ -267,7 +267,6 @@ export const Invoices = () => {
       : pdfGenerator.open();
   };
 
-
   const styleInputLines = {
     height: "35px",
     borderRadius: "7px",
@@ -312,7 +311,7 @@ export const Invoices = () => {
   });
 
   useEffect(() => {
-    getCounterBills(dispatch,user.email);
+    getCounterBills(dispatch, user.email);
     dispatch(setCurrenInvoice({ numfactura: user.nextNumBill }));
   }, []);
 
@@ -398,7 +397,7 @@ export const Invoices = () => {
       await firebaseUpdateUser(user.email, {
         nextNumBill: parseInt(data.numfactura) + 1,
       });
-      setValue("numfactura",parseInt(data.numfactura) + 1)
+      setValue("numfactura", parseInt(data.numfactura) + 1);
       Swal.fire({
         title: "Operación realizada",
         text: "Datos actualizados",
@@ -420,7 +419,6 @@ export const Invoices = () => {
     reset();
     reset({ lineas: [] });
   };
-
 
   const PrintInvoices = () => {
     return (
@@ -450,8 +448,9 @@ export const Invoices = () => {
               createPdf(false);
             }}
           >
-            <i className="ri-printer-line align-bottom me-1"></i> Descargar</button>
-
+            <i className="ri-printer-line align-bottom me-1"></i> Descargar
+          </button>
+          {/* 
           <button
             type="button"
             to="#"
@@ -461,7 +460,7 @@ export const Invoices = () => {
             }}
           >
             <i className="ri-printer-line align-bottom me-1"></i> Previsualizar
-          </button>
+          </button> */}
 
           {/* <Link to="#" className="btn btn-danger">
               <i className="ri-send-plane-fill align-bottom me-1"></i>{" "}
@@ -472,13 +471,9 @@ export const Invoices = () => {
     );
   };
 
-
   return (
     <Layout>
-
       <form onSubmit={handleSubmit(onSubmit)}>
-
-
         <Container
           lg
           gap={0}
@@ -489,7 +484,7 @@ export const Invoices = () => {
             boxShadow: "2px 2px 10px rgba(0, 0, 0, 0.4)",
           }}
         >
-                <PrintInvoices />
+          <PrintInvoices />
           <Grid.Container gap={2} justify="space-between">
             <Grid xs={12} sm={4}>
               <div
@@ -1380,32 +1375,7 @@ export const Invoices = () => {
             </tr>
           </div>
 
-          <div className="hstack gap-2 justify-content-end d-print-none mt-4">
-            <button type="submit" className="btn btn-success">
-              <i className="ri-save-line align-bottom me-1"></i> Guardar
-            </button>
-
-            <button
-              to="#"
-              type="button"
-              className="btn btn-danger"
-              onClick={() => {
-                resetForm();
-              }}
-            >
-              <i className="ri-newspaper-line align-bottom me-1"></i> Nueva
-              Factura
-            </button>
-
-            <button type="button" to="#" className="btn btn-secondary" onClick={createPdf}>
-              <i className="ri-printer-line align-bottom me-1"></i> Imprimir
-            </button>
-
-            {/* <Link to="#" className="btn btn-danger">
-                      <i className="ri-send-plane-fill align-bottom me-1"></i>{" "}
-                      Send Invoice
-                    </Link> */}
-          </div>
+          <PrintInvoices />
         </Container>
       </form>
     </Layout>
