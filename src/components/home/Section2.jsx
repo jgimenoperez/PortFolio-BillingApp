@@ -5,7 +5,7 @@ export const Section2 = () => {
     <section className="section2">
       <div
         style={{
-          height: "71vh",
+          // height: "71vh",
           backgroundColor: "#ff4f52",
           display: "flex",
           flexDirection: "column",
@@ -39,6 +39,10 @@ export const Section2 = () => {
           <img
             className="arrow"
             src="https://res.cloudinary.com/dxnwtmj3l/image/upload/v1685345009/BillingApp/Public/arrow-bottom_w7b3ro.svg"
+            style={{
+              height: "15rem",
+            }}
+          
           ></img>
         </div>
 
